@@ -1,2 +1,3 @@
 # ProphetWXClient
-通过微信小程序客户端与prophet服务期实现数据交互及页面呈现
+通过微信小程序客户端与prophet服务器实现数据交互及页面呈现
+
