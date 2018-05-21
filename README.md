@@ -1,6 +1,6 @@
 # prophetwxclient
 
-> 通过微信小程序客户端与prophet服务期实现数据交互及页面呈现
+> 利用mpvue框架，开发微信小程序客户端与prophet服务期实现数据交互及页面呈现
 
 ## Build Setup
 
