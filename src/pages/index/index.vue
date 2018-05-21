@@ -1,105 +1,127 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
+  <div class="container">
+     <div class="tr bg-w">
+       <div class="th">预测名称</div>
+       <div class="th">起止日期</div>
+       <div class="th">准确率</div>
+       <div class="th">预言家</div>
+     </div>
+     <div v-for="items in listData.data" :key="pl_id" class="tr bg-g" >
+       <div class="td name td-cell">
+         {{items.username}}
+       </div>
+       <div class='td'>
+         <div class="td-date">
+           <div class="date">{{items.date_from}}</div>
+           <div class="date">{{items.date_to}}</div>
+         </div>
+       </div>      
+       <div class="td td-cell">
+         {{items.access_type}}
+       </div>
+       <div class="td td-cell">
+         {{items.pl_id}}
+       </div>
+     </div>
 
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
-    </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
   </div>
 </template>
 
 <script>
-import card from '@/components/card'
+
 
 export default {
   data () {
     return {
-      motto: 'Hello World',
-      userInfo: {}
+      listData:{}
     }
   },
 
   components: {
-    card
+  
   },
 
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
-    },
-    getUserInfo () {
-      // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
-        }
-      })
-    },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
-    }
+   
   },
 
-  created () {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
+  onLoad: function (res) {    
+    wx.request({  
+      url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166',   
+      header: {  
+        'content-type': 'application/json' // 默认值  
+      },  
+      method: 'GET',
+      success: (res) => {  
+        this.listData = res.data;
+      },  
+      fail: function () {  
+       console.log("fail")  
+      },  
+      complete: function () {  
+          
+      }
+    })   
+
   }
 }
 </script>
 
 <style scoped>
-.userinfo {
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.bg-w {
+  background-color: #CCC65C;
+}
+
+.bg-g{
+  background-color: #E6F3F9;
+}
+
+.tr {
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  height: 3em;
+
+}
+
+.th {
+  width: 25%;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.td {
+  width: 25%;
+  border: 1px solid #D1B9B9;
+  border-collapse: collapse;
 }
 
-.userinfo-nickname {
-  color: #aaa;
+.td-cell{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.usermotto {
-  margin-top: 150px;
+.td-date {
+  height: 100%;
 }
 
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
+.date {
+  font-size: 0.45em;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.counter {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 5px 10px;
-  color: blue;
-  border: 1px solid blue;
+.name {
+  font-size: 0.6em;
 }
+
 </style>
