@@ -140,7 +140,37 @@ export default {
       listData: {}
     }
   },
-   onLoad: function (res) {    
+ 
+  methods: {
+    login () {
+      if (wx.setStorageSync('openid')) return;
+      wx.login({
+      success: function(res) {
+        console.log(res.code)
+        if (res.code) {
+          //发起网络请求
+          wx.request({
+            url: 'http://10.0.3.66:5000/auth/login',
+            data: {
+              code: res.code
+            },
+            header: { "Content-Type": "application/x-www-form-urlencoded" },
+            method: 'POST',
+            success: function (res) {
+              if (res.data.openid) {
+                wx.setStorageSync('openid',res.data.openid)
+              }
+            }
+          })
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    });
+    }
+  },
+
+  onLoad: function (res) {    
     wx.request({  
       url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166',   
       header: {  
@@ -157,6 +187,10 @@ export default {
           
       }
     })   
+  },
+
+  created() {
+    this.login()
   }
 }
 </script>
