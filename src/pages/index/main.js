@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import App from './index'
-import Vuex from 'vuex'
 
-Vue.use(Vuex)
-
-var state = {
-    listData: {}
-};
 
 const app = new Vue(App)
 app.$mount()
+
+export default {
+	config: {
+		pages: [],
+		usingComponents: {
+          'ec-canvas': '../../../static/ec-canvas/ec-canvas'
+        } 
+	}
+}

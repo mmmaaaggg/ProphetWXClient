@@ -1,7 +1,12 @@
-var app = getApp();
+import Vue from 'vue'
+import App from './index'
 
-Page({
-  data:{
-    tabbar:{}
-  }
- })
+
+const app = new Vue(App)
+app.$mount()
+
+export default {
+	config: {
+		pages: []
+	}
+}
