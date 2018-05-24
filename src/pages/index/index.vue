@@ -12,7 +12,7 @@
       </div>
       <div v-for="items in listData.data" :key="pl_id" class="tr bg-g" >
         <div class="td name td-cell">
-          {{items.username}}
+          {{items.name}}
         </div>
         <div class='td'>
           <div class="td-date">
@@ -23,8 +23,14 @@
         <div class="td td-cell">
           {{items.access_type}}
         </div>
-        <div class="td td-cell">
-          {{items.pl_id}}
+        <div class="td td-cell collection">
+          <div class="username">
+            {{items.username}}
+          </div>
+          <div class="button-collection" v-on:click="onCollect(items)">
+             <wxc-icon v-if ="items.collectionstatus" size="40" type="star" class="collected" />
+             <wxc-icon v-else  size="40" type="star-active" class="collected"></wxc-icon>
+          </div>
         </div>
       </div>
     </div>
@@ -32,104 +38,49 @@
 </template>
 
 <script>
-const options = {
-  color: ['#37a2da', '#32c5e9', '#67e0e3'],
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-      type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-    }
-  },
-  legend: {
-    data: ['热度', '正面', '负面']
-  },
-  grid: {
-    left: 20,
-    right: 20,
-    bottom: 15,
-    top: 40,
-    containLabel: true
-  },
-  xAxis: [
-    {
-      type: 'value',
-      axisLine: {
-        lineStyle: {
-          color: '#999'
-        }
-      },
-      axisLabel: {
-        color: '#666'
-      }
-    }
-  ],
-  yAxis: [
-    {
+
+var options = {
+    backgroundColor: "#fff",
+    color: ["#37A2DA", "#67E0E3", "#9FE6B8"],
+
+    tooltip: {
+      trigger: 'axis'
+    },
+    legend: {
+
+      data: ['A商品', 'B商品', 'C商品']
+    },
+    grid: {
+      containLabel: true
+    },
+
+    xAxis: {
       type: 'category',
-      axisTick: { show: false },
-      data: ['汽车之家', '今日头条', '百度贴吧', '一点资讯', '微信', '微博', '知乎'],
-      axisLine: {
-        lineStyle: {
-          color: '#999'
-        }
-      },
-      axisLabel: {
-        color: '#666'
-      }
-    }
-  ],
-  series: [
-    {
-      name: '热度',
-      type: 'bar',
-      label: {
-        normal: {
-          show: true,
-          position: 'inside'
-        }
-      },
-      data: [300, 270, 340, 344, 300, 320, 310],
-      itemStyle: {
-        // emphasis: {
-        //   color: '#37a2da'
-        // }
-      }
+      boundaryGap: false,
+      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
     },
-    {
-      name: '正面',
-      type: 'bar',
-      stack: '总量',
-      label: {
-        normal: {
-          show: true
-        }
-      },
-      data: [120, 102, 141, 174, 190, 250, 220],
-      itemStyle: {
-        // emphasis: {
-        //   color: '#32c5e9'
-        // }
-      }
+    yAxis: {
+      x: 'center',
+      type: 'value'
     },
-    {
-      name: '负面',
-      type: 'bar',
-      stack: '总量',
-      label: {
-        normal: {
-          show: true,
-          position: 'left'
-        }
-      },
-      data: [-20, -32, -21, -34, -90, -130, -110],
-      itemStyle: {
-        // emphasis: {
-        //   color: '#67e0e3'
-        // }
-      }
-    }
-  ]
-}
+    series: [{
+      name: 'A商品',
+      type: 'line',
+      smooth: true,
+      data: [18, 36, 65, 30, 78, 40, 33]
+    }, {
+      name: 'B商品',
+      type: 'line',
+      smooth: true,
+      data: [12, 50, 51, 35, 70, 30, 20]
+    }, {
+      name: 'C商品',
+      type: 'line',
+      smooth: true,
+      data: [10, 30, 31, 50, 40, 20, 10]
+    }]
+  };
+
 export default {
   data () {
     return {
@@ -142,37 +93,48 @@ export default {
   },
  
   methods: {
+   
+    onCollect: function (items) {
+      items.collectionstatus = !items.collectionstatus;
+    },
+
     login () {
-      if (wx.setStorageSync('openid')) return;
       wx.login({
-      success: function(res) {
-        console.log(res.code)
+      success(res) {
         if (res.code) {
           //发起网络请求
+          console.log(res.code)
           wx.request({
-            url: 'http://10.0.3.66:5000/auth/login',
+            //url: 'https://prophets.top/auth/login',
+            url: 'http://127.0.0.1:6060/wx/login',
             data: {
               code: res.code
             },
             header: { "Content-Type": "application/x-www-form-urlencoded" },
-            method: 'POST',
-            success: function (res) {
+            method: 'GET',
+
+            success(res) {
               if (res.data.openid) {
                 wx.setStorageSync('openid',res.data.openid)
-              }
+              } else {
+                  console.log('请求失败！' + res.errMsg)
+                }
             }
           })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
+        } 
+      },
+      
+      fail(error) {
+        console.log("request fail")
       }
-    });
+      });
     }
   },
 
   onLoad: function (res) {    
     wx.request({  
-      url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166',   
+      //url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166', 
+      url: 'http://127.0.0.1:6060/list',
       header: {  
         'content-type': 'application/json' // 默认值  
       },  
@@ -190,7 +152,11 @@ export default {
   },
 
   created() {
-    this.login()
+    //wx.checkSession({
+      //fail: function () {
+        this.login()
+      //}
+   // })
   }
 }
 </script>
@@ -207,13 +173,13 @@ ec-canvas {
 }
 .subcontainer{
   position: absolute;
-  top: 5vh;
-  width: 80vw;
-  height: 60vh;
+  top: 0;
+  width: 100vw;
+  height: 50vh;
 }
 .bgcontainer{
   position: absolute;
-  top: 70vh;
+  top: 60vh;
   width: 100vw;
 }
 .bg-w {
@@ -225,7 +191,7 @@ ec-canvas {
 .tr {
   display: flex;
   width: 100%;
-  height: 3em;
+  height: 2em;
 }
 .th {
   width: 25%;
@@ -255,5 +221,26 @@ ec-canvas {
 }
 .name {
   font-size: 0.6em;
+}
+.collection {
+  display: flex;
+}
+.username {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button-collection {
+  height: 100%;
+  width: 40%;
+}
+.collected {
+  width: 5vw;
+  height: 5vh;
+  padding-top: 1vh;
+  right: 2vh;
+  position: absolute;
 }
 </style>

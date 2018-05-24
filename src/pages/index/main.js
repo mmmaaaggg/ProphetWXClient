@@ -9,7 +9,8 @@ export default {
 	config: {
 		pages: [],
 		usingComponents: {
-          'ec-canvas': '../../../static/ec-canvas/ec-canvas'
+          'ec-canvas': '../../../static/ec-canvas/ec-canvas',
+          'wxc-icon': "../../../static/@minui/wxc-icon/dist/index"
         } 
 	}
 }

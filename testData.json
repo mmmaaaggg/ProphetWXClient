@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": 6, 
+      "name": "中国石油",
+      "date_from": "2018-03-05", 
+      "date_to": "2018-04-04", 
+      "access_type": "wechat",
+      "username": "maga",
+      "collectionstatus": true
+
+    }, 
+    {
+      "id": 7, 
+      "name": "国家电网",
+      "access_type":"miliao",
+      "date_from": "2018-03-05", 
+      "date_to": "2018-04-04", 
+      "username": "oyk",
+      "collectionstatus": true
+    },
+    {
+      "id": 8, 
+      "name": "兔宝宝",
+      "access_type":"qq",
+      "date_from": "2018-03-05", 
+      "date_to": "2018-04-04", 
+      "username": "fbx",
+      "collectionstatus": true
+    }
+  ]
+}

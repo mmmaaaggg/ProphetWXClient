@@ -10,7 +10,7 @@
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
 	"appid": "wxf3a84d3e002d0877",
-	"projectname": "prophetwxclient",
+	"projectname": "westart",
 	"condition": {
 		"search": {
 			"current": -1,
