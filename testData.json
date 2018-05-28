@@ -5,28 +5,28 @@
       "name": "中国石油",
       "date_from": "2018-03-05", 
       "date_to": "2018-04-04", 
-      "access_type": "wechat",
+      "access_type": "85%",
       "username": "maga",
-      "collectionstatus": true
+      "collectionstatus": false
 
     }, 
     {
       "id": 7, 
       "name": "国家电网",
-      "access_type":"miliao",
+      "access_type":"90%",
       "date_from": "2018-03-05", 
       "date_to": "2018-04-04", 
       "username": "oyk",
-      "collectionstatus": true
+      "collectionstatus": false
     },
     {
       "id": 8, 
       "name": "兔宝宝",
-      "access_type":"qq",
+      "access_type":"88%",
       "date_from": "2018-03-05", 
       "date_to": "2018-04-04", 
       "username": "fbx",
-      "collectionstatus": true
+      "collectionstatus": false
     }
   ]
 }

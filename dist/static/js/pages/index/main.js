@@ -7,14 +7,19 @@ global.webpackJsonp([3],[
 /* 5 */,
 /* 6 */,
 /* 7 */,
-/* 8 */
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(14);
 
 
 
@@ -26,22 +31,22 @@ app.$mount();
 		pages: [],
 		usingComponents: {
 			'ec-canvas': '../../../static/ec-canvas/ec-canvas',
-			'wxc-icon': "../../../static/@minui/wxc-icon/dist/index"
+			'wxc-icon': "../../../static/@minui/wxc-icon/index/index"
 		}
 	}
 });
 
 /***/ }),
-/* 9 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(17);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(10)
+  __webpack_require__(15)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -85,16 +90,45 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 10 */
+/* 15 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 11 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -137,44 +171,40 @@ if (false) {(function () {
 
 
 var options = {
-  backgroundColor: "#fff",
-  color: ["#37A2DA", "#67E0E3", "#9FE6B8"],
-
-  tooltip: {
-    trigger: 'axis'
-  },
-  legend: {
-
-    data: ['A商品', 'B商品', 'C商品']
-  },
-  grid: {
-    containLabel: true
-  },
-
-  xAxis: {
-    type: 'category',
-    boundaryGap: false,
-    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-  },
-  yAxis: {
-    x: 'center',
-    type: 'value'
-  },
+  backgroundColor: "#ffffff",
+  color: ["#37A2DA", "#32C5E9", "#67E0E3", "#91F2DE", "#FFDB5C", "#FF9F7F"],
   series: [{
-    name: 'A商品',
-    type: 'line',
-    smooth: true,
-    data: [18, 36, 65, 30, 78, 40, 33]
-  }, {
-    name: 'B商品',
-    type: 'line',
-    smooth: true,
-    data: [12, 50, 51, 35, 70, 30, 20]
-  }, {
-    name: 'C商品',
-    type: 'line',
-    smooth: true,
-    data: [10, 30, 31, 50, 40, 20, 10]
+    label: {
+      normal: {
+        fontSize: 14
+      }
+    },
+    type: 'pie',
+    center: ['50%', '50%'],
+    radius: [0, '60%'],
+    data: [{
+      value: 55,
+      name: '北京'
+    }, {
+      value: 20,
+      name: '武汉'
+    }, {
+      value: 10,
+      name: '杭州'
+    }, {
+      value: 20,
+      name: '广州'
+    }, {
+      value: 38,
+      name: '上海'
+    }],
+    itemStyle: {
+      emphasis: {
+        shadowBlur: 10,
+        shadowOffsetX: 0,
+        shadowColor: 'rgba(0, 2, 2, 0.3)'
+      }
+    }
   }]
 };
 
@@ -192,8 +222,21 @@ var options = {
 
   methods: {
 
+    handleBg: function handleBg() {
+      wx.navigateTo({ url: "/pages/chart/main" });
+      wx.setNavigationBarTitle({
+        title: 'wechat'
+      });
+    },
+
     onCollect: function onCollect(items) {
       items.collectionstatus = !items.collectionstatus;
+      wx.showToast({
+        title: items.collectionstatus ? "收藏成功" : "收藏取消",
+        duration: 1000,
+        icon: "sucess",
+        make: true
+      });
     },
 
     login: function login() {
@@ -203,8 +246,8 @@ var options = {
             //发起网络请求
             console.log(res.code);
             wx.request({
-              url: 'https://prophets.top/auth/login',
-              //url: 'http://127.0.0.1:6060/wx/login',
+              //url: 'https://prophets.top/auth/login',
+              url: 'http://127.0.0.1:6060/wx/login',
               data: {
                 code: res.code
               },
@@ -233,8 +276,8 @@ var options = {
     var _this = this;
 
     wx.request({
-      url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166',
-      //url: 'http://127.0.0.1:6060/list',
+      //url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166', 
+      url: 'http://127.0.0.1:6060/list',
       header: {
         'content-type': 'application/json' // 默认值  
       },
@@ -259,7 +302,7 @@ var options = {
 });
 
 /***/ }),
-/* 12 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -267,7 +310,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   return _c('div', {
     staticClass: "container"
   }, [_c('div', {
-    staticClass: "subcontainer"
+    staticClass: "chartContainer"
   }, [_c('ec-canvas', {
     staticClass: "canvas",
     attrs: {
@@ -277,11 +320,60 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "mpcomid": '0'
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "bgcontainer"
-  }, [_vm._m(0), _vm._v(" "), _vm._l((_vm.listData.data), function(items, index) {
+    staticClass: "tapContainer trTap"
+  }, [_c('div', {
+    staticClass: "blog vertify"
+  }, [_c('div', {
+    staticClass: "wxcIcon vertifyIcon"
+  }, [_c('wxc-icon', {
+    staticClass: "feedback",
+    attrs: {
+      "size": "45",
+      "type": "feedback",
+      "mpcomid": '1'
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "bg-right",
+    attrs: {
+      "eventid": '0'
+    },
+    on: {
+      "click": function($event) {
+        _vm.handleBg()
+      }
+    }
+  }, [_c('div', {
+    staticClass: "bg-item digita"
+  }, [_vm._v("320")]), _vm._v(" "), _c('div', {
+    staticClass: "bg-item blogitem"
+  }, [_vm._v("待验证")])])]), _vm._v(" "), _c('div', {
+    staticClass: "blog vertified"
+  }, [_c('div', {
+    staticClass: "wxcIcon vertifiedIcon"
+  }, [_c('wxc-icon', {
+    staticClass: "rate",
+    attrs: {
+      "size": "45",
+      "type": "rate",
+      "mpcomid": '2'
+    }
+  })], 1), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('div', {
+    staticClass: "blog attention"
+  }, [_c('div', {
+    staticClass: "wxcIcon attentionIcon"
+  }, [_c('wxc-icon', {
+    staticClass: "star",
+    attrs: {
+      "size": "45",
+      "type": "star",
+      "mpcomid": '3'
+    }
+  })], 1), _vm._v(" "), _vm._m(1)])]), _vm._v(" "), _c('div', {
+    staticClass: "tbContainer"
+  }, [_vm._m(2), _vm._v(" "), _vm._l((_vm.listData.data), function(items, index) {
     return _c('div', {
       key: _vm.pl_id,
-      staticClass: "tr bg-g"
+      staticClass: "tr bg-c"
     }, [_c('div', {
       staticClass: "td name td-cell"
     }, [_vm._v("\n        " + _vm._s(items.name) + "\n      ")]), _vm._v(" "), _c('div', {
@@ -301,7 +393,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v("\n          " + _vm._s(items.username) + "\n        ")]), _vm._v(" "), _c('div', {
       staticClass: "button-collection",
       attrs: {
-        "eventid": '0-' + index
+        "eventid": '1-' + index
       },
       on: {
         "click": function($event) {
@@ -312,22 +404,38 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "collected",
       attrs: {
         "size": "40",
-        "type": "star",
-        "mpcomid": '2-' + index
+        "type": "star-active",
+        "mpcomid": '5-' + index
       }
     }) : _c('wxc-icon', {
       staticClass: "collected",
       attrs: {
         "size": "40",
-        "type": "star-active",
-        "mpcomid": '1-' + index
+        "type": "star",
+        "mpcomid": '4-' + index
       }
     })], 1)])])
   })], 2)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "tr bg-w"
+    staticClass: "bg-right"
+  }, [_c('div', {
+    staticClass: "bg-item digita"
+  }, [_vm._v("120")]), _vm._v(" "), _c('div', {
+    staticClass: "bg-item blogitem"
+  }, [_vm._v("已验证")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "bg-right"
+  }, [_c('div', {
+    staticClass: "bg-item digita"
+  }, [_vm._v("142")]), _vm._v(" "), _c('div', {
+    staticClass: "bg-item blogitem"
+  }, [_vm._v("关注预言")])])
+},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "tr bg-t"
   }, [_c('div', {
     staticClass: "th"
   }, [_vm._v("预测名称")]), _vm._v(" "), _c('div', {
@@ -349,5 +457,5 @@ if (false) {
 }
 
 /***/ })
-],[8]);
+],[13]);
 //# sourceMappingURL=main.js.map

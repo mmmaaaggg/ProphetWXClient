@@ -1,12 +1,13 @@
 {
   "pages": [
     "pages/index/main",
+    "pages/chart/main",
     "pages/list/main",
     "pages/user/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#48B13C",
+    "navigationBarBackgroundColor": "#4CACF0",
     "navigationBarTitleText": "预言家",
     "navigationBarTextStyle": "black"
   },

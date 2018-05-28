@@ -14,11 +14,12 @@ export default {
     pages: [
       "pages/list/main",
       "pages/user/main",
+      "pages/chart/main",
       '^pages/index/main'
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#48B13C',
+      navigationBarBackgroundColor: '#4CACF0',
       navigationBarTitleText: '预言家',
       navigationBarTextStyle: 'black'
     },

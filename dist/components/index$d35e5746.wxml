@@ -1,16 +1,45 @@
 <template name="index$d35e5746">
   <view class="_div data-v-90a90d1c container">
-    <view class="_div data-v-90a90d1c subcontainer">
+    <view class="_div data-v-90a90d1c chartContainer">
       <ec-canvas class="_ec-canvas data-v-90a90d1c canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec}}"></ec-canvas>
     </view>
-    <view class="_div data-v-90a90d1c bgcontainer">
-      <view class="_div data-v-90a90d1c tr bg-w">
+    <view class="_div data-v-90a90d1c tapContainer trTap">
+      <view class="_div data-v-90a90d1c blog vertify">
+        <view class="_div data-v-90a90d1c wxcIcon vertifyIcon">
+          <wxc-icon size="45" type="feedback" class="_wxc-icon data-v-90a90d1c feedback"></wxc-icon>
+        </view>
+        <view class="_div data-v-90a90d1c bg-right" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">
+          <view class="_div data-v-90a90d1c bg-item digita">320</view>
+          <view class="_div data-v-90a90d1c bg-item blogitem">待验证</view>
+        </view>
+      </view>
+      <view class="_div data-v-90a90d1c blog vertified">
+        <view class="_div data-v-90a90d1c wxcIcon vertifiedIcon">
+          <wxc-icon size="45" type="rate" class="_wxc-icon data-v-90a90d1c rate"></wxc-icon>
+        </view>
+        <view class="_div data-v-90a90d1c bg-right">
+          <view class="_div data-v-90a90d1c bg-item digita">120</view>
+          <view class="_div data-v-90a90d1c bg-item blogitem">已验证</view>
+        </view>
+      </view>
+      <view class="_div data-v-90a90d1c blog attention">
+        <view class="_div data-v-90a90d1c wxcIcon attentionIcon">
+          <wxc-icon size="45" type="star" class="_wxc-icon data-v-90a90d1c star"></wxc-icon>
+        </view>
+        <view class="_div data-v-90a90d1c bg-right">
+          <view class="_div data-v-90a90d1c bg-item digita">142</view>
+          <view class="_div data-v-90a90d1c bg-item blogitem">关注预言</view>
+        </view>
+      </view>
+    </view>
+    <view class="_div data-v-90a90d1c tbContainer">
+      <view class="_div data-v-90a90d1c tr bg-t">
         <view class="_div data-v-90a90d1c th">预测名称</view>
         <view class="_div data-v-90a90d1c th">起止日期</view>
         <view class="_div data-v-90a90d1c th">准确率</view>
         <view class="_div data-v-90a90d1c th">预言家</view>
       </view>
-      <view wx:key="pl_id" key="{{pl_id}}" class="_div data-v-90a90d1c tr bg-g" wx:for="{{listData.data}}" wx:for-index="index" wx:for-item="items">
+      <view wx:key="pl_id" key="{{pl_id}}" class="_div data-v-90a90d1c tr bg-c" wx:for="{{listData.data}}" wx:for-index="index" wx:for-item="items">
         <view class="_div data-v-90a90d1c td name td-cell"> {{items.name}} </view>
         <view class="_div data-v-90a90d1c td">
           <view class="_div data-v-90a90d1c td-date">
@@ -21,9 +50,9 @@
         <view class="_div data-v-90a90d1c td td-cell"> {{items.access_type}} </view>
         <view class="_div data-v-90a90d1c td td-cell collection">
           <view class="_div data-v-90a90d1c username"> {{items.username}} </view>
-          <view class="_div data-v-90a90d1c button-collection" bindtap="handleProxy" data-eventid="{{'0-'+index}}" data-comkey="{{$k}}">
-            <wxc-icon wx:if="{{items.collectionstatus}}" size="40" type="star" class="_wxc-icon data-v-90a90d1c collected"></wxc-icon>
-            <wxc-icon wx:else size="40" type="star-active" class="_wxc-icon data-v-90a90d1c collected"></wxc-icon>
+          <view class="_div data-v-90a90d1c button-collection" bindtap="handleProxy" data-eventid="{{'1-'+index}}" data-comkey="{{$k}}">
+            <wxc-icon wx:if="{{items.collectionstatus}}" size="40" type="star-active" class="_wxc-icon data-v-90a90d1c collected"></wxc-icon>
+            <wxc-icon wx:else size="40" type="star" class="_wxc-icon data-v-90a90d1c collected"></wxc-icon>
           </view>
         </view>
       </view>

@@ -1,16 +1,45 @@
 <template>
   <div class="container">
-    <div class="subcontainer">
+    <div class="chartContainer">
       <ec-canvas class="canvas" id="mychart-dom-bar" canvas-id="mychart-bar" :ec="ec"></ec-canvas>
     </div>
-    <div class="bgcontainer">
-      <div class="tr bg-w">
+    <div class="tapContainer trTap">
+      <div class="blog vertify">
+        <div class="wxcIcon vertifyIcon">
+          <wxc-icon size="45" type="feedback" class="feedback" /> 
+        </div>
+        <div class="bg-right" @click="handleBg()">
+          <div class="bg-item digita">320</div>
+          <div class="bg-item blogitem">待验证</div>
+        </div>
+      </div>
+      <div class="blog vertified">
+        <div class="wxcIcon vertifiedIcon">
+          <wxc-icon size="45" type="rate" class="rate" /> 
+        </div>
+        <div class="bg-right">
+          <div class="bg-item digita">120</div>
+          <div class="bg-item blogitem">已验证</div>
+        </div>
+      </div>
+      <div class="blog attention">
+        <div class="wxcIcon attentionIcon">
+          <wxc-icon size="45" type="star" class="star" /> 
+        </div>
+        <div class="bg-right">
+        <div class="bg-item digita">142</div>
+          <div class="bg-item blogitem">关注预言</div>
+        </div>
+      </div>
+    </div>
+    <div class="tbContainer">
+      <div class="tr bg-t">
         <div class="th">预测名称</div>
         <div class="th">起止日期</div>
         <div class="th">准确率</div>
         <div class="th">预言家</div>
       </div>
-      <div v-for="items in listData.data" :key="pl_id" class="tr bg-g" >
+      <div v-for="items in listData.data" :key="pl_id" class="tr bg-c" >
         <div class="td name td-cell">
           {{items.name}}
         </div>
@@ -28,8 +57,8 @@
             {{items.username}}
           </div>
           <div class="button-collection" v-on:click="onCollect(items)">
-             <wxc-icon v-if ="items.collectionstatus" size="40" type="star" class="collected" />
-             <wxc-icon v-else  size="40" type="star-active" class="collected"></wxc-icon>
+             <wxc-icon v-if ="items.collectionstatus" size="40" type="star-active" class="collected" />
+             <wxc-icon v-else  size="40" type="star" class="collected"></wxc-icon>
           </div>
         </div>
       </div>
@@ -40,44 +69,41 @@
 <script>
 
 var options = {
-    backgroundColor: "#fff",
-    color: ["#37A2DA", "#67E0E3", "#9FE6B8"],
-
-    tooltip: {
-      trigger: 'axis'
-    },
-    legend: {
-
-      data: ['A商品', 'B商品', 'C商品']
-    },
-    grid: {
-      containLabel: true
-    },
-
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-    },
-    yAxis: {
-      x: 'center',
-      type: 'value'
-    },
+    backgroundColor: "#ffffff",
+    color: ["#37A2DA", "#32C5E9", "#67E0E3", "#91F2DE", "#FFDB5C", "#FF9F7F"],
     series: [{
-      name: 'A商品',
-      type: 'line',
-      smooth: true,
-      data: [18, 36, 65, 30, 78, 40, 33]
-    }, {
-      name: 'B商品',
-      type: 'line',
-      smooth: true,
-      data: [12, 50, 51, 35, 70, 30, 20]
-    }, {
-      name: 'C商品',
-      type: 'line',
-      smooth: true,
-      data: [10, 30, 31, 50, 40, 20, 10]
+      label: {
+        normal: {
+          fontSize: 14
+        }
+      },
+      type: 'pie',
+      center: ['50%', '50%'],
+      radius: [0, '60%'],
+      data: [{
+        value: 55,
+        name: '北京'
+      }, {
+        value: 20,
+        name: '武汉'
+      }, {
+        value: 10,
+        name: '杭州'
+      }, {
+        value: 20,
+        name: '广州'
+      }, {
+        value: 38,
+        name: '上海'
+      },
+      ],
+      itemStyle: {
+        emphasis: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 2, 2, 0.3)'
+        }
+      }
     }]
   };
 
@@ -93,9 +119,22 @@ export default {
   },
  
   methods: {
+
+    handleBg: function () {
+      wx.navigateTo({url: "/pages/chart/main"})
+      wx.setNavigationBarTitle({
+         title: 'wechat' 
+      })
+    },
    
     onCollect: function (items) {
       items.collectionstatus = !items.collectionstatus;
+      wx.showToast({  
+        title:items.collectionstatus? "收藏成功":"收藏取消",  
+        duration: 1000,  
+        icon: "sucess",  
+        make: true  
+      })  
     },
 
     login () {
@@ -105,8 +144,8 @@ export default {
           //发起网络请求
           console.log(res.code)
           wx.request({
-            url: 'https://prophets.top/auth/login',
-            //url: 'http://127.0.0.1:6060/wx/login',
+            //url: 'https://prophets.top/auth/login',
+            url: 'http://127.0.0.1:6060/wx/login',
             data: {
               code: res.code
             },
@@ -134,8 +173,8 @@ export default {
 
   onLoad: function (res) {    
     wx.request({  
-      url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166', 
-      //url: 'http://127.0.0.1:6060/list',
+      //url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166', 
+      url: 'http://127.0.0.1:6060/list',
       header: {  
         'content-type': 'application/json' // 默认值  
       },  
@@ -172,22 +211,74 @@ ec-canvas {
   width: 100vw;
   height: 100vh;
 }
-.subcontainer{
+.chartContainer{
   position: absolute;
   top: 0;
   width: 100vw;
-  height: 50vh;
+  height: 45vh;
 }
-.bgcontainer{
+.tapContainer {
   position: absolute;
-  top: 60vh;
+  top: 45vh;
+  width: 100vw;
+  height: 12vh;
+}
+.vertify {
+  background: #9F52CD;
+}
+.vertifyIcon {
+  border-right: 1px solid #F0DEDE;
+}
+.vertifiedIcon {
+  border-right: 1px solid #D0A1A1;
+}
+.attention {
+  background: #C18F3B;
+}
+.attentionIcon {
+  border-right: 1px solid #E28BB7;
+}
+.tbContainer {
+  position: absolute;
+  top: 64vh;
   width: 100vw;
 }
-.bg-w {
-  background-color: #CCC65C;
+.trTap {
+  display: flex;
+  justify-content: space-around;
 }
-.bg-g{
-  background-color: #E6F3F9;
+.blog {
+  border: 1px solid #DD94C5;
+  border-radius: 6px;
+  height: 100%;
+  width: 30vw;
+  display: flex;
+}
+.bg-right {
+  width: 22vw;
+  text-shadow: 0 -1px 0 rgba(0,0,0,.3);
+  box-shadow: 0 4px 0 #404346, 0 3px 20px rgba(0,0,0,0.3);
+}
+.bg-right:active {
+  text-shadow: 0 -1px 0 rgba(0,0,0,.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) inset;
+}
+.bg-t {
+  background-color: #7FBFF0;
+}
+.bg-c {
+  background-color: #F7F9FA;
+}
+.wxcIcon {
+  width: 8vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bg-item {
+  height: 50%;
+  text-align: center;
 }
 .tr {
   display: flex;
@@ -203,12 +294,14 @@ ec-canvas {
 .td {
   width: 25%;
   border: 1px solid #D1B9B9;
-  border-collapse: collapse;
+  margin-right: -1px;
+  margin-bottom: -1px;
 }
 .td-cell{
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #E24C2B;
 }
 .td-date {
   height: 100%;
