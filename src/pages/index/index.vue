@@ -105,8 +105,8 @@ export default {
           //发起网络请求
           console.log(res.code)
           wx.request({
-            //url: 'https://prophets.top/auth/login',
-            url: 'http://127.0.0.1:6060/wx/login',
+            url: 'https://prophets.top/auth/login',
+            //url: 'http://127.0.0.1:6060/wx/login',
             data: {
               code: res.code
             },
@@ -114,6 +114,7 @@ export default {
             method: 'GET',
 
             success(res) {
+              console.log(res.openid);
               if (res.data.openid) {
                 wx.setStorageSync('openid',res.data.openid)
               } else {
@@ -133,8 +134,8 @@ export default {
 
   onLoad: function (res) {    
     wx.request({  
-      //url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166', 
-      url: 'http://127.0.0.1:6060/list',
+      url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166', 
+      //url: 'http://127.0.0.1:6060/list',
       header: {  
         'content-type': 'application/json' // 默认值  
       },  
