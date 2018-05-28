@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/list/main",
+    "pages/user/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#48B13C",
+    "navigationBarTitleText": "预言家",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/main",
+        "text": "首页",
+        "iconPath": "resources/images/home.png",
+        "selectedIconPath": "resources/images/home-active.png"
+      },
+      {
+        "pagePath": "pages/list/main",
+        "text": "文章",
+        "iconPath": "resources/images/list.png",
+        "selectedIconPath": "resources/images/list-active.png"
+      },
+      {
+        "pagePath": "pages/user/main",
+        "text": "我的",
+        "iconPath": "resources/images/user.png",
+        "selectedIconPath": "resources/images/user-active.png"
+      }
+    ],
+    "position": "bottom",
+    "backgroundColor": "#fff",
+    "color": "#2c2c2c",
+    "selectedColor": "#009688"
+  }
+}

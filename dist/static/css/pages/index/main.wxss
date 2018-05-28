@@ -1,0 +1,81 @@
+
+ec-canvas {
+  width: 800rpx;
+  height: 800rpx;
+}
+.container {
+  width: 100vw;
+  height: 100vh;
+}
+.subcontainer {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 50vh;
+}
+.bgcontainer {
+  position: absolute;
+  top: 60vh;
+  width: 100vw;
+}
+.bg-w {
+  background-color: #CCC65C;
+}
+.bg-g {
+  background-color: #E6F3F9;
+}
+.tr {
+  display: flex;
+  width: 100%;
+  height: 2em;
+}
+.th {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.td {
+  width: 25%;
+  border: 2rpx solid #D1B9B9;
+  border-collapse: collapse;
+}
+.td-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.td-date {
+  height: 100%;
+}
+.date {
+  font-size: 0.45em;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.name {
+  font-size: 0.6em;
+}
+.collection {
+  display: flex;
+}
+.username {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button-collection {
+  height: 100%;
+  width: 40%;
+}
+.collected {
+  width: 5vw;
+  height: 5vh;
+  padding-top: 1vh;
+  right: 2vh;
+  position: absolute;
+}
