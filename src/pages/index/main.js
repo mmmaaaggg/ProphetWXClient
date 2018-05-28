@@ -10,7 +10,7 @@ export default {
 		pages: [],
 		usingComponents: {
           'ec-canvas': '../../../static/ec-canvas/ec-canvas',
-          'wxc-icon': "../../../static/@minui/wxc-icon/dist/index"
+          'wxc-icon': "../../../static/@minui/wxc-icon/index/index"
         } 
 	}
 }
