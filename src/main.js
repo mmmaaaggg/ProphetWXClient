@@ -33,13 +33,13 @@ export default {
       },
       {
         "pagePath": "pages/list/main",
-        "text": "文章",
+        "text": "我的预测",
         "iconPath": "resources/images/list.png",
         "selectedIconPath": "resources/images/list-active.png"
       },
       {
         "pagePath": "pages/user/main",
-        "text": "我的",
+        "text": "我的组合",
         "iconPath": "resources/images/user.png",
         "selectedIconPath": "resources/images/user-active.png"
       }

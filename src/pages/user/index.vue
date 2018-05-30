@@ -6,7 +6,18 @@
 
 
 <script>
-	
+  export default {
+  data () {
+    return {
+    }
+  },
+  
+  mounted () {
+  	wx.setNavigationBarTitle({
+         title: '我的组合' 
+      })
+  }
+}
 </script>
 
 

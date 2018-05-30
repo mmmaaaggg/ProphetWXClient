@@ -8,7 +8,7 @@
         <div class="wxcIcon vertifyIcon">
           <wxc-icon size="45" type="feedback" class="feedback" /> 
         </div>
-        <div class="bg-right" @click="handleBg()">
+        <div class="bg-right" @click="handleBg">
           <div class="bg-item digita">320</div>
           <div class="bg-item blogitem">待验证</div>
         </div>

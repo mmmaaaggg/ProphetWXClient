@@ -1,0 +1,146 @@
+
+.scroll {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+ec-canvas {
+  position: absolute;
+  width: 100%;
+  height: 600rpx;
+  margin-top: 2vh;
+}
+.container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+._span {
+  font-size: 2em;
+}
+.hd {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 25vh;
+  background: #78A0ED;
+  color: #FFFFFF;
+  font-size: 0.8em;
+}
+.hdfst {
+  margin-top: 1vh;
+}
+.hdfst>._span {
+  font-size: 1em;
+  margin-right: 2vh;
+}
+.hdscnd {
+  display: flex;
+  margin-top: 2vh;
+}
+.hdwk,
+.hdmnt,
+.hdjz {
+  width: 20%;
+  text-align: center;
+  border-right: 2rpx solid #D69EDD;
+}
+.hdfz {
+  width: 40%;
+  text-align: center;
+}
+.hdtrd {
+  margin-top: 2vh;
+}
+.hdsz {
+  margin-top: 1vh;
+}
+.data {
+  position: absolute;
+  top: 25vh;
+  width: 100%;
+  font-size: 0.8em;
+}
+.dtjs>._span {
+  font-size: 1.5em;
+  color: #AD9C9C;
+}
+.dtshow {
+  display: flex;
+  text-align: center;
+  margin-top: 2vh;
+}
+.dtsz {
+  margin-top: 1.5vh;
+  color: #78A0ED;
+}
+.dtdy {
+  width: 49%;
+  border-right: 2rpx solid #978282;
+}
+.dtmnt {
+  width: 50%;
+}
+.dtjs {
+  width: 100%;
+  margin-top: 2vh;
+  position: relative;
+}
+.By {
+  position: absolute;
+  right: 25vw;
+  margin-right: 3vw;
+}
+.ycr {
+  position: absolute;
+  right: 5vw;
+}
+.chart {
+  position: absolute;
+  top: 50vh;
+  width: 100%;
+}
+.bt {
+  text-align: center;
+  margin-bottom: 1vh;
+}
+.chartPick {
+  display: flex;
+  width: 100%;
+  margin-top: 1vh;
+  justify-content: space-between;
+}
+.dpick {
+  display: flex;
+  text-align: center;
+  margin-right: 3vh;
+}
+.pickItem {
+  border: 2rpx solid #78A0ED;
+  margin-right: -2rpx;
+  width: 8vw;
+}
+.active {
+  background: #78A0ED;
+}
+.chartContainer {
+  width: 100%;
+  height: 700rpx;
+  border-top: 2rpx solid #8A7E7E;
+}
+.echarts {
+  display: flex;
+  width: 100%;
+  height: 600rpx;
+  justify-content: center;
+}
+.chartTb {
+  width: 100%;
+  height: 750rpx;
+  border-top: 2rpx solid #8A7E7E;
+}
+.fxsy {
+  margin-top: 2vh;
+  font-size: 0.8em;
+}

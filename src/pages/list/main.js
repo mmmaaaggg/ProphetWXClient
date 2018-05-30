@@ -7,6 +7,10 @@ app.$mount()
 
 export default {
 	config: {
-		pages: []
+		"navigationBarBackgroundColor": "#ffffff",
+		"navigationBarTitleText": "我的预测",
+		usingComponents: {
+          'ec-canvas': '../../../static/ec-canvas/ec-canvas',
+        }
 	}
 }

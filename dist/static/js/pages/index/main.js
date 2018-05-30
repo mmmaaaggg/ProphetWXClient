@@ -338,9 +338,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "eventid": '0'
     },
     on: {
-      "click": function($event) {
-        _vm.handleBg()
-      }
+      "click": _vm.handleBg
     }
   }, [_c('div', {
     staticClass: "bg-item digita"

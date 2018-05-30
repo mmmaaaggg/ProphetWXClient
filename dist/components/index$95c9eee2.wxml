@@ -1,3 +1,100 @@
 <template name="index$95c9eee2">
-  <view class="_div data-v-0f1b8d94"> hello </view>
+  <view class="_div data-v-0f1b8d94 container">
+    <scroll-view scroll-y="true" class="_scroll-view data-v-0f1b8d94 scroll">
+      <view class="_div data-v-0f1b8d94 hd">
+        <view class="_div data-v-0f1b8d94 hdfst">
+          <label class="_span data-v-0f1b8d94">关注人数：4</label>
+          <label class="_span data-v-0f1b8d94">创建于2018.05.16</label>
+        </view>
+        <view class="_div data-v-0f1b8d94 hdscnd">
+          <view class="_div data-v-0f1b8d94 hdwk">
+            <view class="_div data-v-0f1b8d94">周</view>
+            <view class="_div data-v-0f1b8d94 hdsz">60%</view>
+          </view>
+          <view class="_div data-v-0f1b8d94 hdmnt">
+            <view class="_div data-v-0f1b8d94">月</view>
+            <view class="_div data-v-0f1b8d94 hdsz">70%</view>
+          </view>
+          <view class="_div data-v-0f1b8d94 hdjz">
+            <view class="_div data-v-0f1b8d94">净值</view>
+            <view class="_div data-v-0f1b8d94 hdsz">1.0245</view>
+          </view>
+          <view class="_div data-v-0f1b8d94 hdfz">
+            <view class="_div data-v-0f1b8d94">高于沪深300指</view>
+            <view class="_div data-v-0f1b8d94 hdsz">5%</view>
+          </view>
+        </view>
+        <view class="_div data-v-0f1b8d94 hdtrd">
+          <label class="_span data-v-0f1b8d94">56</label>%准确率，累计
+          <label class="_span data-v-0f1b8d94">25</label>天跑赢沪深300指数 </view>
+      </view>
+      <view class="_div data-v-0f1b8d94 data">
+        <view class="_div data-v-0f1b8d94 dtshow">
+          <view class="_div data-v-0f1b8d94 dtdy">
+            <view class="_div data-v-0f1b8d94">日准确排名</view>
+            <view class="_div data-v-0f1b8d94 dtsz">跑赢
+              <label class="_span data-v-0f1b8d94">61%</label>预测</view>
+          </view>
+          <view class="_div data-v-0f1b8d94 dtmnt">
+            <view class="_div data-v-0f1b8d94">月准确排名</view>
+            <view class="_div data-v-0f1b8d94 dtsz">跑赢
+              <label class="_span data-v-0f1b8d94">71%</label>预测</view>
+          </view>
+        </view>
+        <view class="_div data-v-0f1b8d94 dtjs">
+          <label class="_span data-v-0f1b8d94 gpmz">医药跑赢沪深300</label>
+          <label class="_span data-v-0f1b8d94 By">By</label>
+          <label class="_span data-v-0f1b8d94 ycr">王博士</label>
+        </view>
+      </view>
+      <view class="_div data-v-0f1b8d94 chart">
+        <view class="_div data-v-0f1b8d94 bt">医药组合跑赢沪深300</view>
+        <view class="_div data-v-0f1b8d94 chartContainer">
+          <view class="_div data-v-0f1b8d94 chartPick">
+            <view class="_div data-v-0f1b8d94">走势对比（日）:</view>
+            <view class="_div data-v-0f1b8d94 dpick">
+              <view class="_div data-v-0f1b8d94 pickItem {{[selected == 'day' ? 'active' : '']}}" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">日 </view>
+              <view class="_div data-v-0f1b8d94 pickItem {{[selected == 'week' ? 'active' : '']}}" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">周 </view>
+              <view class="_div data-v-0f1b8d94 pickItem {{[selected == 'month' ? 'active' : '']}}" bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}">月 </view>
+            </view>
+          </view>
+          <view class="_div data-v-0f1b8d94 echarts">
+            <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec1}}"></ec-canvas>
+          </view>
+        </view>
+        <view class="_div data-v-0f1b8d94 chartTb">
+          <view class="_div data-v-0f1b8d94 syl">收益率(日):</view>
+          <view class="_div data-v-0f1b8d94 echarts">
+            <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec2}}"></ec-canvas>
+          </view>
+          <view class="_div data-v-0f1b8d94 fxsy">
+            <view class="_div data-v-0f1b8d94">收益率累计日高于沪深300指数，胜率%</view>
+            <view class="_div data-v-0f1b8d94">近日每日连续高于沪深300指数</view>
+          </view>
+        </view>
+        <view class="_div data-v-0f1b8d94 chartTb">
+          <view class="_div data-v-0f1b8d94 syl">回撤率(日):</view>
+          <view class="_div data-v-0f1b8d94 echarts">
+            <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec2}}"></ec-canvas>
+          </view>
+          <view class="_div data-v-0f1b8d94 fxsy">
+            <view class="_div data-v-0f1b8d94">回撤率累计日高于沪深300指数，胜率%</view>
+            <view class="_div data-v-0f1b8d94">近日每日连续高于沪深300指数</view>
+          </view>
+        </view>
+        <view class="_div data-v-0f1b8d94 chartContainer">
+          <view class="_div data-v-0f1b8d94 syl">资产配置(日):</view>
+          <view class="_div data-v-0f1b8d94 echarts">
+            <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec3}}"></ec-canvas>
+          </view>
+        </view>
+        <view class="_div data-v-0f1b8d94 chartContainer">
+          <view class="_div data-v-0f1b8d94 syl">行业配置仅股票(日):</view>
+          <view class="_div data-v-0f1b8d94 echarts">
+            <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec3}}"></ec-canvas>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
 </template>
