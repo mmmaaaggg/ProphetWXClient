@@ -1,3 +1,144 @@
 <template name="index$6184ef7c">
-  <view class="_div data-v-88f516fe"> hello </view>
+  <view class="_div data-v-88f516fe container">
+    <scroll-view scroll-y="true" class="_scroll-view data-v-88f516fe scroll">
+      <view class="_div data-v-88f516fe hd">
+        <view class="_div data-v-88f516fe hdfst">
+          <label class="_span data-v-88f516fe">关注人数：4</label>
+          <label class="_span data-v-88f516fe">创建于2018.05.16</label>
+        </view>
+        <view class="_div data-v-88f516fe hdscnd">
+          <view class="_div data-v-88f516fe hdwk">
+            <view class="_div data-v-88f516fe">日</view>
+            <view class="_div data-v-88f516fe hdsz">0.00%</view>
+          </view>
+          <view class="_div data-v-88f516fe hdmnt">
+            <view class="_div data-v-88f516fe">月</view>
+            <view class="_div data-v-88f516fe hdsz">2.44%</view>
+          </view>
+          <view class="_div data-v-88f516fe hdjz">
+            <view class="_div data-v-88f516fe">净值</view>
+            <view class="_div data-v-88f516fe hdsz">1.0245</view>
+          </view>
+        </view>
+        <view class="_div data-v-88f516fe hdtrd">
+          <label class="_span data-v-88f516fe">2.44</label>%总收益 </view>
+      </view>
+      <view class="_div data-v-88f516fe data">
+        <view class="_div data-v-88f516fe dtshow">
+          <view class="_div data-v-88f516fe dtmnt">
+            <view class="_div data-v-88f516fe">月收益排名（沪深）</view>
+            <view class="_div data-v-88f516fe dtsz">跑赢
+              <label class="_span data-v-88f516fe">71%</label>组合</view>
+          </view>
+          <view class="_div data-v-88f516fe dtsy">
+            <view class="_div data-v-88f516fe">是余额收益的</view>
+            <view class="_div data-v-88f516fe dtsz">
+              <label class="_span data-v-88f516fe">21%</label>
+            </view>
+          </view>
+        </view>
+        <view class="_div data-v-88f516fe dtjs">
+          <view class="_div data-v-88f516fe dtjsr">
+            <view class="_div data-v-88f516fe gpmz">医药强势组合</view>
+            <view class="_div data-v-88f516fe By">By</view>
+            <view class="_div data-v-88f516fe ycr">王博士</view>
+          </view>
+          <view class="_div data-v-88f516fe detail"></view>
+        </view>
+      </view>
+      <view class="_div data-v-88f516fe gpdc">
+        <view class="_div data-v-88f516fe gpbt">
+          <view class="_div data-v-88f516fe gpsubt">最新调仓
+            <label class="_span data-v-88f516fe gp-time">(
+              <label class="_span data-v-88f516fe time">{{time}}</label>)</label>
+          </view>
+          <view class="_div data-v-88f516fe gpmore">更多>></view>
+        </view>
+        <view class="_div data-v-88f516fe gpItemContainer">
+          <view class="_div data-v-88f516fe gpItem">
+            <view class="_div data-v-88f516fe gp-name">
+              <view class="_div data-v-88f516fe gpjtmz">山西汾酒</view>
+              <view class="_div data-v-88f516fe gp-code">SH600809</view>
+            </view>
+            <view class="_div data-v-88f516fe gpxs">4.96%</view>
+          </view>
+          <view class="_div data-v-88f516fe gpItem">
+            <view class="_div data-v-88f516fe gp-name">
+              <view class="_div data-v-88f516fe gpjtmz">山西汾酒</view>
+              <view class="_div data-v-88f516fe gp-code">SH600809</view>
+            </view>
+            <view class="_div data-v-88f516fe gpxs">4.96%</view>
+          </view>
+          <view class="_div data-v-88f516fe zcpz">资产配置</view>
+        </view>
+        <view class="_div data-v-88f516fe echarts">
+          <ec-canvas class="_ec-canvas data-v-88f516fe canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec1}}"></ec-canvas>
+        </view>
+      </view>
+      <view class="_div data-v-88f516fe chart">
+        <view class="_div data-v-88f516fe chartTb">收益率走势</view>
+        <view class="_div data-v-88f516fe echarts">
+          <ec-canvas class="_ec-canvas data-v-88f516fe canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec1}}"></ec-canvas>
+        </view>
+      </view>
+      <view class="_div data-v-88f516fe yhcz">
+        <view class="_div data-v-88f516fe userItem">
+          <view class="_div data-v-88f516fe grxx">
+            <view class="_div data-v-88f516fe avatar">
+              <open-data type="userAvatarUrl" class="_open-data data-v-88f516fe"></open-data>
+            </view>
+            <view class="_div data-v-88f516fe nickname">
+              <view class="_div data-v-88f516fe wxname">
+                <open-data type="userNickName" class="_open-data data-v-88f516fe"></open-data>
+              </view>
+              <view class="_div data-v-88f516fe wxtime">{{wxtime}}</view>
+            </view>
+          </view>
+          <view class="_div data-v-88f516fe userxw">我刚刚调整了雪球组合</view>
+          <view class="_div data-v-88f516fe gjl">
+            <view class="_div data-v-88f516fe forwarding">
+              <text class="_text data-v-88f516fe iconfont icon-zhuanfa"></text>
+              <label class="_span data-v-88f516fe">转发</label>
+            </view>
+            <view class="_div data-v-88f516fe comment">
+              <text class="_text data-v-88f516fe iconfont icon-pinglun"></text>
+              <label class="_span data-v-88f516fe">评论</label>
+            </view>
+            <view class="_div data-v-88f516fe reward">
+              <text class="_text data-v-88f516fe iconfont icon-dashang"></text>
+              <label class="_span data-v-88f516fe">打赏</label>
+            </view>
+          </view>
+        </view>
+        <view class="_div data-v-88f516fe userItem">
+          <view class="_div data-v-88f516fe grxx">
+            <view class="_div data-v-88f516fe avatar">
+              <open-data type="userAvatarUrl" class="_open-data data-v-88f516fe"></open-data>
+            </view>
+            <view class="_div data-v-88f516fe nickname">
+              <view class="_div data-v-88f516fe wxname">
+                <open-data type="userNickName" class="_open-data data-v-88f516fe"></open-data>
+              </view>
+              <view class="_div data-v-88f516fe wxtime">{{wxtime}}</view>
+            </view>
+          </view>
+          <view class="_div data-v-88f516fe userxw">我刚刚调整了雪球组合</view>
+          <view class="_div data-v-88f516fe gjl">
+            <view class="_div data-v-88f516fe forwarding">
+              <text class="_text data-v-88f516fe iconfont icon-zhuanfa"></text>
+              <label class="_span data-v-88f516fe">转发</label>
+            </view>
+            <view class="_div data-v-88f516fe comment">
+              <text class="_text data-v-88f516fe iconfont icon-pinglun"></text>
+              <label class="_span data-v-88f516fe">评论</label>
+            </view>
+            <view class="_div data-v-88f516fe reward">
+              <text class="_text data-v-88f516fe iconfont icon-dashang"></text>
+              <label class="_span data-v-88f516fe">打赏</label>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
 </template>

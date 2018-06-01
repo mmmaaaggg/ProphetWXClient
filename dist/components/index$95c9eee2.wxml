@@ -63,7 +63,7 @@
           </view>
         </view>
         <view class="_div data-v-0f1b8d94 chartTb">
-          <view class="_div data-v-0f1b8d94 syl">收益率(日):</view>
+          <view class="_div data-v-0f1b8d94 syl">收益率（日）:</view>
           <view class="_div data-v-0f1b8d94 echarts">
             <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec2}}"></ec-canvas>
           </view>
@@ -73,7 +73,7 @@
           </view>
         </view>
         <view class="_div data-v-0f1b8d94 chartTb">
-          <view class="_div data-v-0f1b8d94 syl">回撤率(日):</view>
+          <view class="_div data-v-0f1b8d94 syl">回撤率（日）:</view>
           <view class="_div data-v-0f1b8d94 echarts">
             <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec2}}"></ec-canvas>
           </view>
@@ -83,13 +83,13 @@
           </view>
         </view>
         <view class="_div data-v-0f1b8d94 chartContainer">
-          <view class="_div data-v-0f1b8d94 syl">资产配置(日):</view>
+          <view class="_div data-v-0f1b8d94 syl">资产配置（日）:</view>
           <view class="_div data-v-0f1b8d94 echarts">
             <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec3}}"></ec-canvas>
           </view>
         </view>
         <view class="_div data-v-0f1b8d94 chartContainer">
-          <view class="_div data-v-0f1b8d94 syl">行业配置仅股票(日):</view>
+          <view class="_div data-v-0f1b8d94 syl">行业配置仅股票（日）:</view>
           <view class="_div data-v-0f1b8d94 echarts">
             <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec3}}"></ec-canvas>
           </view>

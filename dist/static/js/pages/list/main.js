@@ -1,13 +1,13 @@
 global.webpackJsonp([2],{
 
-/***/ 18:
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(20);
 
 
 
@@ -26,16 +26,16 @@ app.$mount();
 
 /***/ }),
 
-/***/ 19:
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_0f1b8d94_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_0f1b8d94_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(23);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(20)
+  __webpack_require__(21)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -80,14 +80,14 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 20:
+/***/ 21:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 21:
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -366,7 +366,7 @@ var options3 = {
 
 /***/ }),
 
-/***/ 22:
+/***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -485,7 +485,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "chartTb"
   }, [_c('div', {
     staticClass: "syl"
-  }, [_vm._v("收益率(日):")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("收益率（日）:")]), _vm._v(" "), _c('div', {
     staticClass: "echarts"
   }, [_c('ec-canvas', {
     staticClass: "canvas",
@@ -501,7 +501,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "chartTb"
   }, [_c('div', {
     staticClass: "syl"
-  }, [_vm._v("回撤率(日):")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("回撤率（日）:")]), _vm._v(" "), _c('div', {
     staticClass: "echarts"
   }, [_c('ec-canvas', {
     staticClass: "canvas",
@@ -517,7 +517,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "chartContainer"
   }, [_c('div', {
     staticClass: "syl"
-  }, [_vm._v("资产配置(日):")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("资产配置（日）:")]), _vm._v(" "), _c('div', {
     staticClass: "echarts"
   }, [_c('ec-canvas', {
     staticClass: "canvas",
@@ -531,7 +531,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "chartContainer"
   }, [_c('div', {
     staticClass: "syl"
-  }, [_vm._v("行业配置仅股票(日):")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("行业配置仅股票（日）:")]), _vm._v(" "), _c('div', {
     staticClass: "echarts"
   }, [_c('ec-canvas', {
     staticClass: "canvas",
@@ -556,5 +556,5 @@ if (false) {
 
 /***/ })
 
-},[18]);
+},[19]);
 //# sourceMappingURL=main.js.map

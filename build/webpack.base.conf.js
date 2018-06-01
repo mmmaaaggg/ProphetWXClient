@@ -58,6 +58,10 @@ module.exports = {
         loader:'json-loader'
       },
       {
+        test:/\.(less|css)(\?.*)$/,
+        loader: 'css-loader'
+      },
+      {
         test: /\.js$/,
         include: [resolve('src'), resolve('test')],
         use: [

@@ -142,10 +142,10 @@ export default {
       success(res) {
         if (res.code) {
           //发起网络请求
-          console.log(res.code)
+          //console.log(res.code)
           wx.request({
-            //url: 'https://prophets.top/auth/login',
-            url: 'http://127.0.0.1:6060/wx/login',
+            url: 'https://prophets.top/auth/login',
+            //url: 'http://127.0.0.1:6060/wx/login',
             data: {
               code: res.code
             },
@@ -153,7 +153,16 @@ export default {
             method: 'GET',
 
             success(res) {
-              console.log(res.openid);
+              console.log(res.data.openid);
+              wx.request({
+                url: 'https://prophets.top/auth/has_login',
+                header: {
+                  token: res.data.token
+                },
+                success (res) {
+                  console.log(res.data);
+                }
+              })
               if (res.data.openid) {
                 wx.setStorageSync('openid',res.data.openid)
               } else {

@@ -77,7 +77,7 @@
         </div>  
       </div>
       <div class="chartTb">
-      	<div class="syl">收益率(日):</div>
+      	<div class="syl">收益率（日）:</div>
       	<div class="echarts">
           <ec-canvas 
             class="canvas" 
@@ -91,7 +91,7 @@
         </div> 
       </div>
       <div class="chartTb">
-      	<div class="syl">回撤率(日):</div>
+      	<div class="syl">回撤率（日）:</div>
       	<div class="echarts">
           <ec-canvas 
             class="canvas" 
@@ -105,7 +105,7 @@
         </div> 
       </div>
       <div class="chartContainer">
-      	<div class="syl">资产配置(日):</div>
+      	<div class="syl">资产配置（日）:</div>
       	<div class="echarts">
           <ec-canvas 
             class="canvas" 
@@ -115,7 +115,7 @@
         </div>
       </div>
       <div class="chartContainer">
-      	<div class="syl">行业配置仅股票(日):</div>
+      	<div class="syl">行业配置仅股票（日）:</div>
       	<div class="echarts">
           <ec-canvas 
             class="canvas" 

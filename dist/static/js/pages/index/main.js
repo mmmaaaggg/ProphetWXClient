@@ -12,14 +12,15 @@ global.webpackJsonp([3],[
 /* 10 */,
 /* 11 */,
 /* 12 */,
-/* 13 */
+/* 13 */,
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(15);
 
 
 
@@ -37,16 +38,16 @@ app.$mount();
 });
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(18);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(15)
+  __webpack_require__(16)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -90,13 +91,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -244,10 +245,10 @@ var options = {
         success: function success(res) {
           if (res.code) {
             //发起网络请求
-            console.log(res.code);
+            //console.log(res.code)
             wx.request({
-              //url: 'https://prophets.top/auth/login',
-              url: 'http://127.0.0.1:6060/wx/login',
+              url: 'https://prophets.top/auth/login',
+              //url: 'http://127.0.0.1:6060/wx/login',
               data: {
                 code: res.code
               },
@@ -255,7 +256,16 @@ var options = {
               method: 'GET',
 
               success: function success(res) {
-                console.log(res.openid);
+                console.log(res.data.openid);
+                wx.request({
+                  url: 'https://prophets.top/auth/has_login',
+                  header: {
+                    token: res.data.token
+                  },
+                  success: function success(res) {
+                    console.log(res.data);
+                  }
+                });
                 if (res.data.openid) {
                   wx.setStorageSync('openid', res.data.openid);
                 } else {
@@ -302,7 +312,7 @@ var options = {
 });
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -455,5 +465,5 @@ if (false) {
 }
 
 /***/ })
-],[13]);
+],[14]);
 //# sourceMappingURL=main.js.map
