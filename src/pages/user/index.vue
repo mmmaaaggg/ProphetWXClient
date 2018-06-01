@@ -41,7 +41,7 @@
             <div class="By">By</div>
             <div class="ycr">王博士</div>
           </div>
-          <div class="detail"></div>
+          <div class="detail">寻找有效投资组合</div>
          </div>
        </div>
        <div class="gpdc">
@@ -239,7 +239,10 @@ var options1 = {
 
 
 <style>
-
+  html,body {
+    height: 100%;
+    width: 100%;
+  }
   .iconfont {
     font-size: 20px;
     font-family: iconfont;
@@ -251,52 +254,54 @@ var options1 = {
     height: 300px;
   }
 	.container {
-    position: fixed;
     width: 100%;
     height: 100%;
     background: #F0E9F0;
   }
-   .scroll {
+  .scroll {
     position: absolute;
     top: 0;
     width: 100%;
     height: 100%;
   }
   .hd {
-    position: absolute;
-    top: 0;
     width: 100%;
     height: 25vh;
     background: #78A0ED;
     color: #FFFFFF;
     font-size: 0.8em;
-  }
-   .hdfst {
-    margin-top: 1vh;
-  }
-   .hdscnd {
     display: flex;
-    margin-top: 2vh;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .hdscnd {
+    display: flex;
+    margin-top: 1vh;
   }
   .hdwk,.hdmnt,.hdjz {
     width: 20%;
-    text-align: center;
+    height: 46.8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   }
-  .hdwk,.hdmt {
+  .hdwk,.hdmnt {
     border-right: 1px solid #D69EDD;
   }
   .hdtrd {
-    margin-top: 2vh;
+    margin-top: 1vh;
   }
   .hdtrd>span {
     font-size: 1.8em;
+    margin-right: 1vw;
+    margin-left: 2vw;
   }
   .hdfst>span {
-    margin-right: 2vh;
+    margin-right: 1vw;
+    margin-left: 2vw;
   }
   .data {
-    position: absolute;
-    top: 25vh;
     width: 100%;
     font-size: 0.8em;
     background: #FFFFFF;
@@ -304,7 +309,8 @@ var options1 = {
   .dtshow {
     display: flex;
     text-align: center;
-    margin-top: 3vh;
+    height: 185rpx;
+    align-items: center;
   }
   .dtsy {
     width: 49%;
@@ -313,12 +319,18 @@ var options1 = {
     width: 50%;
     border-right: 1px solid #978282;
   }
+  .dtmnt,.dtsy {
+    display: flex;
+    flex-direction: column;
+  
+  }
   .dtsz>span {
     font-size: 1.8em;
     color: #78A0ED;
+    margin-left: 2vw;
+    margin-right: 1vw;
   }
   .dtjs {
-    margin-top: 4vh;
     border-bottom: 2px solid #D0DBF2;
     border-top: 1px solid #C0AFAF;
   }
@@ -332,7 +344,7 @@ var options1 = {
   }
   .gpmz,.ycr {
     border-bottom: 1vh solid #78A0ED;
-    margin-left: 1vw;
+    margin-left: 2vw;
   }
   .By {
     position: absolute;
@@ -344,16 +356,15 @@ var options1 = {
     right: 5vw;
   }
   .detail {
-    width: 100%;
+    width: 96%;
     height: 10vh;
-    margin-top: 2vh;
+    margin: 2vh 2vw 1vh 2vw;
   }
   .gpdc {
     width: 100%;
-    position: absolute;
-    top: 340px;
     border-bottom: #BFCFEF;
     background: #FFFFFF;
+    margin-top: 1vh;
   }
   .gpbt {
     height: 8vh;
@@ -363,7 +374,9 @@ var options1 = {
     font-family: "微软雅黑";
     font-weight:bold;
     height: 100%;
-    margin-left: 1vw;
+    margin-left: 2vw;
+    display: flex;
+    align-items: center;
   }
   .gp-time {
     font-size: 0.8em;
@@ -405,6 +418,9 @@ var options1 = {
     border: 1px solid #0E0C0C;
     font-size: 0.8em;
   }
+  .zcpz:active {
+    background: #F2EDED;
+  }
   .gpItemContainer {
     height: 300px;
     position: relative;
@@ -417,11 +433,9 @@ var options1 = {
     border-top: 1px solid #D8CECE;
   }
   .chart {
-    position: absolute;
-    top: 990px;
+    margin-top: 1vh;
     width: 100%;
     background: #FFFFFF;
-    border-top: 1px solid #C4A7F6;
   }
   .chartTb {
     background: #FFFFFF;
@@ -431,8 +445,6 @@ var options1 = {
     margin-left: 1vw;
   }
   .yhcz {
-    position: absolute;
-    top: 1340px;
     width: 100%;
   }
   .grxx {
@@ -465,18 +477,11 @@ var options1 = {
     align-items: center;
     justify-content: center;
   }
-  .forwarding:active {
-    background: #F9F2F2;
-  }
-
-  .comment:active {
-    background: #F9F2F2;
-  }
-  .reward:active {
+  .forwarding:active,.comment:active,.reward:active {
     background: #F9F2F2;
   }
   .userItem {
-    margin-top: 10px;
+    margin-top: 1vh;
     background: #FFFFFF;
   }
 </style>

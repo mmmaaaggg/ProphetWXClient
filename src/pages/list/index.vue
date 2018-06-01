@@ -25,7 +25,7 @@
   	  	</div>
   	  </div>
   	  <div class="hdtrd">
-  	  	<span>56</span>%准确率，累计<span>25</span>天跑赢沪深300指数
+  	  	<span class="zql">56</span>%准确率，累计<span class="ljts">25</span>天跑赢沪深300指数
   	  </div>
   	</div>
   	<div class="data">
@@ -49,22 +49,25 @@
   	  <div class="bt">医药组合跑赢沪深300</div>
   	  <div class="chartContainer">
         <div class="chartPick">
-          <div>走势对比（日）:</div>
+          <div class="zsdb">
+            <div class="datePick">{{date}}</div>
+            <div>走势对比</div>
+          </div>
           <div class="dpick">
           	<div 
           	  class="pickItem" 
-          	  :class="{active:selected == 'day'}"
-          	  @click="selectItem('day')">日
+          	  :class="{active:selected == '日'}"
+          	  @click="selectItem('日')">日
           	</div>
           	<div 
           	  class="pickItem"
-          	  :class="{active:selected == 'week'}"
-          	  @click="selectItem('week')">周
+          	  :class="{active:selected == '周'}"
+          	  @click="selectItem('周')">周
           	</div>
           	<div 
           	  class="pickItem"
-          	  :class="{active:selected == 'month'}"
-          	  @click="selectItem('month')">月
+          	  :class="{active:selected == '月'}"
+          	  @click="selectItem('月')">月
           	</div>
           </div>
         </div>
@@ -77,7 +80,10 @@
         </div>  
       </div>
       <div class="chartTb">
-      	<div class="syl">收益率（日）:</div>
+      	<div class="syl">
+          <div class="datePick">{{date}}</div>
+          <div>收益率</div> 
+        </div>
       	<div class="echarts">
           <ec-canvas 
             class="canvas" 
@@ -91,7 +97,10 @@
         </div> 
       </div>
       <div class="chartTb">
-      	<div class="syl">回撤率（日）:</div>
+      	<div class="hcl">
+          <div class="datePick">{{date}}</div>
+          <div>回撤率</div> 
+        </div>
       	<div class="echarts">
           <ec-canvas 
             class="canvas" 
@@ -105,7 +114,10 @@
         </div> 
       </div>
       <div class="chartContainer">
-      	<div class="syl">资产配置（日）:</div>
+      	<div class="zcpz">
+          <div class="datePick">{{date}}</div>
+          <div>资产配比</div> 
+        </div>
       	<div class="echarts">
           <ec-canvas 
             class="canvas" 
@@ -115,7 +127,10 @@
         </div>
       </div>
       <div class="chartContainer">
-      	<div class="syl">行业配置仅股票（日）:</div>
+      	<div class="pzgp">
+          <div class="datePick">{{date}}</div>
+          <div>行业配置仅股票</div>
+        </div>
       	<div class="echarts">
           <ec-canvas 
             class="canvas" 
@@ -259,7 +274,8 @@ var options3 = {
 export default {
   data () {
     return {
-      selected: '',
+      selected: '日',
+      date: '日',
       ec1: {
       	options: options1
       },
@@ -275,6 +291,7 @@ export default {
   methods: {
     selectItem (item) {
       this.selected = item;
+      this.date = item;
     }
 
   },
@@ -288,6 +305,10 @@ export default {
 
 
 <style>
+  html,body {
+    height: 100%;
+    width: 100%;
+  }
   .scroll {
   	position: absolute;
   	top: 0;
@@ -301,28 +322,26 @@ export default {
     margin-top: 2vh;
   }
   .container {
-  	position: fixed;
   	width: 100%;
   	height: 100%;
+    background: #F5EEEE;
   }
-  span {
-  	font-size: 2em;
+  .hdfst>span {
+    margin-right: 1vw;
+    margin-left: 2vw;
   }
   .hd {
-  	position: absolute;
-  	top: 0;
     width: 100%;
-    height: 25vh;
+    height: 23vh;
     background: #78A0ED;
     color: #FFFFFF;
     font-size: 0.8em;
-  }
-  .hdfst {
-  	margin-top: 1vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
   }
   .hdfst>span {
-  	font-size: 1em;
-  	margin-right: 2vh;
+  	margin-right: 2vw;
   }
   .hdscnd {
     display: flex;
@@ -337,30 +356,39 @@ export default {
   	width: 40%;
   	text-align: center;
   }
-  .hdtrd {
-  	margin-top: 2vh;
+  .hdtrd>span {
+    font-size: 1.8em;
+    margin-right: 1vw;
+  }
+  .zql {
+    margin-left: 2vw;
+  }
+  .ljts {
+    margin-left: 1vw;
   }
   .hdsz {
   	margin-top: 1vh; 
   }
   .data {
-  	position: absolute;
-  	top: 25vh;
   	width: 100%;
   	font-size: 0.8em;
+    background: #FFFFFF;
   }
   .dtjs>span {
   	font-size: 1.5em;
-  	color: #AD9C9C;
+  	color: #0C4BCF;
   }
   .dtshow {
   	display: flex;
     text-align: center;
-    margin-top: 2vh;
+    height: 185rpx;
+    align-items: center;
   }
   .dtsz {
-  	margin-top: 1.5vh;
   	color:  #78A0ED;
+  }
+  .dtsz>span {
+    font-size: 1.8em;
   }
   .dtdy {
   	width: 49%;
@@ -371,37 +399,66 @@ export default {
   }
   .dtjs {
   	width: 100%;
-  	margin-top: 2vh;
+    padding-bottom:1vh;
   	position: relative;
+  }
+  .gpmz {
+    margin-left: 2vw;
   }
   .By {
     position: absolute;
-    right: 25vw;
+    right: 32vw;
     margin-right: 3vw;
   }
   .ycr {
   	position: absolute;
-  	right: 5vw;
+  	right: 9vw;
   }
   .chart {
-  	position: absolute;
-  	top: 50vh;
   	width: 100%;
+    background: #FFFFFF;
+    margin-top: 1vh;
+  }
+  .syl,.hcl,.zcpz,.pzgp {
+    margin-left: 2vw;
+    margin-top: 1vh;
+    display: flex;
+  }
+  .zsdb {
+    position: absolute;
+    left: 2vw;
+    display: flex;
+  }
+  .datePick {
+    background: #19EA3B;
+    width: 29px;
+    border-radius: 50%;
+    height: 29px;
+    text-align: center;
+    margin-right: 0.5vw;
+  }
+  .fxsy {
+    margin-left: 2vw;
+    margin-bottom: 1vh;
   }
   .bt {
   	text-align: center;
   	margin-bottom: 1vh;
+    padding-top:1vh;
+    padding-bottom:1vh;
   }
   .chartPick {
   	display: flex;
   	width: 100%;
-  	margin-top: 1vh;
-  	justify-content: space-between;
+  	margin-top: 1.5vh;
+    height: 6.57vh;
+    position: relative;
   }
   .dpick {
   	display: flex;
   	text-align: center;
-  	margin-right: 3vh;
+  	position: absolute;
+    right: 2vw;
   }
   .pickItem {
   	border: 1px solid #78A0ED;
@@ -413,18 +470,19 @@ export default {
   }
   .chartContainer{
     width: 100%;
-    height: 350px;
     border-top: 1px solid #8A7E7E;
+    height: 700rpx;
   }
   .echarts {
   	display: flex;
   	width: 100%;
   	height: 300px;
+    margin-bottom: 2vh;
   	justify-content: center;
   }
   .chartTb {
   	width: 100%;
-    height: 375px;
+    margin-top: 1vh;
     border-top: 1px solid #8A7E7E;
   }
   .fxsy {

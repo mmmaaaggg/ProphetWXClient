@@ -25,8 +25,8 @@
           </view>
         </view>
         <view class="_div data-v-0f1b8d94 hdtrd">
-          <label class="_span data-v-0f1b8d94">56</label>%准确率，累计
-          <label class="_span data-v-0f1b8d94">25</label>天跑赢沪深300指数 </view>
+          <label class="_span data-v-0f1b8d94 zql">56</label>%准确率，累计
+          <label class="_span data-v-0f1b8d94 ljts">25</label>天跑赢沪深300指数 </view>
       </view>
       <view class="_div data-v-0f1b8d94 data">
         <view class="_div data-v-0f1b8d94 dtshow">
@@ -51,11 +51,14 @@
         <view class="_div data-v-0f1b8d94 bt">医药组合跑赢沪深300</view>
         <view class="_div data-v-0f1b8d94 chartContainer">
           <view class="_div data-v-0f1b8d94 chartPick">
-            <view class="_div data-v-0f1b8d94">走势对比（日）:</view>
+            <view class="_div data-v-0f1b8d94 zsdb">
+              <view class="_div data-v-0f1b8d94 datePick">{{date}}</view>
+              <view class="_div data-v-0f1b8d94">走势对比</view>
+            </view>
             <view class="_div data-v-0f1b8d94 dpick">
-              <view class="_div data-v-0f1b8d94 pickItem {{[selected == 'day' ? 'active' : '']}}" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">日 </view>
-              <view class="_div data-v-0f1b8d94 pickItem {{[selected == 'week' ? 'active' : '']}}" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">周 </view>
-              <view class="_div data-v-0f1b8d94 pickItem {{[selected == 'month' ? 'active' : '']}}" bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}">月 </view>
+              <view class="_div data-v-0f1b8d94 pickItem {{[selected == '日' ? 'active' : '']}}" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">日 </view>
+              <view class="_div data-v-0f1b8d94 pickItem {{[selected == '周' ? 'active' : '']}}" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">周 </view>
+              <view class="_div data-v-0f1b8d94 pickItem {{[selected == '月' ? 'active' : '']}}" bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}">月 </view>
             </view>
           </view>
           <view class="_div data-v-0f1b8d94 echarts">
@@ -63,7 +66,10 @@
           </view>
         </view>
         <view class="_div data-v-0f1b8d94 chartTb">
-          <view class="_div data-v-0f1b8d94 syl">收益率（日）:</view>
+          <view class="_div data-v-0f1b8d94 syl">
+            <view class="_div data-v-0f1b8d94 datePick">{{date}}</view>
+            <view class="_div data-v-0f1b8d94">收益率</view>
+          </view>
           <view class="_div data-v-0f1b8d94 echarts">
             <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec2}}"></ec-canvas>
           </view>
@@ -73,7 +79,10 @@
           </view>
         </view>
         <view class="_div data-v-0f1b8d94 chartTb">
-          <view class="_div data-v-0f1b8d94 syl">回撤率（日）:</view>
+          <view class="_div data-v-0f1b8d94 hcl">
+            <view class="_div data-v-0f1b8d94 datePick">{{date}}</view>
+            <view class="_div data-v-0f1b8d94">回撤率</view>
+          </view>
           <view class="_div data-v-0f1b8d94 echarts">
             <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec2}}"></ec-canvas>
           </view>
@@ -83,13 +92,19 @@
           </view>
         </view>
         <view class="_div data-v-0f1b8d94 chartContainer">
-          <view class="_div data-v-0f1b8d94 syl">资产配置（日）:</view>
+          <view class="_div data-v-0f1b8d94 zcpz">
+            <view class="_div data-v-0f1b8d94 datePick">{{date}}</view>
+            <view class="_div data-v-0f1b8d94">资产配比</view>
+          </view>
           <view class="_div data-v-0f1b8d94 echarts">
             <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec3}}"></ec-canvas>
           </view>
         </view>
         <view class="_div data-v-0f1b8d94 chartContainer">
-          <view class="_div data-v-0f1b8d94 syl">行业配置仅股票（日）:</view>
+          <view class="_div data-v-0f1b8d94 pzgp">
+            <view class="_div data-v-0f1b8d94 datePick">{{date}}</view>
+            <view class="_div data-v-0f1b8d94">行业配置仅股票</view>
+          </view>
           <view class="_div data-v-0f1b8d94 echarts">
             <ec-canvas class="_ec-canvas data-v-0f1b8d94 canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec3}}"></ec-canvas>
           </view>

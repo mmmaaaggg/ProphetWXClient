@@ -223,6 +223,21 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var options1 = {
@@ -341,7 +356,8 @@ var options3 = {
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
     return {
-      selected: '',
+      selected: '日',
+      date: '日',
       ec1: {
         options: options1
       },
@@ -358,6 +374,7 @@ var options3 = {
   methods: {
     selectItem: function selectItem(item) {
       this.selected = item;
+      this.date = item;
     }
   },
 
@@ -402,7 +419,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "hdsz"
   }, [_vm._v("5%")])])]), _vm._v(" "), _c('div', {
     staticClass: "hdtrd"
-  }, [_c('span', [_vm._v("56")]), _vm._v("%准确率，累计"), _c('span', [_vm._v("25")]), _vm._v("天跑赢沪深300指数\n\t  ")])]), _vm._v(" "), _c('div', {
+  }, [_c('span', {
+    staticClass: "zql"
+  }, [_vm._v("56")]), _vm._v("%准确率，累计"), _c('span', {
+    staticClass: "ljts"
+  }, [_vm._v("25")]), _vm._v("天跑赢沪深300指数\n\t  ")])]), _vm._v(" "), _c('div', {
     staticClass: "data"
   }, [_c('div', {
     staticClass: "dtshow"
@@ -430,45 +451,49 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "chartContainer"
   }, [_c('div', {
     staticClass: "chartPick"
-  }, [_c('div', [_vm._v("走势对比（日）:")]), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "zsdb"
+  }, [_c('div', {
+    staticClass: "datePick"
+  }, [_vm._v(_vm._s(_vm.date))]), _vm._v(" "), _c('div', [_vm._v("走势对比")])]), _vm._v(" "), _c('div', {
     staticClass: "dpick"
   }, [_c('div', {
     staticClass: "pickItem",
     class: {
-      active: _vm.selected == 'day'
+      active: _vm.selected == '日'
     },
     attrs: {
       "eventid": '0'
     },
     on: {
       "click": function($event) {
-        _vm.selectItem('day')
+        _vm.selectItem('日')
       }
     }
   }, [_vm._v("日\n        \t")]), _vm._v(" "), _c('div', {
     staticClass: "pickItem",
     class: {
-      active: _vm.selected == 'week'
+      active: _vm.selected == '周'
     },
     attrs: {
       "eventid": '1'
     },
     on: {
       "click": function($event) {
-        _vm.selectItem('week')
+        _vm.selectItem('周')
       }
     }
   }, [_vm._v("周\n        \t")]), _vm._v(" "), _c('div', {
     staticClass: "pickItem",
     class: {
-      active: _vm.selected == 'month'
+      active: _vm.selected == '月'
     },
     attrs: {
       "eventid": '2'
     },
     on: {
       "click": function($event) {
-        _vm.selectItem('month')
+        _vm.selectItem('月')
       }
     }
   }, [_vm._v("月\n        \t")])])]), _vm._v(" "), _c('div', {
@@ -485,7 +510,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "chartTb"
   }, [_c('div', {
     staticClass: "syl"
-  }, [_vm._v("收益率（日）:")]), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "datePick"
+  }, [_vm._v(_vm._s(_vm.date))]), _vm._v(" "), _c('div', [_vm._v("收益率")])]), _vm._v(" "), _c('div', {
     staticClass: "echarts"
   }, [_c('ec-canvas', {
     staticClass: "canvas",
@@ -500,8 +527,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', [_vm._v("收益率累计日高于沪深300指数，胜率%")]), _vm._v(" "), _c('div', [_vm._v("近日每日连续高于沪深300指数")])])]), _vm._v(" "), _c('div', {
     staticClass: "chartTb"
   }, [_c('div', {
-    staticClass: "syl"
-  }, [_vm._v("回撤率（日）:")]), _vm._v(" "), _c('div', {
+    staticClass: "hcl"
+  }, [_c('div', {
+    staticClass: "datePick"
+  }, [_vm._v(_vm._s(_vm.date))]), _vm._v(" "), _c('div', [_vm._v("回撤率")])]), _vm._v(" "), _c('div', {
     staticClass: "echarts"
   }, [_c('ec-canvas', {
     staticClass: "canvas",
@@ -516,8 +545,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', [_vm._v("回撤率累计日高于沪深300指数，胜率%")]), _vm._v(" "), _c('div', [_vm._v("近日每日连续高于沪深300指数")])])]), _vm._v(" "), _c('div', {
     staticClass: "chartContainer"
   }, [_c('div', {
-    staticClass: "syl"
-  }, [_vm._v("资产配置（日）:")]), _vm._v(" "), _c('div', {
+    staticClass: "zcpz"
+  }, [_c('div', {
+    staticClass: "datePick"
+  }, [_vm._v(_vm._s(_vm.date))]), _vm._v(" "), _c('div', [_vm._v("资产配比")])]), _vm._v(" "), _c('div', {
     staticClass: "echarts"
   }, [_c('ec-canvas', {
     staticClass: "canvas",
@@ -530,8 +561,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "chartContainer"
   }, [_c('div', {
-    staticClass: "syl"
-  }, [_vm._v("行业配置仅股票（日）:")]), _vm._v(" "), _c('div', {
+    staticClass: "pzgp"
+  }, [_c('div', {
+    staticClass: "datePick"
+  }, [_vm._v(_vm._s(_vm.date))]), _vm._v(" "), _c('div', [_vm._v("行业配置仅股票")])]), _vm._v(" "), _c('div', {
     staticClass: "echarts"
   }, [_c('ec-canvas', {
     staticClass: "canvas",

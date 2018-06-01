@@ -398,7 +398,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "ycr"
   }, [_vm._v("王博士")])]), _vm._v(" "), _c('div', {
     staticClass: "detail"
-  })])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("寻找有效投资组合")])])]), _vm._v(" "), _c('div', {
     staticClass: "gpdc"
   }, [_c('div', {
     staticClass: "gpbt"

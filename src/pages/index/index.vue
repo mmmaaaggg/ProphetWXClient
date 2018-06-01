@@ -265,11 +265,9 @@ ec-canvas {
 }
 .bg-right {
   width: 22vw;
-  text-shadow: 0 -1px 0 rgba(0,0,0,.3);
   box-shadow: 0 4px 0 #404346, 0 3px 20px rgba(0,0,0,0.3);
 }
 .bg-right:active {
-  text-shadow: 0 -1px 0 rgba(0,0,0,.1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) inset;
 }
 .bg-t {
