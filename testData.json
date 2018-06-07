@@ -27,6 +27,151 @@
       "date_to": "2018-04-04", 
       "username": "fbx",
       "collectionstatus": false
+    },
+      {
+      "id": 10, 
+      "name": "支付宝",
+      "access_type":"90%",
+      "date_from": "2018-03-15", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+      {
+      "id": 9, 
+      "name": "尚荣科技",
+      "access_type":"83%",
+      "date_from": "2018-03-06", 
+      "date_to": "2018-04-08", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+    {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+     {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+     {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
+    },
+     {
+      "id": 11, 
+      "name": "微信",
+      "access_type":"30%",
+      "date_from": "2018-03-25", 
+      "date_to": "2018-04-24", 
+      "username": "fbx",
+      "collectionstatus": false
     }
-  ]
+  ],
+  "total": 3
 }

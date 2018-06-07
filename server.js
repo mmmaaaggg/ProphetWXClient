@@ -28,7 +28,7 @@ server.get('/',(req,res) =>{
 
 
 server.get('/list',(req,res) => {
-  res.send({data: testData.data})
+  res.send({data: testData})
 })
 
 

@@ -15,6 +15,7 @@ export default {
       "pages/list/main",
       "pages/user/main",
       "pages/chart/main",
+      "pages/combination/main",
       '^pages/index/main'
     ],
     window: {

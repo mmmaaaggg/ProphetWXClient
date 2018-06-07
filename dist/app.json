@@ -2,6 +2,7 @@
   "pages": [
     "pages/index/main",
     "pages/chart/main",
+    "pages/combination/main",
     "pages/list/main",
     "pages/user/main"
   ],

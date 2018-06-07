@@ -9,11 +9,7 @@ export default {
 	config: {
 	  "navigationBarBackgroundColor": "#010101",
 	  "navigationBarTextStyle":"#fff",
-	  "navigationBarTitleText": "我的预测",
+	  "navigationBarTitleText": "自由组合",
 	  "backgroundColor": '#040404',
-	  "enablePullDownRefresh": true,
-	  usingComponents: {    
-          'wxc-icon': "../../../static/@minui/wxc-icon/index/index"
-        } 
 	}
 }

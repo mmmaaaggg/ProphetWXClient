@@ -3,19 +3,27 @@ ec-canvas {
   width: 800rpx;
   height: 800rpx;
 }
-.container {
-  width: 100vw;
-  height: 100vh;
+page,
+page {
+  height: 100%;
+  width: 100%;
 }
-.chartContainer {
+.scroll {
   position: absolute;
   top: 0;
+  width: 100%;
+  height: 100%;
+}
+.container {
+  width: 100%;
+  height: 100%;
+}
+.chartContainer {
   width: 100vw;
   height: 45vh;
 }
 .tapContainer {
-  position: absolute;
-  top: 45vh;
+  margin-top: 2vh;
   width: 100vw;
   height: 12vh;
 }
@@ -35,8 +43,7 @@ ec-canvas {
   border-right: 2rpx solid #E28BB7;
 }
 .tbContainer {
-  position: absolute;
-  top: 64vh;
+  margin-top: 5vh;
   width: 100vw;
 }
 .trTap {

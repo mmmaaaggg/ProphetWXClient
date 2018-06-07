@@ -1,26 +1,13 @@
-global.webpackJsonp([3],[
-/* 0 */,
-/* 1 */,
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */
+global.webpackJsonp([3],{
+
+/***/ 19:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(20);
 
 
 
@@ -38,16 +25,17 @@ app.$mount();
 });
 
 /***/ }),
-/* 15 */
+
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(23);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(16)
+  __webpack_require__(21)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -91,16 +79,20 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 16 */
+
+/***/ 21:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 17 */
+
+/***/ 22:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
 //
 //
 //
@@ -225,10 +217,12 @@ var options = {
 
     handleBg: function handleBg() {
       wx.navigateTo({ url: "/pages/chart/main" });
-      wx.setNavigationBarTitle({
-        title: 'wechat'
-      });
     },
+
+    handleCb: function handleCb() {
+      wx.navigateTo({ url: "/pages/combination/main" });
+    },
+
 
     onCollect: function onCollect(items) {
       items.collectionstatus = !items.collectionstatus;
@@ -286,14 +280,14 @@ var options = {
     var _this = this;
 
     wx.request({
-      //url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166', 
+      //url: 'https://www.prophets.top/forecast/get_cmp_data_list/all', 
       url: 'http://127.0.0.1:6060/list',
       header: {
         'content-type': 'application/json' // 默认值  
       },
       method: 'GET',
       success: function success(res) {
-        _this.listData = res.data;
+        _this.listData = res.data.data;
       },
       fail: function fail() {
         console.log("fail");
@@ -312,13 +306,19 @@ var options = {
 });
 
 /***/ }),
-/* 18 */
+
+/***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "container"
+  }, [_c('scroll-view', {
+    staticClass: "scroll",
+    attrs: {
+      "scroll-y": "true"
+    }
   }, [_c('div', {
     staticClass: "chartContainer"
   }, [_c('ec-canvas', {
@@ -365,7 +365,19 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "rate",
       "mpcomid": '2'
     }
-  })], 1), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('div', {
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "bg-right",
+    attrs: {
+      "eventid": '1'
+    },
+    on: {
+      "click": _vm.handleCb
+    }
+  }, [_c('div', {
+    staticClass: "bg-item digita"
+  }, [_vm._v("120")]), _vm._v(" "), _c('div', {
+    staticClass: "bg-item blogitem"
+  }, [_vm._v("已验证")])])]), _vm._v(" "), _c('div', {
     staticClass: "blog attention"
   }, [_c('div', {
     staticClass: "wxcIcon attentionIcon"
@@ -376,9 +388,25 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "star",
       "mpcomid": '3'
     }
-  })], 1), _vm._v(" "), _vm._m(1)])]), _vm._v(" "), _c('div', {
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "bg-right"
+  }, [_c('div', {
+    staticClass: "bg-item digita"
+  }, [_vm._v("142")]), _vm._v(" "), _c('div', {
+    staticClass: "bg-item blogitem"
+  }, [_vm._v("关注预言")])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbContainer"
-  }, [_vm._m(2), _vm._v(" "), _vm._l((_vm.listData.data), function(items, index) {
+  }, [_c('div', {
+    staticClass: "tr bg-t"
+  }, [_c('div', {
+    staticClass: "th"
+  }, [_vm._v("预测名称")]), _vm._v(" "), _c('div', {
+    staticClass: "th"
+  }, [_vm._v("起止日期")]), _vm._v(" "), _c('div', {
+    staticClass: "th"
+  }, [_vm._v("准确率")]), _vm._v(" "), _c('div', {
+    staticClass: "th"
+  }, [_vm._v("预言家")])]), _vm._v(" "), _vm._l((_vm.listData.data), function(items, index) {
     return _c('div', {
       key: _vm.pl_id,
       staticClass: "tr bg-c"
@@ -401,7 +429,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v("\n          " + _vm._s(items.username) + "\n        ")]), _vm._v(" "), _c('div', {
       staticClass: "button-collection",
       attrs: {
-        "eventid": '1-' + index
+        "eventid": '2-' + index
       },
       on: {
         "click": function($event) {
@@ -423,37 +451,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         "mpcomid": '4-' + index
       }
     })], 1)])])
-  })], 2)])
+  })], 2)])], 1)
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "bg-right"
-  }, [_c('div', {
-    staticClass: "bg-item digita"
-  }, [_vm._v("120")]), _vm._v(" "), _c('div', {
-    staticClass: "bg-item blogitem"
-  }, [_vm._v("已验证")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "bg-right"
-  }, [_c('div', {
-    staticClass: "bg-item digita"
-  }, [_vm._v("142")]), _vm._v(" "), _c('div', {
-    staticClass: "bg-item blogitem"
-  }, [_vm._v("关注预言")])])
-},function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "tr bg-t"
-  }, [_c('div', {
-    staticClass: "th"
-  }, [_vm._v("预测名称")]), _vm._v(" "), _c('div', {
-    staticClass: "th"
-  }, [_vm._v("起止日期")]), _vm._v(" "), _c('div', {
-    staticClass: "th"
-  }, [_vm._v("准确率")]), _vm._v(" "), _c('div', {
-    staticClass: "th"
-  }, [_vm._v("预言家")])])
-}]
+var staticRenderFns = []
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -465,5 +465,6 @@ if (false) {
 }
 
 /***/ })
-],[14]);
+
+},[19]);
 //# sourceMappingURL=main.js.map

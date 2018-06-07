@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <scroll-view scroll-y="true" class="scroll" >
     <div class="chartContainer">
       <ec-canvas class="canvas" id="mychart-dom-bar" canvas-id="mychart-bar" :ec="ec"></ec-canvas>
     </div>
@@ -17,7 +18,7 @@
         <div class="wxcIcon vertifiedIcon">
           <wxc-icon size="45" type="rate" class="rate" /> 
         </div>
-        <div class="bg-right">
+        <div class="bg-right" @click="handleCb">
           <div class="bg-item digita">120</div>
           <div class="bg-item blogitem">已验证</div>
         </div>
@@ -63,6 +64,7 @@
         </div>
       </div>
     </div>
+  </scroll-view>
   </div>
 </template>
 
@@ -122,9 +124,10 @@ export default {
 
     handleBg: function () {
       wx.navigateTo({url: "/pages/chart/main"})
-      wx.setNavigationBarTitle({
-         title: 'wechat' 
-      })
+    },
+
+    handleCb () {
+      wx.navigateTo({url: "/pages/combination/main"})
     },
    
     onCollect: function (items) {
@@ -182,14 +185,14 @@ export default {
 
   onLoad: function (res) {    
     wx.request({  
-      //url: 'http://10.0.3.66:5000/forecast/get_pl_info_list/1?_=1526623084166', 
+      //url: 'https://www.prophets.top/forecast/get_cmp_data_list/all', 
       url: 'http://127.0.0.1:6060/list',
       header: {  
         'content-type': 'application/json' // 默认值  
       },  
       method: 'GET',
       success: (res) => {  
-        this.listData = res.data;
+        this.listData = res.data.data;
       },  
       fail: function () {  
        console.log("fail")  
@@ -215,20 +218,26 @@ ec-canvas {
   width: 400px;
   height: 400px;
 }
-
-.container {
-  width: 100vw;
-  height: 100vh;
+html,body {
+  height: 100%;
+  width: 100%;
 }
-.chartContainer{
+.scroll {
   position: absolute;
   top: 0;
+  width: 100%;
+  height: 100%;
+}
+.container {
+  width: 100%;
+  height: 100%;
+}
+.chartContainer{
   width: 100vw;
   height: 45vh;
 }
 .tapContainer {
-  position: absolute;
-  top: 45vh;
+  margin-top: 2vh;
   width: 100vw;
   height: 12vh;
 }
@@ -248,8 +257,7 @@ ec-canvas {
   border-right: 1px solid #E28BB7;
 }
 .tbContainer {
-  position: absolute;
-  top: 64vh;
+  margin-top: 5vh;
   width: 100vw;
 }
 .trTap {
