@@ -305,7 +305,7 @@
 
       Toggle (item) {
         item.toggleText =  item.toggleText == "做多" ? "做空" : "做多"
-        item.direction = item.toggleText == "做多" ? '1' : '-1'
+        item.direction = item.toggleText == "做多" ? 1 : -1
       },
 
       deleteItem (index) {
@@ -331,7 +331,8 @@
              name: this.inputValue,
              toggleText: this.toggleText,
              asset_type: this.type,
-             asset_code: this.code
+             asset_code: this.code,
+             direction: 1
            });
            this.priceBuffer.push(0);
            this.inputValue = '';
