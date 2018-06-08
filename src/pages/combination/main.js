@@ -11,5 +11,8 @@ export default {
 	  "navigationBarTextStyle":"#fff",
 	  "navigationBarTitleText": "自由组合",
 	  "backgroundColor": '#040404',
+	  usingComponents: {
+        'wxc-input': "../../../static/@minui/wxc-input/index/index"
+      }
 	}
 }

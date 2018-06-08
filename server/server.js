@@ -1,6 +1,7 @@
 var express = require("express");
 var request = require('request');
 var testData = require('./testData');
+var searchData = require('./searchData');
 
 const server = express();
 
@@ -29,6 +30,10 @@ server.get('/',(req,res) =>{
 
 server.get('/list',(req,res) => {
   res.send({data: testData})
+})
+
+server.get('/search',(req,res) => {
+  res.send({'data': searchData})
 })
 
 

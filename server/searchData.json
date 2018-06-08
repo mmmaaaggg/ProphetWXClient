@@ -1,0 +1,9 @@
+{
+	"data":[
+          {"msg": "Bruce Lee" },
+          { "msg": "Jackie Chan" },
+          { "msg": "Chuck Norris" },
+          { "msg": "Jet Li" },
+          { "msg": "Kung Fury" }
+     ]
+}

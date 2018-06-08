@@ -1,5 +1,6 @@
 <template> 
   <div class="container">
+    <scroll-view scroll-y="true" class="scroll" >
   	<div class="jbxx">
       <div class="left-tab">基本信息</div>
       <div class="right-tab">
@@ -89,15 +90,21 @@
           <div class="th">仓位</div>
           <div class="th">删除</div>
         </div>
-        <div class="tr bg-c" >
+        <div class="tr bg-c" v-for="(item,index) in buffer" :key="index">
           <div class="td td-cell">
+            {{item.category}}
           </div>
-          <div class='td'>
+          <div class='td td-cell item-name'>
+            {{item.name}}
           </div>      
           <div class="td td-cell">
           </div>
-          <div class="td td-cell collection">
-            <div class="username">
+          <div class="td">
+            <div 
+              class="delete-item"
+              @click="deleteItem(index)"
+            >
+              delete
             </div>
           </div>
         </div>
@@ -105,15 +112,67 @@
       <div class="newItem">
         <div class="addItem">
           <div class="add-text">添加资产</div>
-          <div></div>
+          <div class="input-wrap">
+            <div class="input-gp">
+              <input
+               placeholder-style='margin-left:3px'
+               placeholder="search"
+               v-model="query"
+               :value="inputValue"
+               @input="bindInput($event)"
+               @focus="changeItem(ishide,inputValue)"
+               @blur="ishide = !ishide"
+            />
+            </div>
+            
+            <div 
+              class="search-content"
+              :hidden="ishide"
+            >
+              <scroll-view scroll-y="true" class="scroll" >
+              <ul>
+                <li
+                  class="first-item"
+                  v-for="(item,index) in List"
+                  :key="index"
+                >       
+                  <div class="first-title item-info">{{item.text}}</div>  
+                  <ul>
+                    <li
+                      class="second-item item-info"
+                      v-for="(second,cindex) in item.children"
+                      :class="{ odd : cindex % 2 == 0 }"
+                      @click="chooseItem(second.text,item.text)"
+                      :key="cindex"
+                    >
+                      <span>{{second.text}}</span>
+                      
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              </scroll-view>
+            </div>
+          </div>
           <div class="addIcon"></div>
         </div>
         <div class="button">
-          <div class="btn confirm">确认</div>
-          <div class="btn reset">重置</div>
+          <div 
+            class="btn confirm"
+            @click="addItem"
+          >
+            确认
+          </div>
+          <div 
+            class="btn reset"
+            @click="resetItem"
+          >
+            重置
+          </div>
         </div>
       </div>
     </div>  
+    </scroll-view>
   </div>
 </template>
 
@@ -127,13 +186,77 @@
         switchChecked: true,
         date: '2017-12-16',
         index: 0,
-        array: ['美国', '中国', '巴西', '日本']
+        array: ['美国', '中国', '巴西', '日本'],
+        query: '',
+        ishide: true,
+        inputValue: '',
+        buffer: [],
+        List: '',
+        category: ''
       }
   	},
 
-  	
+  	computed: {
+     
+      /*computeList () {
+         let vm = this;
+         return vm.List.filter(function (item) {
+           return item.msg.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+         });
+      }*/
+    },
 
   	methods: {
+
+      deleteItem (index) {
+        this.buffer.splice(index,1)
+      },
+
+      resetItem () {
+        this.buffer = [];
+      },
+
+      addItem () {
+       if (this.inputValue) {
+           this.buffer.push({
+             category: this.category,
+             name: this.inputValue
+           });
+           this.inputValue = '';
+       } else {
+             wx.showToast({
+               title: "不能为空",
+               duration: 1000
+             });
+       } 
+        
+      },
+
+      bindInput (e) {
+        let that = this;
+        that.inputValue = e.target.value;
+        let url = `http://10.0.3.66:8100/asset/get_list/${that.inputValue}`;
+        wx.request({
+          //url: 'http://127.0.0.1:6060/search',
+          url: url,
+          header: {  
+            'content-type': 'application/json' // 默认值  
+          },
+          success: (res) => {
+            that.List = res.data.results;
+          }
+        });
+      },
+
+      chooseItem (item,category) {
+        this.inputValue = item;
+        this.category = category;
+      },
+
+      changeItem (ishide) {
+         let that = this;
+         that.ishide = !ishide; 
+      },
 
       dateChange (e) {
         this.date = e.target.value;
@@ -155,6 +278,12 @@
   html,body {
   	width: 100%;
   	height: 100%;
+  }
+  .scroll {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
   }
   .container {
   	width: 100%;
@@ -289,29 +418,97 @@
     display: flex;
     width: 100%;
     height: 6vh;
-    font-weight: bold;
+  }
+  .td {
+    width: 25%;
+    border: 1px solid #D1B9B9;
+    margin-right: -1px;
+    margin-bottom: -1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .item-name {
+    font-size: 0.6em;
   }
   .th {
     width: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
+  }
+  .delete-item {
+    width: 135rpx;
+    height: 43rpx;
+    border-radius: 6px;
+    border: 1px solid #E6DEDE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .delete-item:active {
+    background: #58F3E2;
   }
   .newItem {
     margin-top: 1vh;
     width: 100%;
-    height: 30vh;
-    background: #FFFFFF;
+    height: 40vh;
+    background: #FDC4C4;
     position: relative;
   }
   .addItem {
     display: flex;
     width: 100%;
-    height: 6vh;
+    height: 8vh;
     align-items: center;
   }
   .add-text {
     margin-left: 2vw;
+    margin-right: 3vw;
+  }
+  .input-gp {
+    height: 8vh;
+    display: flex;
+    align-items: center;
+  }
+  .input-gp>input {
+    height: 1.4em;
+  }
+  .input-wrap {
+     position:absolute;
+     top: 0;
+     left: 24vw;
+     width: 60%;
+  }
+  .search-content {
+    background: #FFFFFF;
+    width: 100%;
+    height: 20vh;
+    position: relative;
+  }
+  .hidden {
+    display: none;
+  }
+  .first-item {
+    text-align: center;
+    position: relative;
+  }
+  .first-title {
+    font-weight: bold;
+    background: #F37878;
+  }
+  .first-item>ul {
+    top: 20px;
+  }
+  .item-info {
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .odd {
+    background: #90BCD8;
   }
   .button {
     position: absolute;
