@@ -31,7 +31,12 @@
       <div class="single-input">
         <div class="zh-name">组合名称</div>
         <div class="input">
-          <input type="text" placeholder="name" placeholder-style='margin-left:3px'>
+          <input 
+            type="text" 
+            placeholder="name" 
+            placeholder-style='margin-left:3px'
+            @change="bindInputName($event)"
+          />
         </div>
       </div>
       <div class="multiple-input">
@@ -40,6 +45,7 @@
           <textarea
             auto-height
             placeholder="description"
+            @change="bindInputDescription($event)"
           />
         </div>
       </div>
@@ -48,7 +54,7 @@
         <div> 
           <switch 
             checked="switchChecked"
-            bindchange="switchChange"
+            @change="switchChange($event)"
           />
         </div>
       </div>
@@ -84,27 +90,40 @@
         </div>
       </div>
       <div class="chart">
-        <div class="tr bg-t">
-          <div class="th">资产类别</div>
-          <div class="th">资产名称</div>
-          <div class="th">仓位</div>
-          <div class="th">删除</div>
+        <div class="tr">
+          <div class="th asset-name">资产名称</div>
+          <div class="th th-normal">多空</div>
+          <div class="th asset-price">仓位</div>
+          <div class="th th-normal delete">删除</div>
         </div>
-        <div class="tr bg-c" v-for="(item,index) in buffer" :key="index">
-          <div class="td td-cell">
-            {{item.category}}
+        <div class="tr" v-for="(item,index) in buffer" :key="index">
+          <div class="td asset-name item-name">
+            <div>{{item.category}}</div> 
+            <div class="category">{{item.name}}</div>
           </div>
-          <div class='td td-cell item-name'>
-            {{item.name}}
+          <div class='td th-normal'>
+            <div 
+              class="toggle-item"
+              @click="Toggle(item)"
+            >
+              {{item.toggleText}}
+            </div> 
           </div>      
-          <div class="td td-cell">
+          <div class="asset-price slider">
+            <slider 
+              @change="sliderchange($event,item,index)" 
+              show-value = true
+              :value="priceBuffer[index]"
+              block-size ='12'
+              activeColor = "#07F228"
+            />
           </div>
-          <div class="td">
+          <div class="td th-normal delete">
             <div 
               class="delete-item"
               @click="deleteItem(index)"
             >
-              delete
+              del
             </div>
           </div>
         </div>
@@ -142,7 +161,7 @@
                       class="second-item item-info"
                       v-for="(second,cindex) in item.children"
                       :class="{ odd : cindex % 2 == 0 }"
-                      @click="chooseItem(second.text,item.text)"
+                      @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
                       :key="cindex"
                     >
                       <span>{{second.text}}</span>
@@ -154,14 +173,19 @@
               </scroll-view>
             </div>
           </div>
-          <div class="addIcon"></div>
+          <div 
+            class="add-icon"
+            @click="addItem"
+          >
+            添加股票
+          </div>
         </div>
         <div class="button">
           <div 
-            class="btn confirm"
-            @click="addItem"
+            class="btn submit"
+            @click="submitItem"
           >
-            确认
+            提交
           </div>
           <div 
             class="btn reset"
@@ -178,6 +202,7 @@
 
 
 <script>
+  import Vue from 'vue';
 
   export default {
   	data () {
@@ -186,13 +211,19 @@
         switchChecked: true,
         date: '2017-12-16',
         index: 0,
-        array: ['美国', '中国', '巴西', '日本'],
+        inputName: '',
+        inputDescription: '',
+        array: ['收盘价','开盘价'],
+        toggleText: "做多",
         query: '',
         ishide: true,
         inputValue: '',
         buffer: [],
+        priceBuffer: [],
         List: '',
-        category: ''
+        type: '',
+        category: '',
+        code: ''
       }
   	},
 
@@ -208,27 +239,113 @@
 
   	methods: {
 
+      bindInputDescription (e) {
+        this.inputDescription = e.target.value;
+      },
+
+      bindInputName (e) {
+        this.inputName = e.target.value;
+      },
+
+      switchChange (e) {
+        this.switchChecked = !this.switchChecked;
+      },
+
+      sliderchange (e,item,index) {
+        let tempValue = e.target.value;
+        let tempSum = 0;
+        let sum = 0;
+        this.priceBuffer[index] = tempValue;
+
+        for (let i of this.priceBuffer) {
+          tempSum += i;
+        }
+        
+        sum = tempSum - this.priceBuffer[index];
+        
+        if (tempSum >= 100) {
+          wx.showToast({
+            title: '现金用尽',
+            duration: 1500
+          });
+          Vue.set(this.priceBuffer,index,100-sum);
+          console.log(this.priceBuffer)
+        } else {
+          this.priceBuffer[index] = tempValue;
+        }
+        tempValue = 0;
+        sum = 0;
+        tempSum = 0;
+        item.weight = this.priceBuffer[index];
+      },
+
+      submitItem () {
+        let open = this.array[this.index] == "收盘价" ? 'open' : 'close';
+        console.log(this.buffer)
+        
+        let obj = {
+          "data": {
+              "name": this.inputName,
+               "access_type": this.switchChecked,
+               "desc": this.inputDescription,
+               "pl_data": {
+                   "trade_date": this.date,
+                   "price_type": open,
+                   "data": this.buffer
+              }
+          }
+        }
+        console.log(obj)
+        wx.request ({
+          url: 'http://10.0.3.66:8100/forecast/pl/create',
+          method: 'POST',
+          data: {obj}
+        });
+      },
+
+      Toggle (item) {
+        item.toggleText =  item.toggleText == "做多" ? "做空" : "做多"
+        item.direction = item.toggleText == "做多" ? '1' : '-1'
+      },
+
       deleteItem (index) {
         this.buffer.splice(index,1)
+        this.priceBuffer.splice(index,1)
       },
 
       resetItem () {
         this.buffer = [];
+        this.priceBuffer = [];
       },
 
       addItem () {
-       if (this.inputValue) {
+        let flag = true;
+        for (let item of this.buffer) {
+           if (item.name == this.inputValue) {
+               flag = false;
+           }
+        }
+        if (this.inputValue && flag ) {
            this.buffer.push({
              category: this.category,
-             name: this.inputValue
+             name: this.inputValue,
+             toggleText: this.toggleText,
+             asset_type: this.type,
+             asset_code: this.code
            });
+           this.priceBuffer.push(0);
            this.inputValue = '';
-       } else {
-             wx.showToast({
-               title: "不能为空",
+        } else if (this.inputValue && !flag) {
+            wx.showToast({
+               title: "不能输入相同内容",
                duration: 1000
-             });
-       } 
+            });   
+          } else {
+               wx.showToast({
+                 title: "不能为空",
+                 duration: 1000
+               });
+            } 
         
       },
 
@@ -248,9 +365,11 @@
         });
       },
 
-      chooseItem (item,category) {
-        this.inputValue = item;
+      chooseItem (name,category,type,code) {
+        this.inputValue = name;
         this.category = category;
+        this.type = type;
+        this.code = code;
       },
 
       changeItem (ishide) {
@@ -414,13 +533,18 @@
     width: 100%;
     background: #FFFFFF;
   }
+  .asset-name {
+    width: 30%;
+  }
+  .asset-price {
+    width: 40%;
+  }
   .tr {
     display: flex;
     width: 100%;
-    height: 6vh;
+    height: 85rpx;
   }
-  .td {
-    width: 25%;
+  .td,.th{
     border: 1px solid #D1B9B9;
     margin-right: -1px;
     margin-bottom: -1px;
@@ -428,26 +552,48 @@
     justify-content: center;
     align-items: center;
   }
-  .item-name {
-    font-size: 0.6em;
+  .slider {
+    border: 1px solid #D1B9B9;
+    margin-right: -1px;
+    margin-bottom: -1px;
   }
-  .th {
-    width: 25%;
+  .item-name {
+    font-size: 0.7em;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-around;
+  }
+  .category {
+    font-size: 1.1em;
     font-weight: bold;
+    margin-right: 1vw
+  }
+  .th{ 
+    font-weight: bold;
+    background: #D7E6F6;
+  }
+  .th-normal {
+    width: 18%;
   }
   .delete-item {
-    width: 135rpx;
+    width: 60rpx;
     height: 43rpx;
     border-radius: 6px;
     border: 1px solid #E6DEDE;
+    text-align: center;
+  }
+  .toggle-item {
+    width: 80rpx;
+    height: 47rpx;
+    border-radius: 12rpx;
+    border: 2rpx solid #E6DEDE;
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  .delete-item:active {
+  .delete {
+    margin-right: 0;
+  }
+  .delete-item:active,.toggle-item:active {
     background: #58F3E2;
   }
   .newItem {
@@ -466,6 +612,20 @@
   .add-text {
     margin-left: 2vw;
     margin-right: 3vw;
+  }
+  .add-icon {
+    position: absolute;
+    right: 5vw;
+    width: 145rpx;
+    height: 55rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #EBEEB0;
+    border-radius: 6px;
+  }
+  .add-icon:active {
+    background: #BBBBE2;
   }
   .input-gp {
     height: 8vh;
@@ -516,7 +676,7 @@
     bottom: 3vh;
     display: flex;
   }
-  .confirm {
+  .submit {
     margin-right: 3vw;
   }
   .btn {

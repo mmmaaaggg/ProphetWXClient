@@ -204,11 +204,11 @@ export default {
   },
 
   created() {
-    //wx.checkSession({
-      //fail: function () {
+    wx.checkSession({
+      fail: function () {
         this.login()
-      //}
-   // })
+      }
+    })
   }
 }
 </script>
