@@ -33,6 +33,7 @@ server.get('/list',(req,res) => {
 })
 
 server.get('/search',(req,res) => {
+  res.header('Access-Control-Allow-Origin', '*');
   res.send({'data': searchData})
 })
 

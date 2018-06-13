@@ -2,7 +2,7 @@
   <div class="container">
     <scroll-view scroll-y="true" class="scroll" >
     <div class="chartContainer">
-      <ec-canvas class="canvas" id="mychart-dom-bar" canvas-id="mychart-bar" :ec="ec"></ec-canvas>
+      <mpvue-echarts :echarts="echarts"  :onInit="onInit"></mpvue-echarts>
     </div>
     <div class="tapContainer trTap">
       <div class="blog vertify">
@@ -70,58 +70,112 @@
 
 <script>
 
-var options = {
-    backgroundColor: "#ffffff",
-    color: ["#37A2DA", "#32C5E9", "#67E0E3", "#91F2DE", "#FFDB5C", "#FF9F7F"],
-    series: [{
-      label: {
-        normal: {
-          fontSize: 14
-        }
-      },
-      type: 'pie',
-      center: ['50%', '50%'],
-      radius: [0, '60%'],
-      data: [{
-        value: 55,
-        name: '北京'
-      }, {
-        value: 20,
-        name: '武汉'
-      }, {
-        value: 10,
-        name: '杭州'
-      }, {
-        value: 20,
-        name: '广州'
-      }, {
-        value: 38,
-        name: '上海'
-      },
-      ],
-      itemStyle: {
-        emphasis: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 2, 2, 0.3)'
-        }
-      }
-    }]
-  };
+import * as echarts from 'echarts'
+import mpvueEcharts from 'mpvue-echarts'
+
+let chart = null
+
+let options = {
+    title: {
+        text: '股票走势'
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis: {
+        type: 'category',
+        data: []
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [ 
+        {
+            name:'A股',
+            type:'line',
+            stack: '总量',
+            data:[]
+        },
+        {
+            name:'B股',
+            type:'line',
+            stack: '总量',
+            data:[]
+        },
+        {
+            name:'c股',
+            type:'line',
+            stack: '总量',
+            data:[]
+        },
+        {
+            name:'D股',
+            type:'line',
+            stack: '总量',
+            data:[]
+        },
+        {
+            name:'E股',
+            type:'line',
+            stack: '总量',
+            data:[]
+        },
+        {
+            name:'F股',
+            type:'line',
+            stack: '总量',
+            data:[]
+        }]
+};
+
 
 export default {
+
+  components: {
+    mpvueEcharts
+  },
+
   data () {
     return {
-      ec: {
-        // 传 options
-        options: options,
-      },
-      listData: {}
+      listData: {},
+      echarts,
+      onInit: this.initChart    
     }
   },
  
   methods: {
+    
+    initChart (canvas, width, height) {
+        chart = echarts.init(canvas, null, {
+          width: width,
+          height: height
+        })
+        canvas.setChart(chart)
+        let option = options;
+        chart.setOption(option)
+        return chart
+    },
 
+    loadData () {
+        wx.request({
+          url: 'https://prophets.top/asset/candle/index/000300.SH',
+          success (res) {
+            let array = res.data.data;
+            let date = [];
+            for (let item of array) {
+              date.push(item[0]);
+              item.shift();
+              for (let i = 0; i < item.length; i ++){
+                  options.series[i].data.push(item[i]);
+              }
+            }
+            options.xAxis.data = date;
+          }
+        });
+    },
     handleBg: function () {
       wx.navigateTo({url: "/pages/chart/main"})
     },
@@ -139,51 +193,53 @@ export default {
         make: true  
       })  
     },
+  
 
-    login () {
+    login (token) {
+      let that = this;
+      wx.request({
+          url: 'https://prophets.top/auth/has_login',
+          header: {
+            token: token
+          },
+          success () {
+            that.loadData();
+          }
+                
+      })
+    },
+
+    firstLogin () {
+      let that = this;
       wx.login({
-      success(res) {
-        if (res.code) {
-          //发起网络请求
-          //console.log(res.code)
-          wx.request({
-            url: 'https://prophets.top/auth/login',
-            //url: 'http://127.0.0.1:6060/wx/login',
-            data: {
-              code: res.code
-            },
-            header: { "Content-Type": "application/x-www-form-urlencoded" },
-            method: 'GET',
-
-            success(res) {
-              console.log(res.data.openid);
-              wx.request({
-                url: 'https://prophets.top/auth/has_login',
-                header: {
-                  token: res.data.token
-                },
-                success (res) {
-                  console.log(res.data);
-                }
-              })
-              if (res.data.openid) {
-                wx.setStorageSync('openid',res.data.openid)
-              } else {
-                  console.log('请求失败！' + res.errMsg)
-                }
-            }
-          })
-        } 
-      },
-      
-      fail(error) {
-        console.log("request fail")
-      }
+        success(res) {
+          if (res.code) {
+            //发起网络请求
+            //console.log(res.code)
+            wx.request({
+              url: 'https://prophets.top/auth/login',
+              //url: 'http://127.0.0.1:6060/wx/login',
+              data: {
+                code: res.code
+              },
+              header: { "Content-Type": "application/x-www-form-urlencoded" },
+              method: 'GET',
+              success(res) {
+                wx.setStorageSync('token',res.data.token)
+                that.login();
+              } 
+            })
+          } 
+        },
+        
+        fail(error) {
+          console.log("request fail")
+        }
       });
     }
   },
 
-  onLoad: function (res) {    
+  mounted () {    
     wx.request({  
       //url: 'https://www.prophets.top/forecast/get_cmp_data_list/all', 
       url: 'http://127.0.0.1:6060/list',
@@ -204,20 +260,19 @@ export default {
   },
 
   created() {
-    wx.checkSession({
-      fail: function () {
-        this.login()
-      }
-    })
+    let that = this;
+    let token = wx.getStorageSync('token');
+    if (token) {
+      console.log(token)
+      that.login(token)
+    } else {
+      that.firstLogin()
+    }
   }
 }
 </script>
 
 <style>
-ec-canvas {
-  width: 400px;
-  height: 400px;
-}
 html,body {
   height: 100%;
   width: 100%;

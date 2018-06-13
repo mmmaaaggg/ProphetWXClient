@@ -1,8 +1,4 @@
 
-ec-canvas {
-  width: 800rpx;
-  height: 800rpx;
-}
 page,
 page {
   height: 100%;
@@ -137,4 +133,8 @@ page {
   padding-top: 1vh;
   right: 2vh;
   position: absolute;
+}
+.ec-canvas.data-v-39210b28 {
+  width: 100%;
+  height: 100%;
 }

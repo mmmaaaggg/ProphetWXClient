@@ -282,7 +282,7 @@
       submitItem () {
         let open = this.array[this.index] == "收盘价" ? 'open' : 'close';
         console.log(this.buffer)
-        
+        let token = wx.getStorageSync('token')
         let obj = {
           "data": {
               "name": this.inputName,
@@ -295,11 +295,17 @@
               }
           }
         }
-        console.log(obj)
         wx.request ({
-          url: 'http://10.0.3.66:8100/forecast/pl/create',
+          url: 'https://prophets.top/forecast/pl/create',
           method: 'POST',
-          data: {obj}
+          header: { 
+            'content-type': 'application/json' ,
+            "token": token
+          },
+          data: obj,
+          success (res) {
+            console.log(res)
+          }
         });
       },
 

@@ -12,9 +12,11 @@
   "dependencies": {
     "@minui/wxc-icon": "^1.0.9",
     "@minui/wxc-input": "^1.0.1",
+    "echarts": "^4.1.0",
     "json-loader": "^0.5.7",
     "less": "^3.0.4",
     "mpvue": "^1.0.11",
+    "mpvue-echarts": "^0.2.3",
     "nodemon": "^1.17.5",
     "request": "^2.87.0"
   },

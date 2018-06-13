@@ -1,13 +1,13 @@
-global.webpackJsonp([3],{
+global.webpackJsonp([1],{
 
-/***/ 72:
+/***/ 254:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(255);
 
 
 
@@ -18,7 +18,6 @@ app.$mount();
 	config: {
 		pages: [],
 		usingComponents: {
-			'ec-canvas': '../../../static/ec-canvas/ec-canvas',
 			'wxc-icon': "../../../static/@minui/wxc-icon/index/index"
 		}
 	}
@@ -26,18 +25,18 @@ app.$mount();
 
 /***/ }),
 
-/***/ 73:
+/***/ 255:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(257);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(569);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(74)
+  __webpack_require__(256)
 }
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(31)
 /* script */
 
 /* template */
@@ -80,17 +79,23 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 74:
+/***/ 256:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 75:
+/***/ 257:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_echarts__ = __webpack_require__(258);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_echarts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_echarts__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_mpvue_echarts__ = __webpack_require__(557);
+
 //
 //
 //
@@ -162,58 +167,127 @@ if (false) {(function () {
 //
 //
 
+
+
+
+
+var chart = null;
 
 var options = {
-  backgroundColor: "#ffffff",
-  color: ["#37A2DA", "#32C5E9", "#67E0E3", "#91F2DE", "#FFDB5C", "#FF9F7F"],
+  title: {
+    text: '股票走势'
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'category',
+    data: []
+  },
+  yAxis: {
+    type: 'value'
+  },
   series: [{
-    label: {
-      normal: {
-        fontSize: 14
-      }
-    },
-    type: 'pie',
-    center: ['50%', '50%'],
-    radius: [0, '60%'],
-    data: [{
-      value: 55,
-      name: '北京'
-    }, {
-      value: 20,
-      name: '武汉'
-    }, {
-      value: 10,
-      name: '杭州'
-    }, {
-      value: 20,
-      name: '广州'
-    }, {
-      value: 38,
-      name: '上海'
-    }],
-    itemStyle: {
-      emphasis: {
-        shadowBlur: 10,
-        shadowOffsetX: 0,
-        shadowColor: 'rgba(0, 2, 2, 0.3)'
-      }
-    }
+    name: 'A股',
+    type: 'line',
+    stack: '总量',
+    data: []
+  }, {
+    name: 'B股',
+    type: 'line',
+    stack: '总量',
+    data: []
+  }, {
+    name: 'c股',
+    type: 'line',
+    stack: '总量',
+    data: []
+  }, {
+    name: 'D股',
+    type: 'line',
+    stack: '总量',
+    data: []
+  }, {
+    name: 'E股',
+    type: 'line',
+    stack: '总量',
+    data: []
+  }, {
+    name: 'F股',
+    type: 'line',
+    stack: '总量',
+    data: []
   }]
 };
 
 /* harmony default export */ __webpack_exports__["a"] = ({
+
+  components: {
+    mpvueEcharts: __WEBPACK_IMPORTED_MODULE_2_mpvue_echarts__["a" /* default */]
+  },
+
   data: function data() {
     return {
-      ec: {
-        // 传 options
-        options: options
-      },
-      listData: {}
+      listData: {},
+      echarts: __WEBPACK_IMPORTED_MODULE_1_echarts__,
+      onInit: this.initChart
     };
   },
 
 
   methods: {
+    initChart: function initChart(canvas, width, height) {
+      chart = __WEBPACK_IMPORTED_MODULE_1_echarts__["init"](canvas, null, {
+        width: width,
+        height: height
+      });
+      canvas.setChart(chart);
+      var option = options;
+      chart.setOption(option);
+      return chart;
+    },
+    loadData: function loadData() {
+      wx.request({
+        url: 'https://prophets.top/asset/candle/index/000300.SH',
+        success: function success(res) {
+          var array = res.data.data;
+          var date = [];
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
+
+          try {
+            for (var _iterator = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator___default()(array), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var item = _step.value;
+
+              date.push(item[0]);
+              item.shift();
+              for (var i = 0; i < item.length; i++) {
+                options.series[i].data.push(item[i]);
+              }
+            }
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
+            }
+          }
+
+          options.xAxis.data = date;
+        }
+      });
+    },
 
     handleBg: function handleBg() {
       wx.navigateTo({ url: "/pages/chart/main" });
@@ -234,7 +308,20 @@ var options = {
       });
     },
 
-    login: function login() {
+    login: function login(token) {
+      var that = this;
+      wx.request({
+        url: 'https://prophets.top/auth/has_login',
+        header: {
+          token: token
+        },
+        success: function success() {
+          that.loadData();
+        }
+      });
+    },
+    firstLogin: function firstLogin() {
+      var that = this;
       wx.login({
         success: function success(res) {
           if (res.code) {
@@ -248,23 +335,9 @@ var options = {
               },
               header: { "Content-Type": "application/x-www-form-urlencoded" },
               method: 'GET',
-
               success: function success(res) {
-                console.log(res.data.openid);
-                wx.request({
-                  url: 'https://prophets.top/auth/has_login',
-                  header: {
-                    token: res.data.token
-                  },
-                  success: function success(res) {
-                    console.log(res.data);
-                  }
-                });
-                if (res.data.openid) {
-                  wx.setStorageSync('openid', res.data.openid);
-                } else {
-                  console.log('请求失败！' + res.errMsg);
-                }
+                wx.setStorageSync('token', res.data.token);
+                that.login();
               }
             });
           }
@@ -276,7 +349,7 @@ var options = {
     }
   },
 
-  onLoad: function onLoad(res) {
+  mounted: function mounted() {
     var _this = this;
 
     wx.request({
@@ -295,19 +368,265 @@ var options = {
       complete: function complete() {}
     });
   },
-
   created: function created() {
-    wx.checkSession({
-      fail: function fail() {
-        this.login();
-      }
-    });
+    var that = this;
+    var token = wx.getStorageSync('token');
+    if (token) {
+      console.log(token);
+      that.login(token);
+    } else {
+      that.firstLogin();
+    }
   }
 });
 
 /***/ }),
 
-/***/ 76:
+/***/ 557:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_mpvue_loader_lib_selector_type_script_index_0_echarts_vue__ = __webpack_require__(559);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mpvue_loader_lib_template_compiler_index_id_data_v_39210b28_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_mpvue_loader_lib_selector_type_template_index_0_echarts_vue__ = __webpack_require__(568);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(558)
+}
+var normalizeComponent = __webpack_require__(31)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-39210b28"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_mpvue_loader_lib_selector_type_script_index_0_echarts_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__mpvue_loader_lib_template_compiler_index_id_data_v_39210b28_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_mpvue_loader_lib_selector_type_template_index_0_echarts_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "node_modules\\mpvue-echarts\\src\\echarts.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] echarts.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-39210b28", Component.options)
+  } else {
+    hotAPI.reload("data-v-39210b28", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+
+/***/ 558:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 559:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(560);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wx_canvas__ = __webpack_require__(567);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+var chart = void 0;
+var ctx = void 0;
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+  props: {
+    echarts: {
+      required: true,
+      type: Object,
+      default: function _default() {
+        return null;
+      }
+    },
+    onInit: {
+      required: true,
+      type: Function,
+      default: null
+    },
+    canvasId: {
+      type: String,
+      default: 'ec-canvas'
+    },
+    lazyLoad: {
+      type: Boolean,
+      default: false
+    },
+    disableTouch: {
+      type: Boolean,
+      default: false
+    }
+  },
+  onReady: function onReady() {
+    if (!this.echarts) {
+      console.warn('组件需绑定 echarts 变量，例：<ec-canvas id="mychart-dom-bar" ' + 'canvas-id="mychart-bar" :echarts="echarts"></ec-canvas>');
+      return;
+    }
+
+    if (!this.lazyLoad) this.init();
+  },
+
+  methods: {
+    init: function init() {
+      var _this = this;
+
+      var version = wx.version.version.split('.').map(function (n) {
+        return parseInt(n, 10);
+      });
+      var isValid = version[0] > 1 || version[0] === 1 && version[1] > 9 || version[0] === 1 && version[1] === 9 && version[2] >= 91;
+      if (!isValid) {
+        console.error('微信基础库版本过低，需大于等于 1.9.91。' + '参见：https://github.com/ecomfe/echarts-for-weixin' + '#%E5%BE%AE%E4%BF%A1%E7%89%88%E6%9C%AC%E8%A6%81%E6%B1%82');
+        return;
+      }
+
+      if (!this.onInit) {
+        console.warn('请传入 onInit 函数进行初始化');
+        return;
+      }
+
+      var canvasId = this.canvasId;
+
+      ctx = wx.createCanvasContext(canvasId);
+
+      var canvas = new __WEBPACK_IMPORTED_MODULE_1__wx_canvas__["a" /* default */](ctx, canvasId);
+
+      this.echarts.setCanvasCreator(function () {
+        return canvas;
+      });
+
+      var query = wx.createSelectorQuery();
+      query.select('.ec-canvas').boundingClientRect(function (res) {
+        if (!res) {
+          setTimeout(function () {
+            return _this.init();
+          }, 50);
+          return;
+        }
+        chart = _this.onInit(canvas, res.width, res.height);
+      }).exec();
+    },
+    canvasToTempFilePath: function canvasToTempFilePath(opt) {
+      var canvasId = this.canvasId;
+
+
+      ctx.draw(true, function () {
+        wx.canvasToTempFilePath(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
+          canvasId: canvasId
+        }, opt));
+      });
+    },
+    touchStart: function touchStart(e) {
+      if (!this.disableTouch && chart && e.mp.touches.length > 0) {
+        var touch = e.mp.touches[0];
+        chart._zr.handler.dispatch('mousedown', {
+          zrX: touch.x,
+          zrY: touch.y
+        });
+        chart._zr.handler.dispatch('mousemove', {
+          zrX: touch.x,
+          zrY: touch.y
+        });
+      }
+    },
+    touchMove: function touchMove(e) {
+      if (!this.disableTouch && chart && e.mp.touches.length > 0) {
+        var touch = e.mp.touches[0];
+        chart._zr.handler.dispatch('mousemove', {
+          zrX: touch.x,
+          zrY: touch.y
+        });
+      }
+    },
+    touchEnd: function touchEnd(e) {
+      if (!this.disableTouch && chart) {
+        var touch = e.mp.changedTouches ? e.mp.changedTouches[0] : {};
+        chart._zr.handler.dispatch('mouseup', {
+          zrX: touch.x,
+          zrY: touch.y
+        });
+        chart._zr.handler.dispatch('click', {
+          zrX: touch.x,
+          zrY: touch.y
+        });
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ 568:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.canvasId) ? _c('canvas', {
+    staticClass: "ec-canvas",
+    attrs: {
+      "canvasId": _vm.canvasId,
+      "eventid": '0'
+    },
+    on: {
+      "touchstart": _vm.touchStart,
+      "touchmove": _vm.touchMove,
+      "touchend": _vm.touchEnd,
+      "error": _vm.error
+    }
+  }) : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-39210b28", esExports)
+  }
+}
+
+/***/ }),
+
+/***/ 569:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -321,12 +640,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "chartContainer"
-  }, [_c('ec-canvas', {
-    staticClass: "canvas",
+  }, [_c('mpvue-echarts', {
     attrs: {
-      "id": "mychart-dom-bar",
-      "canvas-id": "mychart-bar",
-      "ec": _vm.ec,
+      "echarts": _vm.echarts,
+      "onInit": _vm.onInit,
       "mpcomid": '0'
     }
   })], 1), _vm._v(" "), _c('div', {
@@ -466,5 +783,5 @@ if (false) {
 
 /***/ })
 
-},[72]);
+},[254]);
 //# sourceMappingURL=main.js.map

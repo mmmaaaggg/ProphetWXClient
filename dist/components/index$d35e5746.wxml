@@ -1,8 +1,9 @@
+<import src="echarts$2c664bef" />
 <template name="index$d35e5746">
   <view class="_div data-v-90a90d1c container">
     <scroll-view scroll-y="true" class="_scroll-view data-v-90a90d1c scroll">
       <view class="_div data-v-90a90d1c chartContainer">
-        <ec-canvas class="_ec-canvas data-v-90a90d1c canvas" id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ec}}"></ec-canvas>
+        <template data="{{...$root[$kk+'0'], $root}}" is="echarts$2c664bef"></template>
       </view>
       <view class="_div data-v-90a90d1c tapContainer trTap">
         <view class="_div data-v-90a90d1c blog vertify">
