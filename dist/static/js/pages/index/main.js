@@ -90,12 +90,9 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__ = __webpack_require__(122);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_echarts__ = __webpack_require__(258);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_echarts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_echarts__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_mpvue_echarts__ = __webpack_require__(557);
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_echarts__ = __webpack_require__(258);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_echarts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_echarts__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mpvue_echarts__ = __webpack_require__(557);
 //
 //
 //
@@ -173,211 +170,311 @@ if (false) {(function () {
 
 var chart = null;
 
-var options = {
-  title: {
-    text: '股票走势'
-  },
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
-  },
-  xAxis: {
-    type: 'category',
-    data: []
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [{
-    name: 'A股',
-    type: 'line',
-    stack: '总量',
-    data: []
-  }, {
-    name: 'B股',
-    type: 'line',
-    stack: '总量',
-    data: []
-  }, {
-    name: 'c股',
-    type: 'line',
-    stack: '总量',
-    data: []
-  }, {
-    name: 'D股',
-    type: 'line',
-    stack: '总量',
-    data: []
-  }, {
-    name: 'E股',
-    type: 'line',
-    stack: '总量',
-    data: []
-  }, {
-    name: 'F股',
-    type: 'line',
-    stack: '总量',
-    data: []
-  }]
-};
+var upColor = '#00da3c';
+var downColor = '#ec0000';
+
+function splitData(rawData) {
+    var categoryData = [];
+    var values = [];
+    var volumes = [];
+    for (var i = 0; i < rawData.length; i++) {
+        categoryData.push(rawData[i].splice(0, 1)[0]);
+        values.push(rawData[i]);
+        volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? -1 : 1]);
+    }
+
+    return {
+        categoryData: categoryData,
+        values: values,
+        volumes: volumes
+    };
+}
+
+function calculateMA(dayCount, data) {
+    var result = [];
+    for (var i = 0, len = data.values.length; i < len; i++) {
+        if (i < dayCount) {
+            result.push('-');
+            continue;
+        }
+        var sum = 0;
+        for (var j = 0; j < dayCount; j++) {
+            sum += data.values[i - j][1];
+        }
+        result.push(+(sum / dayCount).toFixed(3));
+    }
+    return result;
+}
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 
-  components: {
-    mpvueEcharts: __WEBPACK_IMPORTED_MODULE_2_mpvue_echarts__["a" /* default */]
-  },
-
-  data: function data() {
-    return {
-      listData: {},
-      echarts: __WEBPACK_IMPORTED_MODULE_1_echarts__,
-      onInit: this.initChart
-    };
-  },
-
-
-  methods: {
-    initChart: function initChart(canvas, width, height) {
-      chart = __WEBPACK_IMPORTED_MODULE_1_echarts__["init"](canvas, null, {
-        width: width,
-        height: height
-      });
-      canvas.setChart(chart);
-      var option = options;
-      chart.setOption(option);
-      return chart;
-    },
-    loadData: function loadData() {
-      wx.request({
-        url: 'https://prophets.top/asset/candle/index/000300.SH',
-        success: function success(res) {
-          var array = res.data.data;
-          var date = [];
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
-
-          try {
-            for (var _iterator = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator___default()(array), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var item = _step.value;
-
-              date.push(item[0]);
-              item.shift();
-              for (var i = 0; i < item.length; i++) {
-                options.series[i].data.push(item[i]);
-              }
-            }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
-          }
-
-          options.xAxis.data = date;
-        }
-      });
+    components: {
+        mpvueEcharts: __WEBPACK_IMPORTED_MODULE_1_mpvue_echarts__["a" /* default */]
     },
 
-    handleBg: function handleBg() {
-      wx.navigateTo({ url: "/pages/chart/main" });
-    },
+    data: function data() {
+        return {
+            listData: {},
+            echarts: __WEBPACK_IMPORTED_MODULE_0_echarts__,
+            onInit: this.initChart
 
-    handleCb: function handleCb() {
-      wx.navigateTo({ url: "/pages/combination/main" });
+        };
     },
 
 
-    onCollect: function onCollect(items) {
-      items.collectionstatus = !items.collectionstatus;
-      wx.showToast({
-        title: items.collectionstatus ? "收藏成功" : "收藏取消",
-        duration: 1000,
-        icon: "sucess",
-        make: true
-      });
-    },
-
-    login: function login(token) {
-      var that = this;
-      wx.request({
-        url: 'https://prophets.top/auth/has_login',
-        header: {
-          token: token
-        },
-        success: function success() {
-          that.loadData();
-        }
-      });
-    },
-    firstLogin: function firstLogin() {
-      var that = this;
-      wx.login({
-        success: function success(res) {
-          if (res.code) {
-            //发起网络请求
-            //console.log(res.code)
-            wx.request({
-              url: 'https://prophets.top/auth/login',
-              //url: 'http://127.0.0.1:6060/wx/login',
-              data: {
-                code: res.code
-              },
-              header: { "Content-Type": "application/x-www-form-urlencoded" },
-              method: 'GET',
-              success: function success(res) {
-                wx.setStorageSync('token', res.data.token);
-                that.login();
-              }
+    methods: {
+        initChart: function initChart(canvas, width, height) {
+            chart = __WEBPACK_IMPORTED_MODULE_0_echarts__["init"](canvas, null, {
+                width: width,
+                height: height
             });
-          }
+            canvas.setChart(chart);
+            return chart;
         },
-        fail: function fail(error) {
-          console.log("request fail");
+        loadData: function loadData() {
+            var that = this;
+            wx.request({
+                url: 'https://prophets.top/asset/candle/index/000300.SH',
+                success: function success(res) {
+                    var rawData = res.data.data;
+                    var data = splitData(rawData);
+                    var options = {
+                        backgroundColor: '#fff',
+                        animation: false,
+                        legend: {
+                            top: 5,
+                            left: 'center',
+                            data: ['index', 'A', 'B', 'C', 'D']
+                        },
+                        axisPointer: {
+                            link: { xAxisIndex: 'all' },
+                            label: {
+                                backgroundColor: '#777'
+                            }
+                        },
+                        toolbox: {
+                            show: false
+                        },
+                        brush: {
+                            xAxisIndex: 'all',
+                            brushLink: 'all',
+                            outOfBrush: {
+                                colorAlpha: 0.1
+                            }
+                        },
+                        visualMap: {
+                            show: false,
+                            seriesIndex: 5,
+                            dimension: 2,
+                            pieces: [{
+                                value: 1,
+                                color: downColor
+                            }, {
+                                value: -1,
+                                color: upColor
+                            }]
+                        },
+                        grid: [{
+                            left: '13%',
+                            right: '8%',
+                            height: '50%',
+                            top: '16%'
+                        }, {
+                            left: '13%',
+                            right: '8%',
+                            top: '65%',
+                            height: '14%'
+                        }],
+                        xAxis: [{
+                            type: 'category',
+                            data: data.categoryData,
+                            scale: true,
+                            boundaryGap: false,
+                            axisLine: { onZero: false },
+                            splitLine: { show: false },
+                            axisTick: { show: false },
+                            axisLabel: { show: false },
+                            splitNumber: 20,
+                            min: 'dataMin',
+                            max: 'dataMax',
+                            axisPointer: {
+                                z: 100
+                            }
+                        }, {
+                            type: 'category',
+                            gridIndex: 1,
+                            data: data.categoryData,
+                            scale: true,
+                            boundaryGap: false,
+                            axisLine: { onZero: false },
+                            splitNumber: 20,
+                            min: 'dataMin',
+                            max: 'dataMax'
+                        }],
+                        yAxis: [{
+                            scale: true,
+                            splitArea: {
+                                show: true
+                            }
+                        }, {
+                            scale: true,
+                            gridIndex: 1,
+                            splitNumber: 2,
+                            axisLabel: { show: false },
+                            axisLine: { show: false },
+                            axisTick: { show: false },
+                            splitLine: { show: false }
+                        }],
+
+                        series: [{
+                            name: 'index',
+                            type: 'candlestick',
+                            data: data.values,
+                            itemStyle: {
+                                normal: {
+                                    color: downColor,
+                                    color0: upColor,
+                                    borderColor: null,
+                                    borderColor0: null
+                                }
+                            }
+                        }, {
+                            name: 'A',
+                            type: 'line',
+                            data: calculateMA(5, data),
+                            smooth: true,
+                            lineStyle: {
+                                color: '#E866CC'
+                            }
+                        }, {
+                            name: 'B',
+                            type: 'line',
+                            data: calculateMA(10, data),
+                            smooth: true,
+                            lineStyle: {
+                                color: '#9234EF'
+                            }
+                        }, {
+                            name: 'C',
+                            type: 'line',
+                            data: calculateMA(20, data),
+                            smooth: true,
+                            lineStyle: {
+                                color: '#20627E'
+                            }
+                        }, {
+                            name: 'D',
+                            type: 'line',
+                            data: calculateMA(30, data),
+                            smooth: true,
+                            lineStyle: {
+                                color: '#DE871E'
+                            }
+                        }, {
+                            name: 'Volume',
+                            type: 'bar',
+                            xAxisIndex: 1,
+                            yAxisIndex: 1,
+                            data: data.volumes
+                        }]
+                    };
+                    console.log(options.series[2].data);
+                    chart.setOption(options);
+                }
+            });
+        },
+
+        handleBg: function handleBg() {
+            wx.navigateTo({ url: "/pages/chart/main" });
+        },
+
+        handleCb: function handleCb() {
+            wx.navigateTo({ url: "/pages/combination/main" });
+        },
+
+
+        onCollect: function onCollect(items) {
+            items.collectionstatus = !items.collectionstatus;
+            wx.showToast({
+                title: items.collectionstatus ? "收藏成功" : "收藏取消",
+                duration: 1000,
+                icon: "sucess",
+                make: true
+            });
+        },
+
+        login: function login() {
+            var that = this;
+            var token = wx.getStorageSync('token');
+            if (token) {
+                console.log(token);
+                that.ConfirmLogin(token);
+            } else {
+                that.firstLogin();
+            }
+        },
+        ConfirmLogin: function ConfirmLogin(token) {
+            var that = this;
+            wx.request({
+                url: 'https://prophets.top/auth/has_login',
+                header: {
+                    token: token
+                },
+                success: function success() {
+                    that.loadData();
+                }
+            });
+        },
+        firstLogin: function firstLogin() {
+            var that = this;
+            wx.login({
+                success: function success(res) {
+                    if (res.code) {
+                        //发起网络请求
+                        //console.log(res.code)
+                        wx.request({
+                            url: 'https://prophets.top/auth/login',
+                            //url: 'http://127.0.0.1:6060/wx/login',
+                            data: {
+                                code: res.code
+                            },
+                            header: { "Content-Type": "application/x-www-form-urlencoded" },
+                            method: 'GET',
+                            success: function success(res) {
+                                wx.setStorageSync('token', res.data.token);
+                                that.login();
+                            }
+                        });
+                    }
+                },
+                fail: function fail(error) {
+                    console.log("request fail");
+                }
+            });
         }
-      });
-    }
-  },
+    },
 
-  mounted: function mounted() {
-    var _this = this;
+    mounted: function mounted() {
+        var _this = this;
 
-    wx.request({
-      //url: 'https://www.prophets.top/forecast/get_cmp_data_list/all', 
-      url: 'http://127.0.0.1:6060/list',
-      header: {
-        'content-type': 'application/json' // 默认值  
-      },
-      method: 'GET',
-      success: function success(res) {
-        _this.listData = res.data.data;
-      },
-      fail: function fail() {
-        console.log("fail");
-      },
-      complete: function complete() {}
-    });
-  },
-  created: function created() {
-    var that = this;
-    var token = wx.getStorageSync('token');
-    if (token) {
-      console.log(token);
-      that.login(token);
-    } else {
-      that.firstLogin();
-    }
-  }
+        this.login();
+        wx.request({
+            //url: 'https://www.prophets.top/forecast/get_cmp_data_list/all', 
+            url: 'http://127.0.0.1:6060/list',
+            header: {
+                'content-type': 'application/json' // 默认值  
+            },
+            method: 'GET',
+            success: function success(res) {
+                _this.listData = res.data.data;
+            },
+            fail: function fail() {
+                console.log("fail");
+            },
+            complete: function complete() {}
+        });
+    },
+    created: function created() {}
 });
 
 /***/ }),

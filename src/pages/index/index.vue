@@ -75,61 +75,41 @@ import mpvueEcharts from 'mpvue-echarts'
 
 let chart = null
 
-let options = {
-    title: {
-        text: '股票走势'
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis: {
-        type: 'category',
-        data: []
-    },
-    yAxis: {
-        type: 'value'
-    },
-    series: [ 
-        {
-            name:'A股',
-            type:'line',
-            stack: '总量',
-            data:[]
-        },
-        {
-            name:'B股',
-            type:'line',
-            stack: '总量',
-            data:[]
-        },
-        {
-            name:'c股',
-            type:'line',
-            stack: '总量',
-            data:[]
-        },
-        {
-            name:'D股',
-            type:'line',
-            stack: '总量',
-            data:[]
-        },
-        {
-            name:'E股',
-            type:'line',
-            stack: '总量',
-            data:[]
-        },
-        {
-            name:'F股',
-            type:'line',
-            stack: '总量',
-            data:[]
-        }]
-};
+var upColor = '#00da3c';
+var downColor = '#ec0000';
+
+function splitData(rawData) {
+    var categoryData = [];
+    var values = [];
+    var volumes = [];
+    for (var i = 0; i < rawData.length; i++) {
+        categoryData.push(rawData[i].splice(0, 1)[0]);
+        values.push(rawData[i]);
+        volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? -1 : 1]);
+    }
+
+    return {
+        categoryData: categoryData,
+        values: values,
+        volumes: volumes
+    };
+}
+
+function calculateMA(dayCount, data) {
+    var result = [];
+    for (var i = 0, len = data.values.length; i < len; i++) {
+        if (i < dayCount) {
+            result.push('-');
+            continue;
+        }
+        var sum = 0;
+        for (var j = 0; j < dayCount; j++) {
+            sum += data.values[i - j][1];
+        }
+        result.push(+(sum / dayCount).toFixed(3));
+    }
+    return result;
+}
 
 
 export default {
@@ -142,7 +122,8 @@ export default {
     return {
       listData: {},
       echarts,
-      onInit: this.initChart    
+      onInit: this.initChart,
+      
     }
   },
  
@@ -154,25 +135,174 @@ export default {
           height: height
         })
         canvas.setChart(chart)
-        let option = options;
-        chart.setOption(option)
         return chart
     },
 
     loadData () {
+        let that = this;
         wx.request({
           url: 'https://prophets.top/asset/candle/index/000300.SH',
           success (res) {
-            let array = res.data.data;
-            let date = [];
-            for (let item of array) {
-              date.push(item[0]);
-              item.shift();
-              for (let i = 0; i < item.length; i ++){
-                  options.series[i].data.push(item[i]);
-              }
+            let rawData = res.data.data;
+            let data = splitData (rawData)
+            let options = {
+                  backgroundColor: '#fff',
+                  animation: false,
+                  legend: {
+                      top: 5,
+                      left: 'center',
+                      data: ['index', 'A', 'B', 'C', 'D']
+                  },
+                  axisPointer: {
+                      link: {xAxisIndex: 'all'},
+                      label: {
+                          backgroundColor: '#777'
+                      }
+                  },
+                  toolbox: {
+                      show: false
+                  },
+                  brush: {
+                      xAxisIndex: 'all',
+                      brushLink: 'all',
+                      outOfBrush: {
+                          colorAlpha: 0.1
+                      }
+                  },
+                  visualMap: {
+                      show: false,
+                      seriesIndex: 5,
+                      dimension: 2,
+                      pieces: [{
+                          value: 1,
+                          color: downColor
+                      }, {
+                          value: -1,
+                          color: upColor
+                      }]
+                  },
+                  grid: [
+                      {
+                          left: '13%',
+                          right: '8%',
+                          height: '50%',
+                          top: '16%'
+                      },
+                      {
+                          left: '13%',
+                          right: '8%',
+                          top: '65%',
+                          height: '14%'
+                      }
+                  ],
+                  xAxis: [
+                      {
+                          type: 'category',
+                          data: data.categoryData,
+                          scale: true,
+                          boundaryGap : false,
+                          axisLine: {onZero: false},
+                          splitLine: {show: false},
+                          axisTick: {show: false},
+                          axisLabel: {show: false},
+                          splitNumber: 20,
+                          min: 'dataMin',
+                          max: 'dataMax',
+                          axisPointer: {
+                              z: 100
+                          }
+                      },
+                      {
+                          type: 'category',
+                          gridIndex: 1,
+                          data: data.categoryData,
+                          scale: true,
+                          boundaryGap : false,
+                          axisLine: {onZero: false},
+                          splitNumber: 20,
+                          min: 'dataMin',
+                          max: 'dataMax'
+                      }
+                  ],
+                  yAxis: [
+                      {
+                          scale: true,
+                          splitArea: {
+                              show: true
+                          }
+                      },
+                      {
+                          scale: true,
+                          gridIndex: 1,
+                          splitNumber: 2,
+                          axisLabel: {show: false},
+                          axisLine: {show: false},
+                          axisTick: {show: false},
+                          splitLine: {show: false}
+                      }
+                  ],
+                 
+                  series: [
+                      {
+                          name: 'index',
+                          type: 'candlestick',
+                          data: data.values,
+                          itemStyle: {
+                              normal: {
+                                  color: downColor,
+                                  color0: upColor,
+                                  borderColor: null,
+                                  borderColor0: null
+                              }
+                          }
+                      },
+                      {
+                          name: 'A',
+                          type: 'line',
+                          data: calculateMA(5, data),
+                          smooth: true,
+                          lineStyle: {
+                              color: '#E866CC'
+                          }
+                      },
+                      {
+                          name: 'B',
+                          type: 'line',
+                          data: calculateMA(10, data),
+                          smooth: true,
+                          lineStyle: {
+                              color: '#9234EF'
+                          }
+                      },
+                      {
+                          name: 'C',
+                          type: 'line',
+                          data: calculateMA(20, data),
+                          smooth: true,
+                          lineStyle: {
+                              color: '#20627E'
+                          }
+                      },
+                      {
+                          name: 'D',
+                          type: 'line',
+                          data: calculateMA(30, data),
+                          smooth: true,
+                          lineStyle: {
+                              color: '#DE871E'
+                          }
+                      },
+                      {
+                          name: 'Volume',
+                          type: 'bar',
+                          xAxisIndex: 1,
+                          yAxisIndex: 1,
+                          data: data.volumes
+                      }
+                  ]
             }
-            options.xAxis.data = date;
+            console.log(options.series[2].data)
+            chart.setOption(options)
           }
         });
     },
@@ -194,8 +324,18 @@ export default {
       })  
     },
   
+    login () {
+      let that = this;
+      let token = wx.getStorageSync('token');
+      if (token) {
+        console.log(token)
+        that.ConfirmLogin(token)
+      } else {
+          that.firstLogin()
+        } 
+    },
 
-    login (token) {
+    ConfirmLogin (token) {
       let that = this;
       wx.request({
           url: 'https://prophets.top/auth/has_login',
@@ -239,7 +379,8 @@ export default {
     }
   },
 
-  mounted () {    
+  mounted () { 
+    this.login();  
     wx.request({  
       //url: 'https://www.prophets.top/forecast/get_cmp_data_list/all', 
       url: 'http://127.0.0.1:6060/list',
@@ -260,14 +401,7 @@ export default {
   },
 
   created() {
-    let that = this;
-    let token = wx.getStorageSync('token');
-    if (token) {
-      console.log(token)
-      that.login(token)
-    } else {
-      that.firstLogin()
-    }
+   
   }
 }
 </script>
