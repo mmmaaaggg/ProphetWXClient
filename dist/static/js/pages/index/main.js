@@ -1,13 +1,13 @@
 global.webpackJsonp([1],{
 
-/***/ 254:
+/***/ 256:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(255);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(257);
 
 
 
@@ -25,18 +25,18 @@ app.$mount();
 
 /***/ }),
 
-/***/ 255:
+/***/ 257:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(257);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(569);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(259);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(571);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(256)
+  __webpack_require__(258)
 }
-var normalizeComponent = __webpack_require__(31)
+var normalizeComponent = __webpack_require__(28)
 /* script */
 
 /* template */
@@ -79,20 +79,22 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 256:
+/***/ 258:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 257:
+/***/ 259:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_echarts__ = __webpack_require__(258);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_echarts__ = __webpack_require__(260);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_echarts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_echarts__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mpvue_echarts__ = __webpack_require__(557);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mpvue_echarts__ = __webpack_require__(559);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_login__ = __webpack_require__(215);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_index__ = __webpack_require__(121);
 //
 //
 //
@@ -163,48 +165,14 @@ if (false) {(function () {
 //
 //
 //
+
+
 
 
 
 
 
 var chart = null;
-
-var upColor = '#00da3c';
-var downColor = '#ec0000';
-
-function splitData(rawData) {
-    var categoryData = [];
-    var values = [];
-    var volumes = [];
-    for (var i = 0; i < rawData.length; i++) {
-        categoryData.push(rawData[i].splice(0, 1)[0]);
-        values.push(rawData[i]);
-        volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? -1 : 1]);
-    }
-
-    return {
-        categoryData: categoryData,
-        values: values,
-        volumes: volumes
-    };
-}
-
-function calculateMA(dayCount, data) {
-    var result = [];
-    for (var i = 0, len = data.values.length; i < len; i++) {
-        if (i < dayCount) {
-            result.push('-');
-            continue;
-        }
-        var sum = 0;
-        for (var j = 0; j < dayCount; j++) {
-            sum += data.values[i - j][1];
-        }
-        result.push(+(sum / dayCount).toFixed(3));
-    }
-    return result;
-}
 
 /* harmony default export */ __webpack_exports__["a"] = ({
 
@@ -216,8 +184,11 @@ function calculateMA(dayCount, data) {
         return {
             listData: {},
             echarts: __WEBPACK_IMPORTED_MODULE_0_echarts__,
-            onInit: this.initChart
-
+            onInit: this.initChart,
+            confirmData: 0,
+            vertified: 0,
+            interest: 0,
+            collect: []
         };
     },
 
@@ -231,13 +202,17 @@ function calculateMA(dayCount, data) {
             canvas.setChart(chart);
             return chart;
         },
-        loadData: function loadData() {
+        loadEchartData: function loadEchartData() {
             var that = this;
             wx.request({
-                url: 'https://prophets.top/asset/candle/index/000300.SH',
+                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + 'asset/candle/index/000300.SH/DOCLHV',
                 success: function success(res) {
+                    if (res.data.errcode == 41008) {
+                        __WEBPACK_IMPORTED_MODULE_2__components_login__["a" /* firstLogin */]();
+                        this.loadEchartData();
+                    }
                     var rawData = res.data.data;
-                    var data = splitData(rawData);
+                    var data = __WEBPACK_IMPORTED_MODULE_3__utils_index__["f" /* splitData */](rawData);
                     var options = {
                         backgroundColor: '#fff',
                         animation: false,
@@ -268,10 +243,10 @@ function calculateMA(dayCount, data) {
                             dimension: 2,
                             pieces: [{
                                 value: 1,
-                                color: downColor
+                                color: __WEBPACK_IMPORTED_MODULE_3__utils_index__["b" /* downColor */]
                             }, {
                                 value: -1,
-                                color: upColor
+                                color: __WEBPACK_IMPORTED_MODULE_3__utils_index__["g" /* upColor */]
                             }]
                         },
                         grid: [{
@@ -312,10 +287,7 @@ function calculateMA(dayCount, data) {
                             max: 'dataMax'
                         }],
                         yAxis: [{
-                            scale: true,
-                            splitArea: {
-                                show: true
-                            }
+                            scale: true
                         }, {
                             scale: true,
                             gridIndex: 1,
@@ -332,8 +304,8 @@ function calculateMA(dayCount, data) {
                             data: data.values,
                             itemStyle: {
                                 normal: {
-                                    color: downColor,
-                                    color0: upColor,
+                                    color: __WEBPACK_IMPORTED_MODULE_3__utils_index__["b" /* downColor */],
+                                    color0: __WEBPACK_IMPORTED_MODULE_3__utils_index__["g" /* upColor */],
                                     borderColor: null,
                                     borderColor0: null
                                 }
@@ -341,7 +313,7 @@ function calculateMA(dayCount, data) {
                         }, {
                             name: 'A',
                             type: 'line',
-                            data: calculateMA(5, data),
+                            data: __WEBPACK_IMPORTED_MODULE_3__utils_index__["a" /* calculateMA */](5, data),
                             smooth: true,
                             lineStyle: {
                                 color: '#E866CC'
@@ -349,7 +321,7 @@ function calculateMA(dayCount, data) {
                         }, {
                             name: 'B',
                             type: 'line',
-                            data: calculateMA(10, data),
+                            data: __WEBPACK_IMPORTED_MODULE_3__utils_index__["a" /* calculateMA */](10, data),
                             smooth: true,
                             lineStyle: {
                                 color: '#9234EF'
@@ -357,7 +329,7 @@ function calculateMA(dayCount, data) {
                         }, {
                             name: 'C',
                             type: 'line',
-                            data: calculateMA(20, data),
+                            data: __WEBPACK_IMPORTED_MODULE_3__utils_index__["a" /* calculateMA */](20, data),
                             smooth: true,
                             lineStyle: {
                                 color: '#20627E'
@@ -365,7 +337,7 @@ function calculateMA(dayCount, data) {
                         }, {
                             name: 'D',
                             type: 'line',
-                            data: calculateMA(30, data),
+                            data: __WEBPACK_IMPORTED_MODULE_3__utils_index__["a" /* calculateMA */](30, data),
                             smooth: true,
                             lineStyle: {
                                 color: '#DE871E'
@@ -378,14 +350,73 @@ function calculateMA(dayCount, data) {
                             data: data.volumes
                         }]
                     };
-                    console.log(options.series[2].data);
                     chart.setOption(options);
                 }
             });
         },
+        loadChartData: function loadChartData() {
+            var _this = this;
+
+            var that = this;
+            var token = wx.getStorageSync('token');
+            wx.request({
+                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + 'forecast/cmp/get_list/all',
+                //url: 'http://127.0.0.1:6060/list',
+                header: {
+                    token: token
+                },
+                success: function success(res) {
+                    if (res.data.errcode == 41008) {
+                        __WEBPACK_IMPORTED_MODULE_2__components_login__["a" /* firstLogin */]();
+                        _this.loadChartData();
+                    }
+                    that.listData = res.data.data;
+                    for (var i = 0; i < that.listData.length; i++) {
+
+                        while (that.collect.length < that.listData.length) {
+                            that.collect.push(0);
+                        }
+
+                        if (that.collect.length == that.listData.length) {
+                            that.collect[i] = that.listData[i].favorite;
+                        }
+                    }
+                    //console.log(that.collect)
+                },
+                fail: function fail() {
+                    console.log("fail");
+                }
+            });
+        },
+        loadTap: function loadTap() {
+            var _this2 = this;
+
+            var token = wx.getStorageSync('token');
+            wx.request({
+                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + 'forecast/cmp/summary',
+                //url: 'http://127.0.0.1:6060/list',
+                header: {
+                    token: token
+                },
+                method: 'GET',
+                success: function success(res) {
+                    if (res.data.errcode == 41008) {
+                        __WEBPACK_IMPORTED_MODULE_2__components_login__["a" /* firstLogin */]();
+                        _this2.loadTap();
+                    }
+                    _this2.confirmData = res.data[0].count;
+                    _this2.vertified = res.data[1].count;
+                    _this2.interest = res.data[2].count;
+                },
+                fail: function fail() {
+                    console.log("fail");
+                }
+            });
+        },
+
 
         handleBg: function handleBg() {
-            wx.navigateTo({ url: "/pages/chart/main" });
+            wx.navigateTo({ url: "/pages/list/main" });
         },
 
         handleCb: function handleCb() {
@@ -393,104 +424,92 @@ function calculateMA(dayCount, data) {
         },
 
 
-        onCollect: function onCollect(items) {
-            items.collectionstatus = !items.collectionstatus;
+        handleCollect: function handleCollect(items, index) {
+            var temp = this.collect[index];
+            temp = temp == 0 ? 1 : 0;
+            this.$set(this.collect, index, temp);
+            wx.setStorageSync('collect', this.collect);
+            var url = __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + ('forecast/cmp/favorite/' + items.cmp_id + '/' + temp);
+            var token = wx.getStorageSync('token');
+            wx.request({
+                url: url,
+                method: 'POST',
+                header: {
+                    token: token
+                },
+                success: function success(res) {
+                    //console.log(res)
+                },
+                fail: function fail() {
+                    console.log('request fail');
+                }
+            });
             wx.showToast({
-                title: items.collectionstatus ? "收藏成功" : "收藏取消",
+                title: this.collect[index] == 1 ? "收藏成功" : "收藏取消",
                 duration: 1000,
                 icon: "sucess",
                 make: true
             });
         },
 
-        login: function login() {
+        ConfirmLogin: function ConfirmLogin() {
+            var loginNum = 0;
             var that = this;
             var token = wx.getStorageSync('token');
-            if (token) {
-                console.log(token);
-                that.ConfirmLogin(token);
-            } else {
-                that.firstLogin();
-            }
-        },
-        ConfirmLogin: function ConfirmLogin(token) {
-            var that = this;
             wx.request({
-                url: 'https://prophets.top/auth/has_login',
+                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + 'auth/has_login',
                 header: {
                     token: token
                 },
-                success: function success() {
-                    that.loadData();
-                }
-            });
-        },
-        firstLogin: function firstLogin() {
-            var that = this;
-            wx.login({
                 success: function success(res) {
-                    if (res.code) {
-                        //发起网络请求
-                        //console.log(res.code)
-                        wx.request({
-                            url: 'https://prophets.top/auth/login',
-                            //url: 'http://127.0.0.1:6060/wx/login',
-                            data: {
-                                code: res.code
-                            },
-                            header: { "Content-Type": "application/x-www-form-urlencoded" },
-                            method: 'GET',
-                            success: function success(res) {
-                                wx.setStorageSync('token', res.data.token);
-                                that.login();
+                    if (res.data.message) {
+                        //that.loadChartData();
+                        //that.loadEchartData();
+                        //that.loadTap();
+                        loginNum = 0;
+                    } else {
+                        console.log('login fail,Please login again');
+                        __WEBPACK_IMPORTED_MODULE_2__components_login__["a" /* firstLogin */]();
+                        setTimeout(function () {
+                            if (loginNum++ < 5) {
+                                that.ConfirmLogin();
                             }
-                        });
+                        }, 1000);
                     }
                 },
-                fail: function fail(error) {
-                    console.log("request fail");
+
+                fail: function fail() {
+                    console.log('request fail');
                 }
+
             });
         }
     },
 
     mounted: function mounted() {
-        var _this = this;
+        this.ConfirmLogin();
 
-        this.login();
-        wx.request({
-            //url: 'https://www.prophets.top/forecast/get_cmp_data_list/all', 
-            url: 'http://127.0.0.1:6060/list',
-            header: {
-                'content-type': 'application/json' // 默认值  
-            },
-            method: 'GET',
-            success: function success(res) {
-                _this.listData = res.data.data;
-            },
-            fail: function fail() {
-                console.log("fail");
-            },
-            complete: function complete() {}
-        });
+        if (wx.getStorageSync('collect')) {
+            this.collect = wx.getStorageSync('collect');
+        }
     },
     created: function created() {}
 });
 
 /***/ }),
 
-/***/ 557:
+/***/ 559:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_mpvue_loader_lib_selector_type_script_index_0_echarts_vue__ = __webpack_require__(559);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mpvue_loader_lib_template_compiler_index_id_data_v_39210b28_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_mpvue_loader_lib_selector_type_template_index_0_echarts_vue__ = __webpack_require__(568);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_mpvue_loader_lib_selector_type_script_index_0_echarts_vue__ = __webpack_require__(561);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mpvue_loader_lib_template_compiler_index_id_data_v_39210b28_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_mpvue_loader_lib_selector_type_template_index_0_echarts_vue__ = __webpack_require__(570);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(558)
+  __webpack_require__(560)
 }
-var normalizeComponent = __webpack_require__(31)
+var normalizeComponent = __webpack_require__(28)
 /* script */
 
 /* template */
@@ -533,20 +552,20 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 558:
+/***/ 560:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 559:
+/***/ 561:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(560);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(562);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wx_canvas__ = __webpack_require__(567);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wx_canvas__ = __webpack_require__(569);
 
 //
 //
@@ -691,7 +710,7 @@ var ctx = void 0;
 
 /***/ }),
 
-/***/ 568:
+/***/ 570:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -723,7 +742,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 569:
+/***/ 571:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -766,7 +785,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "bg-item digita"
-  }, [_vm._v("320")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.confirmData))]), _vm._v(" "), _c('div', {
     staticClass: "bg-item blogitem"
   }, [_vm._v("待验证")])])]), _vm._v(" "), _c('div', {
     staticClass: "blog vertified"
@@ -789,7 +808,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_c('div', {
     staticClass: "bg-item digita"
-  }, [_vm._v("120")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.vertified))]), _vm._v(" "), _c('div', {
     staticClass: "bg-item blogitem"
   }, [_vm._v("已验证")])])]), _vm._v(" "), _c('div', {
     staticClass: "blog attention"
@@ -806,28 +825,28 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "bg-right"
   }, [_c('div', {
     staticClass: "bg-item digita"
-  }, [_vm._v("142")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.interest))]), _vm._v(" "), _c('div', {
     staticClass: "bg-item blogitem"
   }, [_vm._v("关注预言")])])])]), _vm._v(" "), _c('div', {
     staticClass: "tbContainer"
   }, [_c('div', {
     staticClass: "tr bg-t"
   }, [_c('div', {
-    staticClass: "th"
+    staticClass: "th th-name"
   }, [_vm._v("预测名称")]), _vm._v(" "), _c('div', {
-    staticClass: "th"
+    staticClass: "th th-date"
   }, [_vm._v("起止日期")]), _vm._v(" "), _c('div', {
-    staticClass: "th"
+    staticClass: "th th-rate"
   }, [_vm._v("准确率")]), _vm._v(" "), _c('div', {
-    staticClass: "th"
-  }, [_vm._v("预言家")])]), _vm._v(" "), _vm._l((_vm.listData.data), function(items, index) {
+    staticClass: "th th-person"
+  }, [_vm._v("预言家")])]), _vm._v(" "), _vm._l((_vm.listData), function(items, index) {
     return _c('div', {
-      key: _vm.pl_id,
+      key: index,
       staticClass: "tr bg-c"
     }, [_c('div', {
-      staticClass: "td name td-cell"
+      staticClass: "td name th-name"
     }, [_vm._v("\n        " + _vm._s(items.name) + "\n      ")]), _vm._v(" "), _c('div', {
-      staticClass: "td"
+      staticClass: "td th-date"
     }, [_c('div', {
       staticClass: "td-date"
     }, [_c('div', {
@@ -835,9 +854,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(items.date_from))]), _vm._v(" "), _c('div', {
       staticClass: "date"
     }, [_vm._v(_vm._s(items.date_to))])])]), _vm._v(" "), _c('div', {
-      staticClass: "td td-cell"
-    }, [_vm._v("\n        " + _vm._s(items.access_type) + "\n      ")]), _vm._v(" "), _c('div', {
-      staticClass: "td td-cell collection"
+      staticClass: "td th-rate"
+    }, [_vm._v("\n        " + _vm._s(items.cmp_id) + "\n      ")]), _vm._v(" "), _c('div', {
+      staticClass: "td th-person"
     }, [_c('div', {
       staticClass: "username"
     }, [_vm._v("\n          " + _vm._s(items.username) + "\n        ")]), _vm._v(" "), _c('div', {
@@ -847,10 +866,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       },
       on: {
         "click": function($event) {
-          _vm.onCollect(items)
+          _vm.handleCollect(items, index)
         }
       }
-    }, [(items.collectionstatus) ? _c('wxc-icon', {
+    }, [(_vm.collect[index]) ? _c('wxc-icon', {
       staticClass: "collected",
       attrs: {
         "size": "40",
@@ -880,5 +899,5 @@ if (false) {
 
 /***/ })
 
-},[254]);
+},[256]);
 //# sourceMappingURL=main.js.map

@@ -10,7 +10,7 @@
           <wxc-icon size="45" type="feedback" class="feedback" /> 
         </div>
         <div class="bg-right" @click="handleBg">
-          <div class="bg-item digita">320</div>
+          <div class="bg-item digita">{{confirmData}}</div>
           <div class="bg-item blogitem">待验证</div>
         </div>
       </div>
@@ -19,7 +19,7 @@
           <wxc-icon size="45" type="rate" class="rate" /> 
         </div>
         <div class="bg-right" @click="handleCb">
-          <div class="bg-item digita">120</div>
+          <div class="bg-item digita">{{vertified}}</div>
           <div class="bg-item blogitem">已验证</div>
         </div>
       </div>
@@ -28,37 +28,37 @@
           <wxc-icon size="45" type="star" class="star" /> 
         </div>
         <div class="bg-right">
-        <div class="bg-item digita">142</div>
+        <div class="bg-item digita">{{interest}}</div>
           <div class="bg-item blogitem">关注预言</div>
         </div>
       </div>
     </div>
     <div class="tbContainer">
       <div class="tr bg-t">
-        <div class="th">预测名称</div>
-        <div class="th">起止日期</div>
-        <div class="th">准确率</div>
-        <div class="th">预言家</div>
+        <div class="th th-name">预测名称</div>
+        <div class="th th-date">起止日期</div>
+        <div class="th th-rate">准确率</div>
+        <div class="th th-person">预言家</div>
       </div>
-      <div v-for="items in listData.data" :key="pl_id" class="tr bg-c" >
-        <div class="td name td-cell">
+      <div v-for="(items,index) in listData" :key="index" class="tr bg-c" >
+        <div class="td name th-name">
           {{items.name}}
         </div>
-        <div class='td'>
+        <div class='td th-date'>
           <div class="td-date">
             <div class="date">{{items.date_from}}</div>
             <div class="date">{{items.date_to}}</div>
           </div>
         </div>      
-        <div class="td td-cell">
-          {{items.access_type}}
+        <div class="td th-rate">
+          {{items.cmp_id}}
         </div>
-        <div class="td td-cell collection">
+        <div class="td th-person">
           <div class="username">
             {{items.username}}
           </div>
-          <div class="button-collection" v-on:click="onCollect(items)">
-             <wxc-icon v-if ="items.collectionstatus" size="40" type="star-active" class="collected" />
+          <div class="button-collection" v-on:click="handleCollect(items,index)">
+             <wxc-icon v-if ="collect[index]" size="40" type="star-active" class="collected" />
              <wxc-icon v-else  size="40" type="star" class="collected"></wxc-icon>
           </div>
         </div>
@@ -72,45 +72,10 @@
 
 import * as echarts from 'echarts'
 import mpvueEcharts from 'mpvue-echarts'
+import * as apiLogin from '../../components/login'
+import * as env from '../../utils/index'
 
 let chart = null
-
-var upColor = '#00da3c';
-var downColor = '#ec0000';
-
-function splitData(rawData) {
-    var categoryData = [];
-    var values = [];
-    var volumes = [];
-    for (var i = 0; i < rawData.length; i++) {
-        categoryData.push(rawData[i].splice(0, 1)[0]);
-        values.push(rawData[i]);
-        volumes.push([i, rawData[i][4], rawData[i][0] > rawData[i][1] ? -1 : 1]);
-    }
-
-    return {
-        categoryData: categoryData,
-        values: values,
-        volumes: volumes
-    };
-}
-
-function calculateMA(dayCount, data) {
-    var result = [];
-    for (var i = 0, len = data.values.length; i < len; i++) {
-        if (i < dayCount) {
-            result.push('-');
-            continue;
-        }
-        var sum = 0;
-        for (var j = 0; j < dayCount; j++) {
-            sum += data.values[i - j][1];
-        }
-        result.push(+(sum / dayCount).toFixed(3));
-    }
-    return result;
-}
-
 
 export default {
 
@@ -123,7 +88,10 @@ export default {
       listData: {},
       echarts,
       onInit: this.initChart,
-      
+      confirmData: 0,
+      vertified: 0,
+      interest: 0,
+      collect: []
     }
   },
  
@@ -138,266 +106,313 @@ export default {
         return chart
     },
 
-    loadData () {
-        let that = this;
-        wx.request({
-          url: 'https://prophets.top/asset/candle/index/000300.SH',
-          success (res) {
-            let rawData = res.data.data;
-            let data = splitData (rawData)
-            let options = {
-                  backgroundColor: '#fff',
-                  animation: false,
-                  legend: {
-                      top: 5,
-                      left: 'center',
-                      data: ['index', 'A', 'B', 'C', 'D']
-                  },
-                  axisPointer: {
-                      link: {xAxisIndex: 'all'},
-                      label: {
-                          backgroundColor: '#777'
-                      }
-                  },
-                  toolbox: {
-                      show: false
-                  },
-                  brush: {
-                      xAxisIndex: 'all',
-                      brushLink: 'all',
-                      outOfBrush: {
-                          colorAlpha: 0.1
-                      }
-                  },
-                  visualMap: {
-                      show: false,
-                      seriesIndex: 5,
-                      dimension: 2,
-                      pieces: [{
-                          value: 1,
-                          color: downColor
-                      }, {
-                          value: -1,
-                          color: upColor
-                      }]
-                  },
-                  grid: [
-                      {
-                          left: '13%',
-                          right: '8%',
-                          height: '50%',
-                          top: '16%'
-                      },
-                      {
-                          left: '13%',
-                          right: '8%',
-                          top: '65%',
-                          height: '14%'
-                      }
-                  ],
-                  xAxis: [
-                      {
-                          type: 'category',
-                          data: data.categoryData,
-                          scale: true,
-                          boundaryGap : false,
-                          axisLine: {onZero: false},
-                          splitLine: {show: false},
-                          axisTick: {show: false},
-                          axisLabel: {show: false},
-                          splitNumber: 20,
-                          min: 'dataMin',
-                          max: 'dataMax',
-                          axisPointer: {
-                              z: 100
-                          }
-                      },
-                      {
-                          type: 'category',
-                          gridIndex: 1,
-                          data: data.categoryData,
-                          scale: true,
-                          boundaryGap : false,
-                          axisLine: {onZero: false},
-                          splitNumber: 20,
-                          min: 'dataMin',
-                          max: 'dataMax'
-                      }
-                  ],
-                  yAxis: [
-                      {
-                          scale: true,
-                          splitArea: {
-                              show: true
-                          }
-                      },
-                      {
-                          scale: true,
-                          gridIndex: 1,
-                          splitNumber: 2,
-                          axisLabel: {show: false},
-                          axisLine: {show: false},
-                          axisTick: {show: false},
-                          splitLine: {show: false}
-                      }
-                  ],
-                 
-                  series: [
-                      {
-                          name: 'index',
-                          type: 'candlestick',
-                          data: data.values,
-                          itemStyle: {
-                              normal: {
-                                  color: downColor,
-                                  color0: upColor,
-                                  borderColor: null,
-                                  borderColor0: null
-                              }
-                          }
-                      },
-                      {
-                          name: 'A',
-                          type: 'line',
-                          data: calculateMA(5, data),
-                          smooth: true,
-                          lineStyle: {
-                              color: '#E866CC'
-                          }
-                      },
-                      {
-                          name: 'B',
-                          type: 'line',
-                          data: calculateMA(10, data),
-                          smooth: true,
-                          lineStyle: {
-                              color: '#9234EF'
-                          }
-                      },
-                      {
-                          name: 'C',
-                          type: 'line',
-                          data: calculateMA(20, data),
-                          smooth: true,
-                          lineStyle: {
-                              color: '#20627E'
-                          }
-                      },
-                      {
-                          name: 'D',
-                          type: 'line',
-                          data: calculateMA(30, data),
-                          smooth: true,
-                          lineStyle: {
-                              color: '#DE871E'
-                          }
-                      },
-                      {
-                          name: 'Volume',
-                          type: 'bar',
-                          xAxisIndex: 1,
-                          yAxisIndex: 1,
-                          data: data.volumes
-                      }
-                  ]
-            }
-            console.log(options.series[2].data)
-            chart.setOption(options)
+    loadEchartData () {
+      let that = this;
+      wx.request({
+        url: env.host + 'asset/candle/index/000300.SH/DOCLHV',
+        success (res) {
+          if (res.data.errcode == 41008) {
+             apiLogin.firstLogin();
+             this.loadEchartData();
           }
-        });
+          let rawData = res.data.data;
+          let data = env.splitData (rawData)
+          let options = {
+                backgroundColor: '#fff',
+                animation: false,
+                legend: {
+                    top: 5,
+                    left: 'center',
+                    data: ['index', 'A', 'B', 'C', 'D']
+                },
+                axisPointer: {
+                    link: {xAxisIndex: 'all'},
+                    label: {
+                        backgroundColor: '#777'
+                    }
+                },
+                toolbox: {
+                    show: false
+                },
+                brush: {
+                    xAxisIndex: 'all',
+                    brushLink: 'all',
+                    outOfBrush: {
+                        colorAlpha: 0.1
+                    }
+                },
+                visualMap: {
+                    show: false,
+                    seriesIndex: 5,
+                    dimension: 2,
+                    pieces: [{
+                        value: 1,
+                        color: env.downColor
+                    }, {
+                        value: -1,
+                        color: env.upColor
+                    }]
+                },
+                grid: [
+                    {
+                        left: '13%',
+                        right: '8%',
+                        height: '50%',
+                        top: '16%'
+                    },
+                    {
+                        left: '13%',
+                        right: '8%',
+                        top: '65%',
+                        height: '14%'
+                    }
+                ],
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: data.categoryData,
+                        scale: true,
+                        boundaryGap : false,
+                        axisLine: {onZero: false},
+                        splitLine: {show: false},
+                        axisTick: {show: false},
+                        axisLabel: {show: false},
+                        splitNumber: 20,
+                        min: 'dataMin',
+                        max: 'dataMax',
+                        axisPointer: {
+                            z: 100
+                        }
+                    },
+                    {
+                        type: 'category',
+                        gridIndex: 1,
+                        data: data.categoryData,
+                        scale: true,
+                        boundaryGap : false,
+                        axisLine: {onZero: false},
+                        splitNumber: 20,
+                        min: 'dataMin',
+                        max: 'dataMax'
+                    }
+                ],
+                yAxis: [
+                    {
+                        scale: true, 
+                    },
+                    {
+                        scale: true,
+                        gridIndex: 1,
+                        splitNumber: 2,
+                        axisLabel: {show: false},
+                        axisLine: {show: false},
+                        axisTick: {show: false},
+                        splitLine: {show: false}
+                    }
+                ],
+               
+                series: [
+                    {
+                        name: 'index',
+                        type: 'candlestick',
+                        data: data.values,
+                        itemStyle: {
+                            normal: {
+                                color: env.downColor,
+                                color0: env.upColor,
+                                borderColor: null,
+                                borderColor0: null
+                            }
+                        }
+                    },
+                    {
+                        name: 'A',
+                        type: 'line',
+                        data: env.calculateMA(5, data),
+                        smooth: true,
+                        lineStyle: {
+                            color: '#E866CC'
+                        }
+                    },
+                    {
+                        name: 'B',
+                        type: 'line',
+                        data: env.calculateMA(10, data),
+                        smooth: true,
+                        lineStyle: {
+                            color: '#9234EF'
+                        }
+                    },
+                    {
+                        name: 'C',
+                        type: 'line',
+                        data: env.calculateMA(20, data),
+                        smooth: true,
+                        lineStyle: {
+                            color: '#20627E'
+                        }
+                    },
+                    {
+                        name: 'D',
+                        type: 'line',
+                        data: env.calculateMA(30, data),
+                        smooth: true,
+                        lineStyle: {
+                            color: '#DE871E'
+                        }
+                    },
+                    {
+                        name: 'Volume',
+                        type: 'bar',
+                        xAxisIndex: 1,
+                        yAxisIndex: 1,
+                        data: data.volumes
+                    }
+                ]
+          }
+          chart.setOption(options)
+        }
+      });
     },
+
+    loadChartData () {
+      let that = this;
+      let token = wx.getStorageSync('token');
+      wx.request({  
+        url: env.host + 'forecast/cmp/get_list/all', 
+        //url: 'http://127.0.0.1:6060/list',
+        header: {  
+          token: token
+        },  
+        success: (res) => {  
+          if (res.data.errcode == 41008) {
+             apiLogin.firstLogin();
+             this.loadChartData();
+          }
+          that.listData = res.data.data;
+          for (let i = 0;i < that.listData.length;i++) {
+
+            while (that.collect.length < that.listData.length) {
+                that.collect.push(0)
+            }
+
+            if (that.collect.length == that.listData.length) {
+                that.collect[i] = that.listData[i].favorite
+            }
+            
+          }
+          //console.log(that.collect)
+        },  
+        fail: function () {  
+          console.log("fail")  
+        }
+      })     
+    },
+
+    loadTap () {
+      let token = wx.getStorageSync('token')
+      wx.request({  
+        url: env.host + 'forecast/cmp/summary', 
+        //url: 'http://127.0.0.1:6060/list',
+        header: {  
+          token: token
+        },  
+        method: 'GET',
+        success: (res) => { 
+          if (res.data.errcode == 41008) {
+             apiLogin.firstLogin();
+             this.loadTap();
+          }
+          this.confirmData = res.data[0].count;
+          this.vertified = res.data[1].count;
+          this.interest = res.data[2].count;
+        },  
+        fail: function () {  
+         console.log("fail")  
+        }
+      })     
+    },
+
+
     handleBg: function () {
-      wx.navigateTo({url: "/pages/chart/main"})
+      wx.navigateTo({url: "/pages/list/main"})
     },
 
     handleCb () {
       wx.navigateTo({url: "/pages/combination/main"})
     },
-   
-    onCollect: function (items) {
-      items.collectionstatus = !items.collectionstatus;
+    
+    handleCollect: function (items,index) {
+      let temp = this.collect[index];
+      temp = temp == 0 ? 1 : 0; 
+      this.$set(this.collect,index,temp);
+      wx.setStorageSync('collect',this.collect)
+      let url =  env.host + `forecast/cmp/favorite/${items.cmp_id}/${temp}`
+      let token = wx.getStorageSync('token');
+      wx.request({
+        url: url,
+        method: 'POST',
+        header: {
+          token: token
+        },
+        success: (res) => {
+          //console.log(res)
+        },
+        fail: () => {
+          console.log('request fail')
+        }
+      });
       wx.showToast({  
-        title:items.collectionstatus? "收藏成功":"收藏取消",  
+        title: this.collect[index] == 1 ? "收藏成功":"收藏取消",  
         duration: 1000,  
         icon: "sucess",  
         make: true  
-      })  
+      }) 
     },
   
-    login () {
-      let that = this;
-      let token = wx.getStorageSync('token');
-      if (token) {
-        console.log(token)
-        that.ConfirmLogin(token)
-      } else {
-          that.firstLogin()
-        } 
-    },
 
-    ConfirmLogin (token) {
+    ConfirmLogin () {
+      let loginNum = 0;
       let that = this;
+      let token = wx.getStorageSync('token')
       wx.request({
-          url: 'https://prophets.top/auth/has_login',
+          url: env.host+'auth/has_login',
           header: {
             token: token
           },
-          success () {
-            that.loadData();
+          success (res) {
+            if (res.data.message) {
+               //that.loadChartData();
+               //that.loadEchartData();
+               //that.loadTap();
+               loginNum = 0;
+            } else {
+                  console.log('login fail,Please login again')
+                  apiLogin.firstLogin();
+                  setTimeout(() => {
+                    if (loginNum++ < 5) {
+                        that.ConfirmLogin()
+                    }  
+                  },1000);
+            }
+            
+          },
+          fail: () => {
+            console.log('request fail')
           }
                 
       })
     },
 
-    firstLogin () {
-      let that = this;
-      wx.login({
-        success(res) {
-          if (res.code) {
-            //发起网络请求
-            //console.log(res.code)
-            wx.request({
-              url: 'https://prophets.top/auth/login',
-              //url: 'http://127.0.0.1:6060/wx/login',
-              data: {
-                code: res.code
-              },
-              header: { "Content-Type": "application/x-www-form-urlencoded" },
-              method: 'GET',
-              success(res) {
-                wx.setStorageSync('token',res.data.token)
-                that.login();
-              } 
-            })
-          } 
-        },
-        
-        fail(error) {
-          console.log("request fail")
-        }
-      });
-    }
+    
   },
 
   mounted () { 
-    this.login();  
-    wx.request({  
-      //url: 'https://www.prophets.top/forecast/get_cmp_data_list/all', 
-      url: 'http://127.0.0.1:6060/list',
-      header: {  
-        'content-type': 'application/json' // 默认值  
-      },  
-      method: 'GET',
-      success: (res) => {  
-        this.listData = res.data.data;
-      },  
-      fail: function () {  
-       console.log("fail")  
-      },  
-      complete: function () {  
-          
-      }
-    })   
+    this.ConfirmLogin(); 
+
+    if (wx.getStorageSync('collect')) {
+       this.collect = wx.getStorageSync('collect')
+    }
   },
 
   created() {
@@ -482,7 +497,9 @@ html,body {
 }
 .bg-item {
   height: 50%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .tr {
   display: flex;
@@ -490,18 +507,30 @@ html,body {
   height: 2em;
 }
 .th {
-  width: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.td {
-  width: 25%;
   border: 1px solid #D1B9B9;
   margin-right: -1px;
   margin-bottom: -1px;
 }
-.td-cell{
+.th-name {
+  width: 28%;
+}
+.th-date {
+  width: 22%;
+}
+.th-rate {
+  width: 20%;
+}
+.th-person {
+  width: 30%;
+  display: flex;
+}
+.td {
+  border: 1px solid #D1B9B9;
+  margin-right: -1px;
+  margin-bottom: -1px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -518,10 +547,7 @@ html,body {
   align-items: center;
 }
 .name {
-  font-size: 0.6em;
-}
-.collection {
-  display: flex;
+  font-size: 0.5em;
 }
 .username {
   width: 60%;
@@ -529,6 +555,7 @@ html,body {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 0.5em;
 }
 .button-collection {
   height: 100%;

@@ -1,13 +1,13 @@
-global.webpackJsonp([6],{
+global.webpackJsonp([7],{
 
-/***/ 215:
+/***/ 217:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App__ = __webpack_require__(216);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App__ = __webpack_require__(218);
 
 
 
@@ -21,7 +21,7 @@ app.$mount();
   // 这个字段走 app.json
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-    pages: ["pages/list/main", "pages/user/main", "pages/chart/main", "pages/combination/main", '^pages/index/main'],
+    pages: ["pages/list/main", "pages/user/main", "pages/predict/main", "pages/combination/main", "pages/createPredict/main", '^pages/index/main'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#4CACF0',
@@ -32,18 +32,18 @@ app.$mount();
       "list": [{
         "pagePath": "pages/index/main",
         "text": "首页",
-        "iconPath": "resources/images/home.png",
-        "selectedIconPath": "resources/images/home-active.png"
+        "iconPath": "static/resources/images/home.png",
+        "selectedIconPath": "static/resources/images/home-active.png"
       }, {
-        "pagePath": "pages/list/main",
+        "pagePath": "pages/predict/main",
         "text": "我的预测",
-        "iconPath": "resources/images/list.png",
-        "selectedIconPath": "resources/images/list-active.png"
+        "iconPath": "static/resources/images/list.png",
+        "selectedIconPath": "static/resources/images/list-active.png"
       }, {
         "pagePath": "pages/user/main",
         "text": "我的组合",
-        "iconPath": "resources/images/user.png",
-        "selectedIconPath": "resources/images/user-active.png"
+        "iconPath": "static/resources/images/user.png",
+        "selectedIconPath": "static/resources/images/user-active.png"
       }],
       "position": "bottom",
       "backgroundColor": "#fff",
@@ -55,17 +55,17 @@ app.$mount();
 
 /***/ }),
 
-/***/ 216:
+/***/ 218:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(219);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(221);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(217)
+  __webpack_require__(219)
 }
-var normalizeComponent = __webpack_require__(31)
+var normalizeComponent = __webpack_require__(28)
 /* script */
 
 /* template */
@@ -107,17 +107,18 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 217:
+/***/ 219:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 219:
+/***/ 221:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   created: function created() {
@@ -125,12 +126,10 @@ if (false) {(function () {
     var logs = wx.getStorageSync('logs') || [];
     logs.unshift(Date.now());
     wx.setStorageSync('logs', logs);
-
-    console.log('app created and cache logs by setStorageSync');
   }
 });
 
 /***/ })
 
-},[215]);
+},[217]);
 //# sourceMappingURL=app.js.map

@@ -1,9 +1,10 @@
 {
   "pages": [
     "pages/index/main",
-    "pages/chart/main",
     "pages/combination/main",
+    "pages/createPredict/main",
     "pages/list/main",
+    "pages/predict/main",
     "pages/user/main"
   ],
   "window": {
@@ -17,20 +18,20 @@
       {
         "pagePath": "pages/index/main",
         "text": "首页",
-        "iconPath": "resources/images/home.png",
-        "selectedIconPath": "resources/images/home-active.png"
+        "iconPath": "static/resources/images/home.png",
+        "selectedIconPath": "static/resources/images/home-active.png"
       },
       {
-        "pagePath": "pages/list/main",
+        "pagePath": "pages/predict/main",
         "text": "我的预测",
-        "iconPath": "resources/images/list.png",
-        "selectedIconPath": "resources/images/list-active.png"
+        "iconPath": "static/resources/images/list.png",
+        "selectedIconPath": "static/resources/images/list-active.png"
       },
       {
         "pagePath": "pages/user/main",
         "text": "我的组合",
-        "iconPath": "resources/images/user.png",
-        "selectedIconPath": "resources/images/user-active.png"
+        "iconPath": "static/resources/images/user.png",
+        "selectedIconPath": "static/resources/images/user-active.png"
       }
     ],
     "position": "bottom",

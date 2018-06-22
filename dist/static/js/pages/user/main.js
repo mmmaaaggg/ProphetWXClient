@@ -1,21 +1,21 @@
 global.webpackJsonp([2],{
 
-/***/ 214:
+/***/ 216:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 575:
+/***/ 582:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(576);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__static_iconfont_iconfont_css__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(583);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__static_iconfont_iconfont_css__ = __webpack_require__(216);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__static_iconfont_iconfont_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__static_iconfont_iconfont_css__);
 
 
@@ -37,18 +37,18 @@ app.$mount();
 
 /***/ }),
 
-/***/ 576:
+/***/ 583:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(578);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_88f516fe_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(579);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(585);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_88f516fe_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(586);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(577)
+  __webpack_require__(584)
 }
-var normalizeComponent = __webpack_require__(31)
+var normalizeComponent = __webpack_require__(28)
 /* script */
 
 /* template */
@@ -91,19 +91,20 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 577:
+/***/ 584:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 578:
+/***/ 585:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__static_iconfont_iconfont_css__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__static_iconfont_iconfont_css__ = __webpack_require__(216);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__static_iconfont_iconfont_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__static_iconfont_iconfont_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_index__ = __webpack_require__(121);
 //
 //
 //
@@ -251,6 +252,7 @@ if (false) {(function () {
 //
 //
 //
+
 
 
 
@@ -305,36 +307,11 @@ var options1 = {
   },
 
 
-  methods: {
-    formatTime: function formatTime(date) {
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      var day = date.getDate();
-
-      var hour = date.getHours();
-      var minute = date.getMinutes();
-      var second = date.getSeconds();
-
-      return [year, month, day].map(this.formatNumber).join('/') + ' ' + [hour, minute, second].map(this.formatNumber).join(':');
-    },
-    formatWxTime: function formatWxTime(date) {
-      var month = date.getMonth() + 1;
-      var day = date.getDate();
-
-      var hour = date.getHours();
-      var minute = date.getMinutes();
-
-      return [month, day].map(this.formatNumber).join('-') + ' ' + [hour, minute].map(this.formatNumber).join(':');
-    },
-    formatNumber: function formatNumber(n) {
-      n = n.toString();
-      return n[1] ? n : '0' + n;
-    }
-  },
+  methods: {},
 
   mounted: function mounted() {
-    var time = this.formatTime(new Date());
-    var wxtime = this.formatWxTime(new Date());
+    var time = __WEBPACK_IMPORTED_MODULE_1__utils_index__["c" /* formatTime */](new Date());
+    var wxtime = __WEBPACK_IMPORTED_MODULE_1__utils_index__["d" /* formatWxTime */](new Date());
     this.time = time;
     this.wxtime = wxtime;
   }
@@ -342,7 +319,7 @@ var options1 = {
 
 /***/ }),
 
-/***/ 579:
+/***/ 586:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -551,5 +528,5 @@ if (false) {
 
 /***/ })
 
-},[575]);
+},[582]);
 //# sourceMappingURL=main.js.map

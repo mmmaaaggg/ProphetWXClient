@@ -75,7 +75,9 @@ page {
 }
 .bg-item {
   height: 50%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .tr {
   display: flex;
@@ -83,18 +85,30 @@ page {
   height: 2em;
 }
 .th {
-  width: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.td {
-  width: 25%;
   border: 2rpx solid #D1B9B9;
   margin-right: -2rpx;
   margin-bottom: -2rpx;
 }
-.td-cell {
+.th-name {
+  width: 28%;
+}
+.th-date {
+  width: 22%;
+}
+.th-rate {
+  width: 20%;
+}
+.th-person {
+  width: 30%;
+  display: flex;
+}
+.td {
+  border: 2rpx solid #D1B9B9;
+  margin-right: -2rpx;
+  margin-bottom: -2rpx;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,10 +125,7 @@ page {
   align-items: center;
 }
 .name {
-  font-size: 0.6em;
-}
-.collection {
-  display: flex;
+  font-size: 0.5em;
 }
 .username {
   width: 60%;
@@ -122,6 +133,7 @@ page {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 0.5em;
 }
 .button-collection {
   height: 100%;

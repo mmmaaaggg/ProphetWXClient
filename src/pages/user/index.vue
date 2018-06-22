@@ -148,6 +148,7 @@
 <script>
 
 import "../../../static/iconfont/iconfont.css";
+import * as env from '../../utils/index';
 
 var options1 = {
     backgroundColor: "#ffffff",
@@ -186,9 +187,10 @@ var options1 = {
         }
       }
     }]
-  }
+}
 
-  export default {
+export default {
+
   data () {
     return {
       time: '',
@@ -201,36 +203,13 @@ var options1 = {
 
   methods: {
 
-    formatTime (date) {  
-      let year = date.getFullYear()  
-      let month = date.getMonth() + 1  
-      let day = date.getDate()  
+   
   
-      let hour = date.getHours()  
-      let minute = date.getMinutes()  
-      let second = date.getSeconds()  
-  
-      return [year, month, day].map(this.formatNumber).join('/') + ' ' + [hour, minute, second].map(this.formatNumber).join(':')  
-    }, 
-    formatWxTime (date) {   
-      let month = date.getMonth() + 1  
-      let day = date.getDate()  
-  
-      let hour = date.getHours()  
-      let minute = date.getMinutes()  
-  
-      return [month, day].map(this.formatNumber).join('-') + ' ' + [hour, minute].map(this.formatNumber).join(':')  
-    }, 
-  
-    formatNumber (n) {  
-      n = n.toString()  
-      return n[1] ? n : '0' + n  
-    } 
-},
+  },
   
   mounted () {
-    let time = this.formatTime (new Date());
-    let wxtime = this.formatWxTime (new Date());
+    let time = env.formatTime (new Date());
+    let wxtime = env.formatWxTime (new Date());
     this.time = time;
     this.wxtime = wxtime;
   }
