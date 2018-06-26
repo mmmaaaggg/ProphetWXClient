@@ -149,27 +149,27 @@
               :hidden="ishide"
             >
               <scroll-view scroll-y="true" class="scroll" >
-              <ul>
-                <li
-                  class="first-item"
-                  v-for="(item,index) in List"
-                  :key="index"
-                >       
-                  <div class="first-title item-info">{{item.text}}</div>  
-                  <ul>
-                    <li
-                      class="second-item item-info"
-                      v-for="(second,cindex) in item.children"
-                      :class="{ odd : cindex % 2 == 0 }"
-                      @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
-                      :key="cindex"
-                    >
-                      <span>{{second.text}}</span>
-                      
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+                <ul>
+                  <li
+                    class="first-item"
+                    v-for="(item,index) in List"
+                    :key="index"
+                  >       
+                    <div class="first-title item-info">{{item.text}}</div>  
+                    <ul>
+                      <li
+                        class="second-item item-info"
+                        v-for="(second,cindex) in item.children"
+                        :class="{ odd : cindex % 2 == 0 }"
+                        @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
+                        :key="cindex"
+                      >
+                        <span>{{second.text}}</span>
+                        
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
               </scroll-view>
             </div>
           </div>
@@ -359,7 +359,7 @@
       bindInput (e) {
         let that = this;
         that.inputValue = e.target.value;
-        let url = `http://10.0.3.66:8100/asset/get_list/${that.inputValue}`;
+        let url = `https://prophets.top/asset/get_list/${that.inputValue}`;
         wx.request({
           //url: 'http://127.0.0.1:6060/search',
           url: url,
@@ -646,7 +646,7 @@
      position:absolute;
      top: 0;
      left: 24vw;
-     width: 60%;
+     width: 49%;
   }
   .search-content {
     background: #FFFFFF;

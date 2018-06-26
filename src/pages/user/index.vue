@@ -380,7 +380,7 @@ export default {
   }
   .gp-name {
     font-size: 0.8em;
-    margin-left: 1vw;
+    margin-left: 2vw;
   }
   .gpxs {
     margin-right: 2vw;

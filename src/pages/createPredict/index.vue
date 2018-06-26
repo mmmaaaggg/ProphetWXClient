@@ -119,14 +119,48 @@
         <div class="combine-row" :class="{activeType: isChoose}">
           <div class="combine-item invest-name">
             <div class="item-text">投资组合1</div>
+       
             <div class="zh-input">
-              <input 
-                type="text" 
-                placeholder="投资组合" 
-                :value="combinationName"
-                placeholder-style='text-align:center'
-                @change="bindInputCBName($event)"
+              <div class="input-gp">
+                <input
+                 placeholder="投资组合"
+                 placeholder-style='text-align:center'
+                 v-model="query"
+                 :value="combinationName"
+                 @input="bindInputCBName($event)"
+                 @focus="changeItem(ishide,combinationName)"
+                 @blur="ishide = !ishide"
               />
+              </div>
+              
+              <div 
+                class="search-content"
+                :hidden="ishide"
+              >
+                <scroll-view scroll-y="true" class="scroll" >
+                  <ul>
+                    <li
+                      class="first-item"
+                      v-for="(item,index) in List"
+                      :key="index"
+                    >       
+                      <div class="first-title item-info">{{item.text}}</div>  
+                      <ul>
+                        <li
+                          class="second-item"
+                          v-for="(second,cindex) in item.children"
+                          :class="{ odd : cindex % 2 == 0 }"
+                          @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
+                          :key="cindex"
+                        >
+                          <span>{{second.text}}</span>
+                          
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </scroll-view>
+              </div>
             </div>
           </div>
           <div class="combine-item select-type">
@@ -170,13 +204,46 @@
           <div class="combine-item invest-name-mix">
             <div class="item-text">投资组合1</div>
             <div class="zh-input">
-              <input 
-                type="text" 
-                placeholder="投资组合" 
-                :value="combinationName"
-                placeholder-style='text-align:center'
-                @change="bindInputCBName($event)"
+              <div class="input-gp">
+                <input
+                 placeholder="投资组合"
+                 placeholder-style='text-align:center'
+                 v-model="query"
+                 :value="combinationName"
+                 @input="bindInputCBName($event)"
+                 @focus="changeItem(ishide,combinationName)"
+                 @blur="ishide = !ishide"
               />
+              </div>
+              
+              <div 
+                class="search-content"
+                :hidden="ishide"
+              >
+                <scroll-view scroll-y="true" class="scroll" >
+                  <ul>
+                    <li
+                      class="first-item"
+                      v-for="(item,index) in List"
+                      :key="index"
+                    >       
+                      <div class="first-title item-info">{{item.text}}</div>  
+                      <ul>
+                        <li
+                          class="second-item"
+                          v-for="(second,cindex) in item.children"
+                          :class="{ odd : cindex % 2 == 0 }"
+                          @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
+                          :key="cindex"
+                        >
+                          <span>{{second.text}}</span>
+                          
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </scroll-view>
+              </div>
             </div>
           </div>
           <div class="combine-item select-type-mix">
@@ -191,28 +258,94 @@
               </picker>
             </div>
           </div>
-          <div class="combine-item ratio" :class="{activeType: ischange1}">
+          <div class="combine-item invest-name-mix" :class="{activeType: ischange1}">
             <div class="item-text">投资组合2</div>
-            <div class="ratioInput">
-              <input 
-                type="text" 
-                placeholder="投资组合2" 
-                :value="nameValue2"
-                placeholder-style='text-align:center'
-                @change="bindInputNewName($event)"
+            <div class="zh-input">
+              <div class="input-gp">
+                <input
+                 placeholder="投资组合2"
+                 placeholder-style='text-align:center'
+                 v-model="query"
+                 :value="nameValue2"
+                 @input="bindInputNewName($event)"
+                 @focus="changeItem0(ishide0,nameValue2)"
+                 @blur="ishide0 = !ishide0"
               />
+              </div>
+              
+              <div 
+                class="search-content"
+                :hidden="ishide0"
+              >
+                <scroll-view scroll-y="true" class="scroll" >
+                  <ul>
+                    <li
+                      class="first-item"
+                      v-for="(item,index) in List"
+                      :key="index"
+                    >       
+                      <div class="first-title item-info">{{item.text}}</div>  
+                      <ul>
+                        <li
+                          class="second-item"
+                          v-for="(second,cindex) in item.children"
+                          :class="{ odd : cindex % 2 == 0 }"
+                          @click="chooseItem0(second.asset_name,item.text,second.asset_type,second.asset_code)"
+                          :key="cindex"
+                        >
+                          <span>{{second.text}}</span>
+                          
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </scroll-view>
+              </div>
             </div>
           </div>
-          <div class="combine-item ratio" :class="{activeType: ischange2}">
+          <div class="combine-item invest-name-mix" :class="{activeType: ischange2}">
             <div class="item-text">投资组合3</div>
-            <div class="ratioInput">
-              <input 
-                type="text" 
-                placeholder="投资组合3" 
-                :value="nameValue3"
-                placeholder-style='text-align:center'
-                @change="bindInputNewName1($event)"
+            <div class="zh-input">
+              <div class="input-gp">
+                <input
+                 placeholder="投资组合3"
+                 placeholder-style='text-align:center'
+                 v-model="query"
+                 :value="nameValue3"
+                 @input="bindInputNewName1($event)"
+                 @focus="changeItem1(ishide1,nameValue3)"
+                 @blur="ishide1 = !ishide1"
               />
+              </div>
+              
+              <div 
+                class="search-content"
+                :hidden="ishide1"
+              >
+                <scroll-view scroll-y="true" class="scroll" >
+                  <ul>
+                    <li
+                      class="first-item"
+                      v-for="(item,index) in List"
+                      :key="index"
+                    >       
+                      <div class="first-title item-info">{{item.text}}</div>  
+                      <ul>
+                        <li
+                          class="second-item"
+                          v-for="(second,cindex) in item.children"
+                          :class="{ odd : cindex % 2 == 0 }"
+                          @click="chooseItem1(second.asset_name,item.text,second.asset_type,second.asset_code)"
+                          :key="cindex"
+                        >
+                          <span>{{second.text}}</span>
+                          
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </scroll-view>
+              </div>
             </div>
           </div>
           </div>
@@ -267,6 +400,8 @@
         ischange1: false,
         ischange2: false,
         ishide: true,
+        ishide0: true,
+        ishide1: true,
         combinationName: '',
         nameValue0: '',
         nameValue1: '',
@@ -303,6 +438,17 @@
 
       bindInputCBName (e) {
         this.combinationName = e.target.value;
+        let url = `https://prophets.top/asset/get_list/${this.combinationName}`;
+        wx.request({
+          //url: 'http://127.0.0.1:6060/search',
+          url: url,
+          header: {  
+            'content-type': 'application/json' // 默认值  
+          },
+          success: (res) => {
+            this.List = res.data.results;
+          }
+        });
       },
 
       bindInputRatio (e) {
@@ -315,10 +461,32 @@
 
       bindInputNewName (e) {
         this.nameValue2 = e.target.value;
+        let url = `https://prophets.top/asset/get_list/${this.nameValue2}`;
+        wx.request({
+          //url: 'http://127.0.0.1:6060/search',
+          url: url,
+          header: {  
+            'content-type': 'application/json' // 默认值  
+          },
+          success: (res) => {
+            this.List = res.data.results;
+          }
+        });
       },
 
       bindInputNewName1 (e) {
         this.nameValue3 = e.target.value;
+        let url = `https://prophets.top/asset/get_list/${this.nameValue3}`;
+        wx.request({
+          //url: 'http://127.0.0.1:6060/search',
+          url: url,
+          header: {  
+            'content-type': 'application/json' // 默认值  
+          },
+          success: (res) => {
+            this.List = res.data.results;
+          }
+        });
       },
       
       switchChange (e) {
@@ -497,17 +665,32 @@
       },
 
       chooseItem (name,category,type,code) {
-        this.inputValue = name;
+        this.combinationName = name;
         this.category = category;
         this.type = type;
         this.code = code;
       },
-
-      changeItem (ishide) {
-         let that = this;
-         that.ishide = !ishide; 
+      chooseItem0 (name,category,type,code) {
+        this.nameValue2 = name;
+        this.category = category;
+        this.type = type;
+        this.code = code;
       },
-
+       chooseItem1 (name,category,type,code) {
+        this.nameValue3 = name;
+        this.category = category;
+        this.type = type;
+        this.code = code;
+      },
+      changeItem (ishide) {
+         this.ishide = !ishide; 
+      },
+      changeItem0 (ishide) {
+         this.ishide0 = !ishide; 
+      },
+      changeItem1 (ishide) {
+         this.ishide1 = !ishide; 
+      },
       dateChange (e) {
         this.date = e.target.value;
       },
@@ -525,6 +708,7 @@
             this.isSelected = false;
             this.isChoose = true;
             this.showTimePicker = false;
+            this.combinationName = '';
 
             this.ischange0 = false;
             this.ischange = false;
@@ -535,6 +719,7 @@
               this.isSelected = true;
               this.isChoose = false; 
               this.showTimePicker = true;
+              this.combinationName = '';
 
               this.ischange0 = false;
               this.ischange = false;
@@ -719,13 +904,13 @@
     position: relative;
   }
   .select-type {
-    width: 18%;
+    width: 12%;
   }
   .select-type-mix {
     width: 12%;
   }
   .invest-name {
-    width: 30%;
+    width: 36%;
   }
   .invest-name-mix {
     width: 25%;
@@ -736,6 +921,33 @@
   .zh-input,.ratioInput {
     width: 100%;
     border: 1px solid #A68585;
+  }
+  .search-content {
+    background: #F9A9A9;
+    width: 100%;
+    height: 20vh;
+    position: relative;
+  }
+  .first-item {
+    text-align: center;
+    position: relative;
+  }
+  .first-title {
+    font-weight: bold;
+    background: #F37878;
+  }
+  .first-item>ul {
+    top: 20px;
+  }
+  .second-item {
+    height: 4vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.6em;
+  }
+  .odd {
+    background: #90BCD8;
   }
   .item-text {
     text-align: center;
@@ -758,25 +970,26 @@
     justify-content: center;
     align-items: center;
   }
-  .activeType {
+  .activeType,.hidden {
     display: none;
   }
   .button {
     display: flex;
     position: absolute;
     right: 5vw;
-    top: 3vh;
+    top: 20vh;
   }
   .submit {
     margin-right: 3vw;
   }
   .btn {
-    width: 14vw;
-    height: 7vw;
+    width: 18vw;
+    height: 9vw;
+    opacity: 0.5;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #EBEEB0;
+    border: 1px solid #82F73F;
     border-radius: 6px;
   }
   .btn:active {
