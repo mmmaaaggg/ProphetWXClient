@@ -113,7 +113,7 @@ export default {
         success (res) {
           if (res.data.errcode == 41008) {
              apiLogin.firstLogin();
-             this.loadEchartData();
+             that.loadEchartData();
           }
           let rawData = res.data.data;
           let data = env.splitData (rawData)

@@ -3,25 +3,30 @@
     <scroll-view scroll-y="true" class="_scroll-view data-v-88f516fe scroll">
       <view class="_div data-v-88f516fe hd">
         <view class="_div data-v-88f516fe hdfst">
-          <label class="_span data-v-88f516fe">关注人数：4</label>
-          <label class="_span data-v-88f516fe">创建于2018.05.16</label>
+          <label class="_span data-v-88f516fe followers">
+            <label class="_span data-v-88f516fe follow-text">4</label>人关注 </label>
+          <label class="_span data-v-88f516fe founded">
+            <label class="_span data-v-88f516fe founded-text">创建于</label>
+            <label class="_span data-v-88f516fe found-date">2018.05.16</label>
+          </label>
         </view>
         <view class="_div data-v-88f516fe hdscnd">
+          <label class="_span data-v-88f516fe total-text">总收益</label>
+          <label class="_span data-v-88f516fe total-digital">2.44</label>% </view>
+        <view class="_div data-v-88f516fe hdtrd">
           <view class="_div data-v-88f516fe hdwk">
-            <view class="_div data-v-88f516fe">日</view>
+            <view class="_div data-v-88f516fe wk-text">日</view>
             <view class="_div data-v-88f516fe hdsz">0.00%</view>
           </view>
           <view class="_div data-v-88f516fe hdmnt">
-            <view class="_div data-v-88f516fe">月</view>
+            <view class="_div data-v-88f516fe wk-text">月</view>
             <view class="_div data-v-88f516fe hdsz">2.44%</view>
           </view>
           <view class="_div data-v-88f516fe hdjz">
-            <view class="_div data-v-88f516fe">净值</view>
+            <view class="_div data-v-88f516fe wk-text">净值</view>
             <view class="_div data-v-88f516fe hdsz">1.0245</view>
           </view>
         </view>
-        <view class="_div data-v-88f516fe hdtrd">
-          <label class="_span data-v-88f516fe">2.44</label>%总收益 </view>
       </view>
       <view class="_div data-v-88f516fe data">
         <view class="_div data-v-88f516fe dtshow">
@@ -38,12 +43,9 @@
           </view>
         </view>
         <view class="_div data-v-88f516fe dtjs">
-          <view class="_div data-v-88f516fe dtjsr">
-            <view class="_div data-v-88f516fe gpmz">医药强势组合</view>
-            <view class="_div data-v-88f516fe By">By</view>
-            <view class="_div data-v-88f516fe ycr">王博士</view>
+          <view class="_div data-v-88f516fe avatar">
+            <open-data type="userAvatarUrl" class="_open-data data-v-88f516fe"></open-data>
           </view>
-          <view class="_div data-v-88f516fe detail">寻找有效投资组合</view>
         </view>
       </view>
       <view class="_div data-v-88f516fe gpdc">
@@ -55,19 +57,16 @@
           <view class="_div data-v-88f516fe gpmore">更多>></view>
         </view>
         <view class="_div data-v-88f516fe gpItemContainer">
-          <view class="_div data-v-88f516fe gpItem">
+          <view class="_div data-v-88f516fe gpItem" wx:key="index" key="{{index}}" wx:for="{{list}}" wx:for-index="index" wx:for-item="items">
             <view class="_div data-v-88f516fe gp-name">
-              <view class="_div data-v-88f516fe gpjtmz">山西汾酒</view>
-              <view class="_div data-v-88f516fe gp-code">SH600809</view>
+              <view class="_div data-v-88f516fe gpjtmz">{{items.asset_name}}</view>
+              <view class="_div data-v-88f516fe gp-code">{{items.asset_code}}</view>
             </view>
-            <view class="_div data-v-88f516fe gpxs">4.96%</view>
-          </view>
-          <view class="_div data-v-88f516fe gpItem">
-            <view class="_div data-v-88f516fe gp-name">
-              <view class="_div data-v-88f516fe gpjtmz">山西汾酒</view>
-              <view class="_div data-v-88f516fe gp-code">SH600809</view>
+            <view class="_div data-v-88f516fe gpxs">
+              <label class="_span data-v-88f516fe weight-before">{{items.weight_before}}%</label>
+              <label class="_span data-v-88f516fe weight-code">-></label>
+              <label class="_span data-v-88f516fe weight">{{arrayList[index]}}%</label>
             </view>
-            <view class="_div data-v-88f516fe gpxs">4.96%</view>
           </view>
           <view class="_div data-v-88f516fe zcpz">资产配置</view>
         </view>

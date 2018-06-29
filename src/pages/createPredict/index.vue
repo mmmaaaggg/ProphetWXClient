@@ -35,7 +35,6 @@
               type="text" 
               placeholder="name"
               :value="inputName" 
-              placeholder-style='margin-left:3px'
               @change="bindInputName($event)"
             />
           </div>
@@ -356,7 +355,7 @@
             class="btn submit"
             @click="submitItem"
           >
-            提交
+            创建
           </div>
           <div 
             class="btn reset"
@@ -734,22 +733,17 @@
       },
       typeChange (e) {
         this.index1 = e.target.value;
-        if (this.typeList[this.index1] == "强于") {
-            this.ischange0 = true;
+        if (this.typeList[this.index1] == "介于") {
+            this.ischange0 = false;
             this.ischange = false;
-            this.ischange1 = true;
+            this.ischange1 = false;
             this.ischange2 = false;
-        } else if (this.typeList[this.index1] == "介于") {
-              this.ischange0 = false;
+        } else {
+              this.ischange0 = true;
               this.ischange = false;
               this.ischange1 = false;
-              this.ischange2 = false;
-        } else {
-              this.ischange = true;
-              this.ischange0 = false;
-              this.ischange1 = false;
-              this.ischange2 = true;
-        }
+              this.ischange2 = true; 
+        } 
       },
       selectItem (item) {
         this.selected = item;
@@ -764,6 +758,11 @@
   	width: 100%;
   	height: 100%;
   }
+  .input>input {
+    padding-left: 20rpx;
+    padding-top: 4rpx;
+    padding-bottom: 6rpx;
+  }
   .scroll {
     position: absolute;
     top: 0;
@@ -773,14 +772,16 @@
   .container {
   	width: 100%;
   	height: 100%;
-    background: #F0E7E7;
+    background: #E9EBEC;
   }
   .jbxx {
     width: 100%;
     height: 7vh;
     display: flex;
+    background: #FFFFFF;
     align-items: center;
     border-bottom: 1px solid #CAC1C1;
+    margin-bottom: 1vh;
   }
   .left-tab {
     position: absolute;
@@ -794,37 +795,40 @@
     position: absolute;
     right: 3vw;
     height: 5vh;
-
   }
   .select-item {
     width: 20vw;
     text-align: center;
     font-size: 0.8em;
-    border: 1px solid #2E73E1;
+    border: 1px solid #ACA4AB;
     margin-right: -1px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 4px;
   }
   .active {
-    background: #2E73E1;
+    background: #3D7AC2;
+    color: #FFFFFF;
   }
   .cjzh {
     width: 100%;
     font-size: 16px;
-    border-bottom: 2px solid #CAC1C1;
+    background: #FFFFFF;
   }
   .single-input,.switch-input {
     display: flex;
   }
   .single-input {
-    height: 6vh;
+    height: 8vh;
     width: 100%;
     align-items: center;
   }
   .zh-name,.zh-mode,.secret {
     text-align: center;
     margin-left: 2vw;
+    font-weight: bold;
+    font-size: 0.8em;
   }
   .input {
     width: 70vw;
@@ -835,16 +839,18 @@
     width: 100%;
     display: flex;
     height: 13vh;
-    margin-top: 1vh;
   }
   .switch-input {
     margin-top: 1vh;
     height: 7vh;
     align-items: center;
     margin-bottom: 1vh;
+    padding-bottom: 10rpx;
   }
   textarea {
-    padding: 3px;
+    padding-left: 19rpx;
+    padding-top: 3px;
+    padding-bottom: 3px;
   }
   switch {
     margin-left: 4vw;
@@ -863,7 +869,7 @@
     display: flex;
     height: 5vh;
     align-items: center;
-    padding-bottom: 1vh;
+    padding-bottom: 20rpx;
   }
   .predict-type {
     display: flex;
@@ -887,6 +893,10 @@
     display: flex;
     align-items: center;
   }
+  .trans-time,.type-text,.mid-text {
+    font-weight: bold;
+    font-size: 0.8em;
+  }
   .trans-time,.type-text {
     margin-left: 2vw;
   }
@@ -898,6 +908,7 @@
     display: flex;
     justify-content: space-around;
     width: 100%;
+    padding-bottom: 8rpx;
   }
   .combine-item {
     height: 11vh;
@@ -950,9 +961,15 @@
     background: #90BCD8;
   }
   .item-text {
+    font-weight: bold;
+    font-size: 0.8em;
     text-align: center;
     padding-top: 18rpx;
     padding-bottom: 14rpx;
+
+  }
+  .input-gp,.ratioInput {
+    text-align: center;
   }
   .combination,.btnContainer {
     width: 100%;
@@ -964,8 +981,8 @@
     border: 1px solid #A68585;
     width: 100%;
     position: absolute;
-    bottom: 1px;
-    height: 5vh;
+    bottom: 12rpx;
+    height: 4.5vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -985,11 +1002,12 @@
   .btn {
     width: 18vw;
     height: 9vw;
-    opacity: 0.5;
     display: flex;
+    color: #4496F7;
+    background: #FFFFFF;
     justify-content: center;
     align-items: center;
-    border: 1px solid #82F73F;
+    border: 1px solid #ACA4AB;
     border-radius: 6px;
   }
   .btn:active {

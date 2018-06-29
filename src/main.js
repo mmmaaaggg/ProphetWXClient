@@ -17,6 +17,7 @@ export default {
       "pages/predict/main",
       "pages/combination/main",
       "pages/createPredict/main",
+      "pages/combinelist/main",
       '^pages/index/main'
     ],
     window: {
@@ -40,7 +41,7 @@ export default {
         "selectedIconPath": "static/resources/images/list-active.png"
       },
       {
-        "pagePath": "pages/user/main",
+        "pagePath": "pages/combinelist/main",
         "text": "我的组合",
         "iconPath": "static/resources/images/user.png",
         "selectedIconPath": "static/resources/images/user-active.png"

@@ -3,26 +3,31 @@
   	 <scroll-view scroll-y="true" class="scroll">
        <div class="hd">
          <div class="hdfst">
-           <span>关注人数：4</span>  
-           <span>创建于2018.05.16</span>
+           <span class="followers"> 
+             <span class="follow-text">4</span>人关注
+           </span>  
+           <span class="founded">
+             <span class="founded-text">创建于</span> 
+             <span class="found-date">2018.05.16</span> 
+           </span>
          </div>
          <div class="hdscnd">
+           <span class="total-text">总收益</span><span class="total-digital">2.44</span>%
+         </div>
+         <div class="hdtrd">
            <div class="hdwk">
-             <div>日</div>
+             <div class="wk-text">日</div>
              <div class="hdsz">0.00%</div>
            </div>
            <div class="hdmnt">
-             <div>月</div>
+             <div class="wk-text">月</div>
              <div class="hdsz">2.44%</div> 
            </div>
            <div class="hdjz">
-             <div>净值</div>
+             <div class="wk-text">净值</div>
              <div class="hdsz">1.0245</div>
            </div>
-         </div>
-         <div class="hdtrd">
-           <span>2.44</span>%总收益
-         </div>
+         </div>  
        </div>
        <div class="data">
          <div class="dtshow">
@@ -36,12 +41,9 @@
            </div>
          </div>
          <div class="dtjs">
-          <div class="dtjsr">
-            <div class="gpmz">医药强势组合</div>
-            <div class="By">By</div>
-            <div class="ycr">王博士</div>
-          </div>
-          <div class="detail">寻找有效投资组合</div>
+           <div class="avatar">
+             <open-data type="userAvatarUrl"></open-data>
+           </div>
          </div>
        </div>
        <div class="gpdc">
@@ -50,19 +52,16 @@
            <div class="gpmore">更多>></div>
          </div>
          <div class="gpItemContainer">
-           <div class="gpItem">
+           <div class="gpItem" v-for="(items,index) in list" :key="index">
              <div class="gp-name">
-               <div class="gpjtmz">山西汾酒</div>
-               <div class="gp-code">SH600809</div>
+               <div class="gpjtmz">{{items.asset_name}}</div>
+               <div class="gp-code">{{items.asset_code}}</div>
              </div>
-             <div class="gpxs">4.96%</div>
-           </div>
-           <div class="gpItem">
-             <div class="gp-name">
-               <div class="gpjtmz">山西汾酒</div>
-               <div class="gp-code">SH600809</div>
+             <div class="gpxs">
+               <span class="weight-before">{{items.weight_before}}%</span>
+               <span class="weight-code">-></span>
+               <span class="weight">{{arrayList[index]}}%</span>
              </div>
-             <div class="gpxs">4.96%</div>
            </div>
            <div class="zcpz">资产配置</div>
          </div>
@@ -149,6 +148,7 @@
 
 import "../../../static/iconfont/iconfont.css";
 import * as env from '../../utils/index';
+import * as apiLogin from '../../components/login'
 
 var options1 = {
     backgroundColor: "#ffffff",
@@ -195,6 +195,9 @@ export default {
     return {
       time: '',
       wxtime:'',
+      list: '',
+      curId: '',
+      arrayList: [],
       ec1: {
         options: options1
       }
@@ -203,15 +206,51 @@ export default {
 
   methods: {
 
+    splitData () {
+      let wxtime = env.formatWxTime (new Date());
+      this.wxtime = wxtime;
+
+      let query = JSON.parse(this.$root.$mp.query.detail)
+      let curId = query.itemId
+      let navTitle = query.itemName
+      this.curId = curId
+      wx.setNavigationBarTitle({
+        title: navTitle
+      })
+
+    },
+
+    loadData () {
+      let token = wx.getStorageSync('token');
+      wx.request({
+        url: env.host + `forecast/pl/get_data_list/${this.curId}/latest`,
+        header: {
+          token: token
+        },
+        success: (res) => {
+          if (res.data.errcode == 41008) {
+             apiLogin.firstLogin();
+          } else {
+                if (res.data.count) {
+                     this.list = res.data.data[0].data;
+                     this.time = res.data.data[0].trade_date;
+                     for (let i = 0; i < this.list.length; i++) {
+                         this.arrayList[i] = (this.list[i].weight * 100).toFixed(2);
+                     }
+                }
+             
+          }
+        }
+      });
+
+    }
    
   
   },
   
   mounted () {
-    let time = env.formatTime (new Date());
-    let wxtime = env.formatWxTime (new Date());
-    this.time = time;
-    this.wxtime = wxtime;
+    this.splitData()
+    this.loadData();
   }
 }
 </script>
@@ -247,15 +286,15 @@ export default {
     width: 100%;
     height: 25vh;
     background: #78A0ED;
+    border-top: 1rpx solid #FFFFFF;
     color: #FFFFFF;
     font-size: 0.8em;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
-  .hdscnd {
+  .hdtrd {
     display: flex;
-    margin-top: 1vh;
   }
   .hdwk,.hdmnt,.hdjz {
     width: 20%;
@@ -265,30 +304,36 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
+  .wk-text,.total-text,.founded-text,.dtmnt,.dtsy {
+    color: #E0E0E0;
+  }
   .hdwk,.hdmnt {
     border-right: 1px solid #D69EDD;
   }
-  .hdtrd {
+  .hdtrd,.hdscnd {
     margin-top: 1vh;
   }
-  .hdtrd>span {
-    font-size: 1.8em;
-    margin-right: 1vw;
+  .total-text,.founded,.found-date {
     margin-left: 2vw;
   }
-  .hdfst>span {
-    margin-right: 1vw;
+  .total-digital {
     margin-left: 2vw;
+    font-size: 2em;
+  }
+  .followers {
+    right: 5vw;
+    position: absolute;
+    font-size: 0.8em;
   }
   .data {
     width: 100%;
     font-size: 0.8em;
-    background: #FFFFFF;
+    background-image: linear-gradient(to top , #78A0ED 70%, #fff);
   }
   .dtshow {
     display: flex;
     text-align: center;
-    height: 185rpx;
+    height: 160rpx;
     align-items: center;
   }
   .dtsy {
@@ -301,43 +346,12 @@ export default {
   .dtmnt,.dtsy {
     display: flex;
     flex-direction: column;
-  
   }
   .dtsz>span {
     font-size: 1.8em;
-    color: #78A0ED;
+    color: #fff;
     margin-left: 2vw;
     margin-right: 1vw;
-  }
-  .dtjs {
-    border-bottom: 2px solid #D0DBF2;
-    border-top: 1px solid #C0AFAF;
-  }
-  .dtjsr {
-    width: 100%;
-    margin-top: 2vh;
-    position: relative;
-    display: flex;
-    font-size: 1.4em;
-    color: #605353;
-  }
-  .gpmz,.ycr {
-    border-bottom: 1vh solid #78A0ED;
-    margin-left: 2vw;
-  }
-  .By {
-    position: absolute;
-    right: 25vw;
-    margin-right: 3vw;
-  }
-  .ycr {
-    position: absolute;
-    right: 5vw;
-  }
-  .detail {
-    width: 96%;
-    height: 10vh;
-    margin: 2vh 2vw 1vh 2vw;
   }
   .gpdc {
     width: 100%;
@@ -348,17 +362,20 @@ export default {
   .gpbt {
     height: 8vh;
     position: relative;
+    border-bottom: 1px solid #CBCBCB;
   }
   .gpsubt {
     font-family: "微软雅黑";
     font-weight:bold;
     height: 100%;
+    font-size: 0.8em;
     margin-left: 2vw;
     display: flex;
     align-items: center;
   }
   .gp-time {
     font-size: 0.8em;
+    margin-left: 1vw;
     color: #958B8B;
   }
   .time {
@@ -371,7 +388,7 @@ export default {
     position: absolute;
   }
   .gpItem {
-    border-top: 1px solid #D0DBF2;
+    border-bottom: 1px solid #CBCBCB;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -382,7 +399,16 @@ export default {
     font-size: 0.8em;
     margin-left: 2vw;
   }
+  .gp-code {
+    font-size: 0.7em;
+    color: #B6AEAE;
+  }
+  .weight-code {
+    margin-left: 2vw;
+    margin-right: 2vw;
+  }
   .gpxs {
+    font-size: 0.8em;
     margin-right: 2vw;
   }
   .zcpz {
@@ -435,6 +461,7 @@ export default {
     width: 34.32px;
     height: 35.36px;
     margin-left: 3vw;
+    border-radius: 50%;
   }
   .nickname {
     margin-left: 2vh;

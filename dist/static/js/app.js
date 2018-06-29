@@ -1,11 +1,11 @@
-global.webpackJsonp([7],{
+global.webpackJsonp([8],{
 
 /***/ 217:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App__ = __webpack_require__(218);
 
@@ -21,7 +21,7 @@ app.$mount();
   // 这个字段走 app.json
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-    pages: ["pages/list/main", "pages/user/main", "pages/predict/main", "pages/combination/main", "pages/createPredict/main", '^pages/index/main'],
+    pages: ["pages/list/main", "pages/user/main", "pages/predict/main", "pages/combination/main", "pages/createPredict/main", "pages/combinelist/main", '^pages/index/main'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#4CACF0',
@@ -40,7 +40,7 @@ app.$mount();
         "iconPath": "static/resources/images/list.png",
         "selectedIconPath": "static/resources/images/list-active.png"
       }, {
-        "pagePath": "pages/user/main",
+        "pagePath": "pages/combinelist/main",
         "text": "我的组合",
         "iconPath": "static/resources/images/user.png",
         "selectedIconPath": "static/resources/images/user-active.png"
@@ -65,7 +65,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(219)
 }
-var normalizeComponent = __webpack_require__(28)
+var normalizeComponent = __webpack_require__(22)
 /* script */
 
 /* template */

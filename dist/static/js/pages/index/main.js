@@ -1,13 +1,13 @@
 global.webpackJsonp([1],{
 
-/***/ 256:
+/***/ 261:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(257);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(262);
 
 
 
@@ -25,18 +25,18 @@ app.$mount();
 
 /***/ }),
 
-/***/ 257:
+/***/ 262:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(259);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(571);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_90a90d1c_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(576);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(258)
+  __webpack_require__(263)
 }
-var normalizeComponent = __webpack_require__(28)
+var normalizeComponent = __webpack_require__(22)
 /* script */
 
 /* template */
@@ -79,22 +79,22 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 258:
+/***/ 263:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 259:
+/***/ 264:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_echarts__ = __webpack_require__(260);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_echarts__ = __webpack_require__(265);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_echarts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_echarts__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mpvue_echarts__ = __webpack_require__(559);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_login__ = __webpack_require__(215);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_index__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_mpvue_echarts__ = __webpack_require__(564);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_login__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_index__ = __webpack_require__(72);
 //
 //
 //
@@ -205,14 +205,14 @@ var chart = null;
         loadEchartData: function loadEchartData() {
             var that = this;
             wx.request({
-                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + 'asset/candle/index/000300.SH/DOCLHV',
+                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["d" /* host */] + 'asset/candle/index/000300.SH/DOCLHV',
                 success: function success(res) {
                     if (res.data.errcode == 41008) {
                         __WEBPACK_IMPORTED_MODULE_2__components_login__["a" /* firstLogin */]();
-                        this.loadEchartData();
+                        that.loadEchartData();
                     }
                     var rawData = res.data.data;
-                    var data = __WEBPACK_IMPORTED_MODULE_3__utils_index__["f" /* splitData */](rawData);
+                    var data = __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* splitData */](rawData);
                     var options = {
                         backgroundColor: '#fff',
                         animation: false,
@@ -246,7 +246,7 @@ var chart = null;
                                 color: __WEBPACK_IMPORTED_MODULE_3__utils_index__["b" /* downColor */]
                             }, {
                                 value: -1,
-                                color: __WEBPACK_IMPORTED_MODULE_3__utils_index__["g" /* upColor */]
+                                color: __WEBPACK_IMPORTED_MODULE_3__utils_index__["f" /* upColor */]
                             }]
                         },
                         grid: [{
@@ -305,7 +305,7 @@ var chart = null;
                             itemStyle: {
                                 normal: {
                                     color: __WEBPACK_IMPORTED_MODULE_3__utils_index__["b" /* downColor */],
-                                    color0: __WEBPACK_IMPORTED_MODULE_3__utils_index__["g" /* upColor */],
+                                    color0: __WEBPACK_IMPORTED_MODULE_3__utils_index__["f" /* upColor */],
                                     borderColor: null,
                                     borderColor0: null
                                 }
@@ -360,7 +360,7 @@ var chart = null;
             var that = this;
             var token = wx.getStorageSync('token');
             wx.request({
-                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + 'forecast/cmp/get_list/all',
+                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["d" /* host */] + 'forecast/cmp/get_list/all',
                 //url: 'http://127.0.0.1:6060/list',
                 header: {
                     token: token
@@ -393,7 +393,7 @@ var chart = null;
 
             var token = wx.getStorageSync('token');
             wx.request({
-                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + 'forecast/cmp/summary',
+                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["d" /* host */] + 'forecast/cmp/summary',
                 //url: 'http://127.0.0.1:6060/list',
                 header: {
                     token: token
@@ -429,7 +429,7 @@ var chart = null;
             temp = temp == 0 ? 1 : 0;
             this.$set(this.collect, index, temp);
             wx.setStorageSync('collect', this.collect);
-            var url = __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + ('forecast/cmp/favorite/' + items.cmp_id + '/' + temp);
+            var url = __WEBPACK_IMPORTED_MODULE_3__utils_index__["d" /* host */] + ('forecast/cmp/favorite/' + items.cmp_id + '/' + temp);
             var token = wx.getStorageSync('token');
             wx.request({
                 url: url,
@@ -457,7 +457,7 @@ var chart = null;
             var that = this;
             var token = wx.getStorageSync('token');
             wx.request({
-                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["e" /* host */] + 'auth/has_login',
+                url: __WEBPACK_IMPORTED_MODULE_3__utils_index__["d" /* host */] + 'auth/has_login',
                 header: {
                     token: token
                 },
@@ -498,18 +498,18 @@ var chart = null;
 
 /***/ }),
 
-/***/ 559:
+/***/ 564:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_mpvue_loader_lib_selector_type_script_index_0_echarts_vue__ = __webpack_require__(561);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mpvue_loader_lib_template_compiler_index_id_data_v_39210b28_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_mpvue_loader_lib_selector_type_template_index_0_echarts_vue__ = __webpack_require__(570);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_mpvue_loader_lib_selector_type_script_index_0_echarts_vue__ = __webpack_require__(566);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mpvue_loader_lib_template_compiler_index_id_data_v_39210b28_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_mpvue_loader_lib_selector_type_template_index_0_echarts_vue__ = __webpack_require__(575);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(560)
+  __webpack_require__(565)
 }
-var normalizeComponent = __webpack_require__(28)
+var normalizeComponent = __webpack_require__(22)
 /* script */
 
 /* template */
@@ -552,20 +552,20 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 560:
+/***/ 565:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 561:
+/***/ 566:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(562);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(567);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wx_canvas__ = __webpack_require__(569);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__wx_canvas__ = __webpack_require__(574);
 
 //
 //
@@ -710,7 +710,7 @@ var ctx = void 0;
 
 /***/ }),
 
-/***/ 570:
+/***/ 575:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -742,7 +742,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 571:
+/***/ 576:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -899,5 +899,5 @@ if (false) {
 
 /***/ })
 
-},[256]);
+},[261]);
 //# sourceMappingURL=main.js.map

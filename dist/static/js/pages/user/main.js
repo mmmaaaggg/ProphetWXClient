@@ -7,14 +7,14 @@ global.webpackJsonp([2],{
 
 /***/ }),
 
-/***/ 582:
+/***/ 587:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(583);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(588);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__static_iconfont_iconfont_css__ = __webpack_require__(216);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__static_iconfont_iconfont_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__static_iconfont_iconfont_css__);
 
@@ -27,8 +27,8 @@ app.$mount();
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	config: {
-		"navigationBarBackgroundColor": "#ffffff",
-		"navigationBarTitleText": "我的组合",
+		"navigationBarBackgroundColor": "#78A0ED",
+		"navigationBarTextStyle": "#fff",
 		usingComponents: {
 			'ec-canvas': '../../../static/ec-canvas/ec-canvas'
 		}
@@ -37,18 +37,18 @@ app.$mount();
 
 /***/ }),
 
-/***/ 583:
+/***/ 588:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(585);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_88f516fe_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(586);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(590);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_88f516fe_hasScoped_false_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(591);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(584)
+  __webpack_require__(589)
 }
-var normalizeComponent = __webpack_require__(28)
+var normalizeComponent = __webpack_require__(22)
 /* script */
 
 /* template */
@@ -91,20 +91,21 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 584:
+/***/ 589:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 585:
+/***/ 590:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__static_iconfont_iconfont_css__ = __webpack_require__(216);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__static_iconfont_iconfont_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__static_iconfont_iconfont_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_index__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_index__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_login__ = __webpack_require__(71);
 //
 //
 //
@@ -251,7 +252,7 @@ if (false) {(function () {
 //
 //
 //
-//
+
 
 
 
@@ -300,6 +301,9 @@ var options1 = {
     return {
       time: '',
       wxtime: '',
+      list: '',
+      curId: '',
+      arrayList: [],
       ec1: {
         options: options1
       }
@@ -307,19 +311,54 @@ var options1 = {
   },
 
 
-  methods: {},
+  methods: {
+    splitData: function splitData() {
+      var wxtime = __WEBPACK_IMPORTED_MODULE_1__utils_index__["c" /* formatWxTime */](new Date());
+      this.wxtime = wxtime;
+
+      var query = JSON.parse(this.$root.$mp.query.detail);
+      var curId = query.itemId;
+      var navTitle = query.itemName;
+      this.curId = curId;
+      wx.setNavigationBarTitle({
+        title: navTitle
+      });
+    },
+    loadData: function loadData() {
+      var _this = this;
+
+      var token = wx.getStorageSync('token');
+      wx.request({
+        url: __WEBPACK_IMPORTED_MODULE_1__utils_index__["d" /* host */] + ('forecast/pl/get_data_list/' + this.curId + '/latest'),
+        header: {
+          token: token
+        },
+        success: function success(res) {
+          if (res.data.errcode == 41008) {
+            __WEBPACK_IMPORTED_MODULE_2__components_login__["a" /* firstLogin */]();
+          } else {
+            if (res.data.count) {
+              _this.list = res.data.data[0].data;
+              _this.time = res.data.data[0].trade_date;
+              for (var i = 0; i < _this.list.length; i++) {
+                _this.arrayList[i] = (_this.list[i].weight * 100).toFixed(2);
+              }
+            }
+          }
+        }
+      });
+    }
+  },
 
   mounted: function mounted() {
-    var time = __WEBPACK_IMPORTED_MODULE_1__utils_index__["c" /* formatTime */](new Date());
-    var wxtime = __WEBPACK_IMPORTED_MODULE_1__utils_index__["d" /* formatWxTime */](new Date());
-    this.time = time;
-    this.wxtime = wxtime;
+    this.splitData();
+    this.loadData();
   }
 });
 
 /***/ }),
 
-/***/ 586:
+/***/ 591:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -335,23 +374,43 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "hd"
   }, [_c('div', {
     staticClass: "hdfst"
-  }, [_c('span', [_vm._v("关注人数：4")]), _vm._v(" "), _c('span', [_vm._v("创建于2018.05.16")])]), _vm._v(" "), _c('div', {
+  }, [_c('span', {
+    staticClass: "followers"
+  }, [_c('span', {
+    staticClass: "follow-text"
+  }, [_vm._v("4")]), _vm._v("人关注\n         ")]), _vm._v(" "), _c('span', {
+    staticClass: "founded"
+  }, [_c('span', {
+    staticClass: "founded-text"
+  }, [_vm._v("创建于")]), _vm._v(" "), _c('span', {
+    staticClass: "found-date"
+  }, [_vm._v("2018.05.16")])])]), _vm._v(" "), _c('div', {
     staticClass: "hdscnd"
+  }, [_c('span', {
+    staticClass: "total-text"
+  }, [_vm._v("总收益")]), _c('span', {
+    staticClass: "total-digital"
+  }, [_vm._v("2.44")]), _vm._v("%\n       ")]), _vm._v(" "), _c('div', {
+    staticClass: "hdtrd"
   }, [_c('div', {
     staticClass: "hdwk"
-  }, [_c('div', [_vm._v("日")]), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "wk-text"
+  }, [_vm._v("日")]), _vm._v(" "), _c('div', {
     staticClass: "hdsz"
   }, [_vm._v("0.00%")])]), _vm._v(" "), _c('div', {
     staticClass: "hdmnt"
-  }, [_c('div', [_vm._v("月")]), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "wk-text"
+  }, [_vm._v("月")]), _vm._v(" "), _c('div', {
     staticClass: "hdsz"
   }, [_vm._v("2.44%")])]), _vm._v(" "), _c('div', {
     staticClass: "hdjz"
-  }, [_c('div', [_vm._v("净值")]), _vm._v(" "), _c('div', {
+  }, [_c('div', {
+    staticClass: "wk-text"
+  }, [_vm._v("净值")]), _vm._v(" "), _c('div', {
     staticClass: "hdsz"
-  }, [_vm._v("1.0245")])])]), _vm._v(" "), _c('div', {
-    staticClass: "hdtrd"
-  }, [_c('span', [_vm._v("2.44")]), _vm._v("%总收益\n       ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("1.0245")])])])]), _vm._v(" "), _c('div', {
     staticClass: "data"
   }, [_c('div', {
     staticClass: "dtshow"
@@ -366,16 +425,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('span', [_vm._v("21%")])])])]), _vm._v(" "), _c('div', {
     staticClass: "dtjs"
   }, [_c('div', {
-    staticClass: "dtjsr"
-  }, [_c('div', {
-    staticClass: "gpmz"
-  }, [_vm._v("医药强势组合")]), _vm._v(" "), _c('div', {
-    staticClass: "By"
-  }, [_vm._v("By")]), _vm._v(" "), _c('div', {
-    staticClass: "ycr"
-  }, [_vm._v("王博士")])]), _vm._v(" "), _c('div', {
-    staticClass: "detail"
-  }, [_vm._v("寻找有效投资组合")])])]), _vm._v(" "), _c('div', {
+    staticClass: "avatar"
+  }, [_c('open-data', {
+    attrs: {
+      "type": "userAvatarUrl",
+      "mpcomid": '0'
+    }
+  })], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "gpdc"
   }, [_c('div', {
     staticClass: "gpbt"
@@ -389,29 +445,28 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "gpmore"
   }, [_vm._v("更多>>")])]), _vm._v(" "), _c('div', {
     staticClass: "gpItemContainer"
-  }, [_c('div', {
-    staticClass: "gpItem"
-  }, [_c('div', {
-    staticClass: "gp-name"
-  }, [_c('div', {
-    staticClass: "gpjtmz"
-  }, [_vm._v("山西汾酒")]), _vm._v(" "), _c('div', {
-    staticClass: "gp-code"
-  }, [_vm._v("SH600809")])]), _vm._v(" "), _c('div', {
-    staticClass: "gpxs"
-  }, [_vm._v("4.96%")])]), _vm._v(" "), _c('div', {
-    staticClass: "gpItem"
-  }, [_c('div', {
-    staticClass: "gp-name"
-  }, [_c('div', {
-    staticClass: "gpjtmz"
-  }, [_vm._v("山西汾酒")]), _vm._v(" "), _c('div', {
-    staticClass: "gp-code"
-  }, [_vm._v("SH600809")])]), _vm._v(" "), _c('div', {
-    staticClass: "gpxs"
-  }, [_vm._v("4.96%")])]), _vm._v(" "), _c('div', {
+  }, [_vm._l((_vm.list), function(items, index) {
+    return _c('div', {
+      key: index,
+      staticClass: "gpItem"
+    }, [_c('div', {
+      staticClass: "gp-name"
+    }, [_c('div', {
+      staticClass: "gpjtmz"
+    }, [_vm._v(_vm._s(items.asset_name))]), _vm._v(" "), _c('div', {
+      staticClass: "gp-code"
+    }, [_vm._v(_vm._s(items.asset_code))])]), _vm._v(" "), _c('div', {
+      staticClass: "gpxs"
+    }, [_c('span', {
+      staticClass: "weight-before"
+    }, [_vm._v(_vm._s(items.weight_before) + "%")]), _vm._v(" "), _c('span', {
+      staticClass: "weight-code"
+    }, [_vm._v("->")]), _vm._v(" "), _c('span', {
+      staticClass: "weight"
+    }, [_vm._v(_vm._s(_vm.arrayList[index]) + "%")])])])
+  }), _vm._v(" "), _c('div', {
     staticClass: "zcpz"
-  }, [_vm._v("资产配置")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("资产配置")])], 2), _vm._v(" "), _c('div', {
     staticClass: "echarts"
   }, [_c('ec-canvas', {
     staticClass: "canvas",
@@ -419,7 +474,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "id": "mychart-dom-bar",
       "canvas-id": "mychart-bar",
       "ec": _vm.ec1,
-      "mpcomid": '0'
+      "mpcomid": '1'
     }
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "chart"
@@ -433,7 +488,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "id": "mychart-dom-bar",
       "canvas-id": "mychart-bar",
       "ec": _vm.ec1,
-      "mpcomid": '1'
+      "mpcomid": '2'
     }
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "yhcz"
@@ -446,7 +501,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('open-data', {
     attrs: {
       "type": "userAvatarUrl",
-      "mpcomid": '2'
+      "mpcomid": '3'
     }
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "nickname"
@@ -455,7 +510,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('open-data', {
     attrs: {
       "type": "userNickName",
-      "mpcomid": '3'
+      "mpcomid": '4'
     }
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "wxtime"
@@ -484,7 +539,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('open-data', {
     attrs: {
       "type": "userAvatarUrl",
-      "mpcomid": '4'
+      "mpcomid": '5'
     }
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "nickname"
@@ -493,7 +548,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('open-data', {
     attrs: {
       "type": "userNickName",
-      "mpcomid": '5'
+      "mpcomid": '6'
     }
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "wxtime"
@@ -528,5 +583,5 @@ if (false) {
 
 /***/ })
 
-},[582]);
+},[587]);
 //# sourceMappingURL=main.js.map

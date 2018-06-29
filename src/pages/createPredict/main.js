@@ -7,7 +7,7 @@ app.$mount()
 
 export default {
 	config: {
-	  "navigationBarBackgroundColor": "#010101",
+	  "navigationBarBackgroundColor": "#646363",
 	  "navigationBarTextStyle":"#fff",
 	  "navigationBarTitleText": "建立预测",
 	  "backgroundColor": '#040404',

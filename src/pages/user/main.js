@@ -9,8 +9,8 @@ app.$mount()
 
 export default {
 	config: {
-		"navigationBarBackgroundColor": "#ffffff",
-		"navigationBarTitleText": "我的组合",
+		"navigationBarBackgroundColor": "#78A0ED",
+		"navigationBarTextStyle":"#fff",
 		usingComponents: {
           'ec-canvas': '../../../static/ec-canvas/ec-canvas',
         }
