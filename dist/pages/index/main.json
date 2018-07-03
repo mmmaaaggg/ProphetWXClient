@@ -1,6 +1,0 @@
-{
-  "pages": [],
-  "usingComponents": {
-    "wxc-icon": "../../../static/@minui/wxc-icon/index/index"
-  }
-}
