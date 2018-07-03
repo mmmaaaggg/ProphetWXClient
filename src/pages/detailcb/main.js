@@ -13,6 +13,7 @@ export default {
 		"navigationBarTextStyle":"#fff",
 		usingComponents: {
           'ec-canvas': '../../../static/ec-canvas/ec-canvas',
+          'wxc-icon': "../../../static/@minui/wxc-icon/index/index"
         }
 	}
 }

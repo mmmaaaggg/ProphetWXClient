@@ -375,6 +375,16 @@
   import Vue from 'vue';
 
   export default {
+
+    config: {
+      "navigationBarBackgroundColor": "#646363",
+      "navigationBarTextStyle":"#fff",
+      "navigationBarTitleText": "建立预测", 
+      usingComponents: {
+        'wxc-input': "../../../static/@minui/wxc-input/index/index"
+      }
+    },
+
   	data () {
       return {
         selected: 'zq',

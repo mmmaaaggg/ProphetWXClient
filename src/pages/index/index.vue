@@ -79,6 +79,12 @@ let chart = null
 
 export default {
 
+  config: {
+    usingComponents: {
+      'wxc-icon': "../../../static/@minui/wxc-icon/index/index"
+    } 
+  },
+
   components: {
     mpvueEcharts
   },
@@ -335,11 +341,11 @@ export default {
 
 
     handleBg: function () {
-      wx.navigateTo({url: "/pages/list/main"})
+      //wx.navigateTo({url: "/pages/list/main"})
     },
 
     handleCb () {
-      wx.navigateTo({url: "/pages/combination/main"})
+      //wx.navigateTo({url: "/pages/combination/main"})
     },
     
     handleCollect: function (items,index) {
@@ -372,7 +378,7 @@ export default {
   
 
     ConfirmLogin () {
-      let loginNum = 0;
+      /*let loginNum = 0;
       let that = this;
       let token = wx.getStorageSync('token')
       wx.request({
@@ -401,7 +407,29 @@ export default {
             console.log('request fail')
           }
                 
-      })
+      })*/
+       wx.login({
+        success(res) {
+          if (res.code) {
+            //发起网络请求
+            wx.request({
+              url: 'https://prophets.top/auth/login',
+              //url: 'http://127.0.0.1:6060/wx/login',
+              data: {
+                code: res.code
+              },
+              header: { "Content-Type": "application/x-www-form-urlencoded" },
+              success(res) {
+                wx.setStorageSync('token',res.data.token)        
+              }
+            })
+          } 
+        },
+        
+        fail(error) {
+          console.log("request fail")
+        }
+      });
     },
 
     

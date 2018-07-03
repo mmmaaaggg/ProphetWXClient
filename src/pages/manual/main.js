@@ -7,13 +7,13 @@ app.$mount()
 
 export default {
 	 config: {
-      "navigationBarBackgroundColor": "#FFFFFF",
+      "navigationBarBackgroundColor": "#fff",
       "navigationBarTextStyle": "black",
-      "navigationBarTitleText": "组合列表",
+      "navigationBarTitleText": "详细调仓",
       "backgroundColor": '#040404',
       "enablePullDownRefresh": true,
       usingComponents: {    
-        'wxc-icon': "../../../static/@minui/wxc-icon/index/index"
+        'wxc-progress': "../../../static/@minui/wxc-progress/index/index"
       } 
     }
 }

@@ -8,11 +8,12 @@
            </span>  
            <span class="founded">
              <span class="founded-text">创建于</span> 
-             <span class="found-date">2018.05.16</span> 
+             <span class="found-date">{{foundtime}}</span> 
            </span>
          </div>
          <div class="hdscnd">
-           <span class="total-text">总收益</span><span class="total-digital">2.44</span>%
+           <span class="total-text">总收益</span>
+           <span class="total-digital">{{rr_tot}}</span>%
          </div>
          <div class="hdtrd">
            <div class="hdwk">
@@ -21,13 +22,17 @@
            </div>
            <div class="hdmnt">
              <div class="wk-text">月</div>
-             <div class="hdsz">2.44%</div> 
+             <div class="hdsz">{{rr_month}}%</div> 
            </div>
            <div class="hdjz">
              <div class="wk-text">净值</div>
-             <div class="hdsz">1.0245</div>
+             <div class="hdsz">{{final_value}}</div>
            </div>
-         </div>  
+         </div> 
+         <div class="button-collection" v-on:click="handleCollect(curId)">
+           <wxc-icon v-if ="collect" size="60" type="star-active" class="collected" />
+           <wxc-icon v-else  size="60" type="star" class="collected"></wxc-icon>
+          </div> 
        </div>
        <div class="data">
          <div class="dtshow">
@@ -37,22 +42,28 @@
            </div>
            <div class="dtsy">
              <div>是余额收益的</div>
-             <div class="dtsz"><span>21%</span></div>  
+             <div class="dtsz"><span>{{times_yeb}}%</span></div>  
            </div>
          </div>
          <div class="dtjs">
-           <div class="avatar">
-             <open-data type="userAvatarUrl"></open-data>
-           </div>
+          <div class="avar">
+            <div class="avatar-img">
+              <open-data class='icon' type="userAvatarUrl"></open-data>
+            </div>
+          </div> 
+          <div class="avar-comment">感谢提醒，如有哪里需要改进的多多指教</div>
          </div>
        </div>
        <div class="gpdc">
          <div class="gpbt">
-           <div class="gpsubt">最新调仓<span class="gp-time">(<span class="time">{{time}}</span>)</span></div>
-           <div class="gpmore">更多>></div>
+           <span class="gpsubt">最新调仓<span class="gp-time">(<span class="time">{{time}}</span>)</span></span>
+           <span class="gpmore">
+             更多调仓
+             <span>></span>
+           </span>
          </div>
          <div class="gpItemContainer">
-           <div class="gpItem" v-for="(items,index) in list" :key="index">
+           <div class="gpItem" v-for="(items,index) in list" :key="index" v-if="index < 2">
              <div class="gp-name">
                <div class="gpjtmz">{{items.asset_name}}</div>
                <div class="gp-code">{{items.asset_code}}</div>
@@ -63,22 +74,36 @@
                <span class="weight">{{arrayList[index]}}%</span>
              </div>
            </div>
-           <div class="zcpz">资产配置</div>
          </div>
-         <div class="echarts">
-           <ec-canvas 
-            class="canvas" 
-            id="mychart-dom-bar" 
-            canvas-id="mychart-bar" :ec="ec1" />
+         
+       </div>
+       <div class="chart">
+         <div class="chartTb">
+           <span class="left-nav">资产配置</span>
+           <span 
+             class="right-nav"
+             @click="reset(curId)"
+           >
+             详细仓位
+             <span>></span>
+           </span>
+         </div>
+         <div 
+           class="echarts"
+           @click="reset(curId)"
+         >
+           <mpvue-echarts 
+             :echarts="echarts"
+             :onInit="onInit"
+           />
          </div>
        </div>
        <div class="chart">
-         <div class="chartTb">收益率走势</div>
+         <div class="chartTb">
+           <span class="left-nav"> 收益率走势</span>    
+         </div>
          <div class="echarts">
-           <ec-canvas 
-            class="canvas" 
-            id="mychart-dom-bar" 
-            canvas-id="mychart-bar" :ec="ec1" />
+           
          </div>
        </div>
        <div class="yhcz">
@@ -146,65 +171,74 @@
 
 <script>
 
-import "../../../static/iconfont/iconfont.css";
-import * as env from '../../utils/index';
+import "../../../static/iconfont/iconfont.css"
+import * as env from '../../utils/index'
+import mpvueEcharts from 'mpvue-echarts'
+import * as echarts from 'echarts'
 import * as apiLogin from '../../components/login'
 
-var options1 = {
-    backgroundColor: "#ffffff",
-    color: ["#37A2DA", "#32C5E9", "#67E0E3", "#91F2DE", "#FFDB5C", "#FF9F7F"],
-    series: [{
-      label: {
-        normal: {
-          fontSize: 14
-        }
-      },
-      type: 'pie',
-      center: ['50%', '50%'],
-      radius: [0, '60%'],
-      data: [{
-        value: 55,
-        name: '北京'
-      }, {
-        value: 20,
-        name: '武汉'
-      }, {
-        value: 10,
-        name: '杭州'
-      }, {
-        value: 20,
-        name: '广州'
-      }, {
-        value: 38,
-        name: '上海'
-      },
-      ],
-      itemStyle: {
-        emphasis: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 2, 2, 0.3)'
-        }
-      }
-    }]
-}
+let chart = null
 
 export default {
+
+  components: {
+    mpvueEcharts
+  },
 
   data () {
     return {
       time: '',
+      echarts,
       wxtime:'',
+      foundtime: '',
+      rr_tot: '',
+      rr_month: '',
+      final_value: '',
+      times_yeb: '',
       list: '',
       curId: '',
+      collect: false,
       arrayList: [],
-      ec1: {
-        options: options1
-      }
+      onInit: this.initChart,
     }
   },
 
   methods: {
+
+    initChart (canvas, width, height) {
+      chart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      })
+      canvas.setChart(chart)
+      return chart
+    },
+
+    reset (id) {
+      wx.navigateTo({
+        url: "/pages/manual/main?pl_id=" + id
+      })
+    },
+
+    handleCollect() {
+      this.collect = ! this.collect
+      let temp = this.collect == true ? 1 : 0; 
+      let url =  env.host + `forecast/pl/favorite/${this.curId}/${temp}`
+      let token = wx.getStorageSync('token');
+      wx.request({
+        url: url,
+        method: 'POST',
+        header: {
+          token: token
+        }
+      });  
+      wx.showToast({  
+          title: this.collect == true ? "收藏成功":"收藏取消",  
+          duration: 1000,  
+          icon: "sucess",  
+          make: true  
+      })  
+    },
 
     splitData () {
       let wxtime = env.formatWxTime (new Date());
@@ -218,6 +252,75 @@ export default {
         title: navTitle
       })
 
+    },
+
+    loadDataset() {
+      let that = this;
+      let token = wx.getStorageSync('token');
+      wx.request({
+        url: env.host + `forecast/pl/stats/2`,
+        header: {
+          token: token
+        },
+        success (res) {
+          let data = res.data
+          that.foundtime = data.general.created_at.split(" ")[0];
+          that.rr_tot = data.performance.rr_tot;
+          that.rr_month = data.performance.rr_month;
+          that.final_value = data.performance.final_value.toFixed(2);
+          that.times_yeb = data.performance.times_yeb.toFixed(2)
+        }
+      })
+    },
+
+    loadChart () {
+      let that = this;
+      wx.request({
+        url: env.host + `forecast/pl/asset_dist/${that.curId}/latest`,
+        success (res) {
+          if (res.data.errcode == 41008) {
+             apiLogin.firstLogin();
+             that.loadChart();
+          }
+          let arr = [];
+          for (let item of res.data.data[0].name_list) {
+             let obj = {};
+             obj.name = item
+             obj.icon = 'circle'
+             arr.push(obj)
+          }
+          let options = {
+            legend: {
+                orient: 'vertical',
+                y: 'middle',
+                data: arr
+            },
+            series: [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: res.data.data[0].data
+                }
+            ]
+          };
+          
+          chart.setOption(options)
+        }
+      });
     },
 
     loadData () {
@@ -239,9 +342,9 @@ export default {
                      }
                 }
              
-          }
+            }
         }
-      });
+      })
 
     }
    
@@ -250,7 +353,9 @@ export default {
   
   mounted () {
     this.splitData()
-    this.loadData();
+    this.loadData()
+    this.loadChart()
+    this.loadDataset()
   }
 }
 </script>
@@ -305,7 +410,7 @@ export default {
     align-items: center;
   }
   .wk-text,.total-text,.founded-text,.dtmnt,.dtsy {
-    color: #E0E0E0;
+    color: #D8D2D2;
   }
   .hdwk,.hdmnt {
     border-right: 1px solid #D69EDD;
@@ -313,12 +418,22 @@ export default {
   .hdtrd,.hdscnd {
     margin-top: 1vh;
   }
+  .hdscnd {
+    position: relative;
+  }
   .total-text,.founded,.found-date {
     margin-left: 2vw;
   }
   .total-digital {
-    margin-left: 2vw;
-    font-size: 2em;
+    margin-left: 8vw;
+    margin-right: 2vw;
+    font-size: 2.5em;
+    font-weight: 600;
+  }
+  .button-collection {
+    position: absolute;
+    right: 7vw;
+    top: 10vh;
   }
   .followers {
     right: 5vw;
@@ -328,13 +443,39 @@ export default {
   .data {
     width: 100%;
     font-size: 0.8em;
-    background-image: linear-gradient(to top , #78A0ED 70%, #fff);
   }
   .dtshow {
     display: flex;
     text-align: center;
     height: 160rpx;
     align-items: center;
+    background-image: linear-gradient(to top , #78A0ED 70%, #F0E9F0);
+  }
+  .dtjs {
+    width: 100%;
+    background: #fff;
+    height: 10vh;
+    display: flex;
+  }
+  .avar {
+    height: 100%;
+    width: 20%;
+  }
+  .avar,.avar-comment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .avatar-img,.icon {
+    height: 80rpx;
+    width: 80rpx;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .avar-comment {
+    margin-left: 5vw;
+    width: 60%;
+    font-size: 0.8em;
   }
   .dtsy {
     width: 49%;
@@ -350,28 +491,27 @@ export default {
   .dtsz>span {
     font-size: 1.8em;
     color: #fff;
-    margin-left: 2vw;
+    margin-left: 1vw;
     margin-right: 1vw;
   }
   .gpdc {
     width: 100%;
     border-bottom: #BFCFEF;
     background: #FFFFFF;
-    margin-top: 1vh;
+    margin-top: 1.5vh;
+    margin-bottom: 1.5vh;
   }
   .gpbt {
-    height: 8vh;
+    height: 70rpx;
     position: relative;
-    border-bottom: 1px solid #CBCBCB;
-  }
-  .gpsubt {
-    font-family: "微软雅黑";
-    font-weight:bold;
-    height: 100%;
-    font-size: 0.8em;
-    margin-left: 2vw;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    font-size: 0.8em;
+  }
+  .gpsubt {
+    font-weight: bold;
+    padding-left: 2vw;
   }
   .gp-time {
     font-size: 0.8em;
@@ -382,18 +522,21 @@ export default {
     margin-right: 1vh;
   }
   .gpmore {
-    right: 2vh;
-    font-size: 0.7em;
-    bottom: 1px;
-    position: absolute;
+    padding-right: 2vw;
+    padding-top: 1.5vh;
+    font-size: 0.8em;
+    color: #ABAAAA;
+  }
+  .gpmore>span {
+    margin-left: 1vw;
+    font-size: 1.3em;
   }
   .gpItem {
-    border-bottom: 1px solid #CBCBCB;
+    border-top: 1px solid #CBCBCB;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 10vh;
-
+    height: 8vh;
   }
   .gp-name {
     font-size: 0.8em;
@@ -411,23 +554,8 @@ export default {
     font-size: 0.8em;
     margin-right: 2vw;
   }
-  .zcpz {
-    width: 25vw;
-    height: 8vh;
-    position: absolute;
-    left: 1vh;
-    bottom: 2vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #0E0C0C;
-    font-size: 0.8em;
-  }
-  .zcpz:active {
-    background: #F2EDED;
-  }
   .gpItemContainer {
-    height: 300px;
+    height: 16vh;
     position: relative;
   }
   .echarts {
@@ -435,19 +563,34 @@ export default {
     width: 100%;
     height: 300px;
     justify-content: center;
-    border-top: 1px solid #D8CECE;
   }
   .chart {
-    margin-top: 1vh;
+    margin-top: 1.5vh;
     width: 100%;
     background: #FFFFFF;
   }
   .chartTb {
     background: #FFFFFF;
-    height: 40px;
+    height: 70rpx;
     display: flex;
     align-items: center;
+    font-size: 0.8em; 
+    border-bottom: 1px solid #CBCBCB;
+    justify-content: space-between;
+  }
+  .left-nav {
+     padding-left: 2vw;
+     font-weight: bold;
+  }
+  .right-nav {
+    padding-right: 2vw;
+    padding-top: 1.5vh;
+    font-size: 0.8em;
+    color: #ABAAAA;
+  }
+  .right-nav>span {
     margin-left: 1vw;
+    font-size: 1.3em;
   }
   .yhcz {
     width: 100%;
@@ -461,7 +604,6 @@ export default {
     width: 34.32px;
     height: 35.36px;
     margin-left: 3vw;
-    border-radius: 50%;
   }
   .nickname {
     margin-left: 2vh;

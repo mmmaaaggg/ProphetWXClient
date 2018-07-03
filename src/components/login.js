@@ -2,6 +2,7 @@ function firstLogin () {
       wx.login({
         success(res) {
           if (res.code) {
+            console.log(res.code)
             //发起网络请求
             wx.request({
               url: 'https://prophets.top/auth/login',
@@ -10,10 +11,9 @@ function firstLogin () {
                 code: res.code
               },
               header: { "Content-Type": "application/x-www-form-urlencoded" },
-              method: 'GET',
               success(res) {
-                wx.setStorageSync('token',res.data.token)
-              } 
+                wx.setStorageSync('token',res.data.token)        
+              }
             })
           } 
         },

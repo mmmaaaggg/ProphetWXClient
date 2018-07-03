@@ -1,13 +1,18 @@
 <template> 
   <div class="container">
-  	
+    
       <div class="tr bg-t">
-        <div class="th th-name">预测名称</div>
+        <div class="th th-name">组合</div>
         <div class="th th-date">起止日期</div>
-        <div class="th th-rate">准确率</div>
+        <div class="th th-rate">净值</div>
         <div class="th th-person">预言家</div>
       </div>
-      <div v-for="(items,index) in listData" :key="index" class="tr bg-c" >
+      <div 
+        v-for="(items,index) in listData" 
+        :key="index" 
+        class="tr bg-c" 
+        @click="selectItem(items.pl_id,items.name)"
+      >
         <div class="td name th-name">
           {{items.name}}
         </div>
@@ -18,7 +23,7 @@
           </div>
         </div>      
         <div class="td th-rate">
-          {{items.cmp_id}}
+          {{items.nav}}
         </div>
         <div class="td th-person">
           <div class="username">
@@ -32,11 +37,6 @@
       </div> 
       <div class="created" @click="addPredict">
         <wxc-icon size="40" type="add" class="create" />
-      </div>
-      <div class="xsys">
-      	<span class="curPage">{{pageIndex}}</span>
-      	<span>/</span>
-      	<span class="totalPage">{{total}}</span>
       </div>
       <div class="weui-loadmore" :hidden="isHideLoadMore">
         <div class="weui-loading"></div>
@@ -62,23 +62,23 @@ import * as env from '../../utils/index'
     }];
 
   export default {
-  	data () {
+    data () {
       return {
-      	listData: {},
-      	pageIndex: 1,
-      	total: 1,
-      	count: 16,
-      	isHideLoadMore: true,
+        listData: {},
+        pageIndex: 1,
+        total: 1,
+        count: 16,
+        isHideLoadMore: true,
         collect: []
       }
-  	},
+    },
 
-  	onPullDownRefresh () {
+    onPullDownRefresh () {
       wx.showNavigationBarLoading(); 
       setTimeout( () => {
-      	this.pageIndex = 1;
-      	this.getList();
-      	wx.hideNavigationBarLoading(); 
+        this.pageIndex = 1;
+        this.getList();
+        wx.hideNavigationBarLoading(); 
         wx.stopPullDownRefresh(); 
       }, 1000);
 
@@ -88,29 +88,39 @@ import * as env from '../../utils/index'
       console.log ('load more')
       this.isHideLoadMore = false;
       if (this.pageIndex < this.total) {
-      	 setTimeout( () => {
-      	   this.pageIndex ++;
-      	   wx.showLoading();
-      	   this.getList();
+         setTimeout( () => {
+           this.pageIndex ++;
+           wx.showLoading();
+           this.getList();
            wx.hideLoading();
            wx.stopPullDownRefresh() 
           }, 1000);
        } else {
-       	   this.isHideLoadMore = true;
-      	   wx.showToast({
-      	 	 title: "没有更多了",
-      	 	 duration: 1000
-      	   });
+           this.isHideLoadMore = true;
+           wx.showToast({
+           title: "没有更多了",
+           duration: 1000
+           });
       }
     },
 
-  	methods: {
+    methods: {
 
       addPredict () {
         wx.navigateTo({url: "/pages/createPredict/main"})
+        wx.setNavigationBarTitle({
+           title: '创建预测'
+        })
       },
 
-  	  handleCollect: function (items,index) {
+      selectItem (id,name) {
+        let detail = {itemId: id, itemName: name}
+        wx.navigateTo({
+          url: "/pages/detailpred/main?detail="+JSON.stringify(detail),
+        })
+      },
+
+      handleCollect: function (items,index) {
         let temp = this.collect[index];
         temp = temp == 0 ? 1 : 0; 
         this.$set(this.collect,index,temp);
@@ -157,21 +167,20 @@ import * as env from '../../utils/index'
       getList () {
         let pageIndex = this.pageIndex;
         let token = wx.getStorageSync('token');
-        let url = env.host + `forecast/cmp/get_list/all?page_no=${pageIndex}&count=${this.count}`
+        let url = env.host + 'forecast/pl/get_list/all'
         wx.request({  
           url: url, 
-          //url: 'http://127.0.0.1:6060/list',
           header: {  
             token: token
           },  
           success: (res) => { 
-            if (res.data.errcode == 41008) {
+            /*if (res.data.errcode == 41008) {
                 apiLogin.firstLogin();
                 this.getList()
             } else {
                   this.loadData(res)
-            }
-          	
+              }*/
+            this.loadData(res)
             
           },  
           fail: function () {  
@@ -180,11 +189,11 @@ import * as env from '../../utils/index'
           
         })   
       }
-  	},
+    },
 
-  	mounted () {
-  	  this.pageIndex = 1;
-  	  this.getList()
+    mounted () {
+      this.pageIndex = 1;
+      this.getList()
 
       if (wx.getStorageSync('collectList')) {
           this.collect = wx.getStorageSync('collectList')
@@ -197,18 +206,20 @@ import * as env from '../../utils/index'
 
 <style> 
   html,body {
-  	width: 100%;
-  	height: 100%;
-  }
-  .container {
-  	width: 100%;
-  	height: 100%;
-  }
-  .scroll {
-    position: absolute;
-    top: 0;
     width: 100%;
     height: 100%;
+  }
+  .container {
+    width: 100%;
+    height: 100%;
+    background: #E9EBEC
+  }
+  .bg-t {
+    margin-top: 2vh;
+  }
+  .bg-c,.bg-t {
+    background: #fff;
+    border-bottom: 1px solid #E6E5E5;
   }
   .tr {
     display: flex;
@@ -217,11 +228,10 @@ import * as env from '../../utils/index'
   }
   .th {
     display: flex;
+    color: #858181;
+    font-size: 0.8em;
     justify-content: center;
     align-items: center;
-    border: 1px solid #D1B9B9;
-    margin-right: -1px;
-    margin-bottom: -1px;
   }
   .th-name {
     width: 28%;
@@ -236,13 +246,7 @@ import * as env from '../../utils/index'
     width: 30%;
     display: flex;
   }
-  .bg-t {
-    background-color: #7FBFF0;
-  }
   .td {
-    border: 1px solid #D1B9B9;
-    margin-right: -1px;
-    margin-bottom: -1px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -268,7 +272,9 @@ import * as env from '../../utils/index'
     align-items: center;
   }
   .name {
-    font-size: 0.5em;
+    font-size: 0.6em;
+    font-weight: bold;
+    color: #000000;
   }
   .username {
     width: 60%;
@@ -288,26 +294,11 @@ import * as env from '../../utils/index'
     right: 2vh;
     position: absolute;
   }
-  .xsys {
-  	position: fixed;
-  	width: 16%;
-  	bottom: 10%;
-  	right: 10%;
-  	background: #D0D0D0;
-  	opacity: 0.3;
-  	text-align: center;
-  }
-  .curPage {
-  	margin-right: 0.5vw;
-  }
-  .totalPage {
-  	margin-left: 0.5vh;
-  }
   .weui-loading {
-  	margin: 0 5px;
-  	width: 20px;
-  	height: 20px;
-  	display: inline-block;
+    margin: 0 5px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
       vertical-align: middle;
       -webkit-animation: weuiLoading 1s steps(12, end) infinite;
       animation: weuiLoading 1s steps(12, end) infinite;

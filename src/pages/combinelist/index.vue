@@ -29,10 +29,6 @@
           <div class="username">
             {{items.username}}
           </div>
-          <div class="button-collection" v-on:click="handleCollect(items,index)">
-             <wxc-icon v-if ="collect[index]" size="40" type="star-active" class="collected" />
-             <wxc-icon v-else  size="40" type="star" class="collected"></wxc-icon>
-          </div>
         </div>
       </div> 
       <div class="created" @click="addPredict">
@@ -62,6 +58,8 @@ import * as env from '../../utils/index'
     }];
 
   export default {
+    
+   
   	data () {
       return {
       	listData: {},
@@ -107,13 +105,16 @@ import * as env from '../../utils/index'
   	methods: {
 
       addPredict () {
-        wx.navigateTo({url: "/pages/createPredict/main"})
+        wx.navigateTo({url: "/pages/createCombine/main"})
+        wx.setNavigationBarTitle({
+           title: '创建组合'
+        })
       },
 
       selectItem (id,name) {
         let detail = {itemId: id, itemName: name}
         wx.navigateTo({
-          url: "/pages/user/main?detail="+JSON.stringify(detail),
+          url: "/pages/detailcb/main?detail="+JSON.stringify(detail),
         })
       },
 
@@ -171,13 +172,13 @@ import * as env from '../../utils/index'
             token: token
           },  
           success: (res) => { 
-            if (res.data.errcode == 41008) {
+            /*if (res.data.errcode == 41008) {
                 apiLogin.firstLogin();
                 this.getList()
             } else {
                   this.loadData(res)
-              }
-          	
+              }*/
+          	this.loadData(res)
             
           },  
           fail: function () {  
@@ -210,9 +211,6 @@ import * as env from '../../utils/index'
   	width: 100%;
   	height: 100%;
     background: #E9EBEC
-  }
-  .bg-t {
-    margin-top: 2vh;
   }
   .bg-c,.bg-t {
     background: #fff;

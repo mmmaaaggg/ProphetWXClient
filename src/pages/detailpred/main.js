@@ -6,9 +6,9 @@ const app = new Vue(App)
 app.$mount()
 
 export default {
+	pages: [],
 	config: {
-		"navigationBarBackgroundColor": "#ffffff",
-		"navigationBarTitleText": "我的预测",
+		"navigationBarBackgroundColor": "#78A0ED",
 		usingComponents: {
           'ec-canvas': '../../../static/ec-canvas/ec-canvas',
         }

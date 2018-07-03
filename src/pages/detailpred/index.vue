@@ -335,6 +335,7 @@ export default {
     height: 23vh;
     background: #78A0ED;
     color: #FFFFFF;
+    border-top: 1rpx solid #FFFFFF;
     font-size: 0.8em;
     display: flex;
     flex-direction: column;
