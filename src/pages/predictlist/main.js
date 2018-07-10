@@ -10,7 +10,7 @@ export default {
 	      "navigationBarBackgroundColor": "#FFFFFF",
 	      "navigationBarTextStyle": "black",
 	      "navigationBarTitleText": "预测列表",
-	      "backgroundColor": '#040404',
+	      "backgroundColor": '#858181',
 	      "enablePullDownRefresh": true,
 	      usingComponents: {    
 	        'wxc-icon': "../../../static/@minui/wxc-icon/index/index"

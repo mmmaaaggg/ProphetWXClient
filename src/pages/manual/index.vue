@@ -1,10 +1,10 @@
 <template>
   <div class="container">
   	<div class="hdcontainer">
-  		<div class="history">调仓历史</div>
+  		<div class="history" @click="showlist(pl_id)">调仓历史</div>
   	</div> 	
-  	<div class="addinfo">
-  	  <div class="zh-input" :hidden="addhide">
+  	<div class="addinfo" :hidden="addhide">
+  	  <div class="zh-input">
         <div class="input-gp">
             <input
 		        placeholder="投资组合"
@@ -17,7 +17,7 @@
             />
         </div>
       </div>
-  		<div class="addBtn">添加</div>
+  		<div class="addBtn" @click="addItem">添加</div>
   	</div>
   	<div class="search-content" :hidden="ishide">
 	        <scroll-view scroll-y="true" class="scroll" >
@@ -46,26 +46,39 @@
     </div>
   
   	<div class="gpdc">
-         <div class="gpbt">
-             <span class="gpsubt">当前仓位</span>
-             <span class="setgp">调仓</span>
-         </div>
-         <div class="gpItemContainer">
-             <div class="gpItem" v-for="(items,index) in list" :key="index">
-	             <div class="gp-name">
-	                 <div class="gpjtmz">{{items.asset_name}}</div>
-	                 <div class="gp-code">{{items.asset_code}}</div>
-	             </div>
-                 <div class="slider">
-             	     <wxc-progress 
-             	         :percent="arrayList[index]" 
-             	     />
-                 </div>
-                 <div class="gpxs">
-                     <span class="weight">{{arrayList[index]}}%</span>
-                 </div>
-             </div>
-         </div>
+        <div class="gpbt">
+            <span class="gpsubt">当前仓位</span>
+            <span class="selected" @click="toggled">{{toggle}}</span>
+            <span class="setgp" @click="resetStorage" :hidden="!addhide">调仓</span>
+            <span class="setgp" @click="submitStorage" :hidden="addhide">创建</span>
+        </div>
+        <div class="gpItemContainer">
+            <div class="gpItem" v-for="(items,index) in list" :key="index">
+	            <div class="gp-name">
+	                <div class="gpjtmz">{{items.asset_name}}</div>
+	                <div class="gp-code">{{items.asset_code}}</div>
+	            </div>
+                <div class="slider">
+             	    <wxc-progress 
+             	        :percent="arrayList[index]" 
+             	    />
+                </div>
+                <div class="gpxs">
+                    <span class="weight">{{arrayList[index]}}%</span>
+                    <div class="item-delete" :hidden="deletehide" @click="deleteItem(index)">-</div>
+                </div>
+	            <div class="picker" :hidden="pickerhide">
+	             	<picker 
+		                mode="selector"
+		                :range="priceList"
+		                @change="bindChange($event,index)"
+                    >
+                        <div class="pickerpadding"></div>
+                    </picker>
+	            </div>
+             
+			</div>
+        </div>
          
     </div>
   </div>
@@ -90,13 +103,122 @@ export default {
     		category: '',
     		type: '',
     		code: '',
-    		addhide: false,
+    		toggle: "开盘价",
+    		addhide: true,
+    		deletehide: true,
+    		pickerhide: true,
     		ishide: true,
-    		arrayList: []
+    		arrayList: [],
+    		priceList: []
     	}
     },
 
     methods: {
+
+    	showlist (id) {
+    		wx.navigateTo({
+    			url: "/pages/historylist/main?id=" + id
+    		})
+    	},
+
+    	toggled () {
+    		this.toggle = this.toggle == "开盘价" ? "收盘价" : "开盘价"
+    	},
+
+    	bindChange (e,index) {
+    		let value = e.target.value
+    		this.arrayList[index] = value
+
+            let num = 0
+            for (let item of this.arrayList) {
+            	num += Number(item);
+            }
+            
+            if (num > 100) {
+            	value = 100 - (num - value)
+            	wx.showToast({
+            		title: "资金已耗尽",
+            		duration: 1000
+            	})
+            }
+             
+            value = Number(value).toFixed(2)
+            this.$set(this.arrayList,index,value)
+    	},
+
+    	addItem () {
+            let flag = true;
+	        for (let item of this.list) {
+	           if (item.asset_name == this.gpname) {
+	               flag = false;
+	           }
+	        }
+	        if (this.gpname && flag ) {
+	           this.list.push({
+	             category: this.category,
+	             asset_name: this.gpname,
+	             asset_type: this.type,
+	             asset_code: this.code,
+	             direction: 1
+	           });
+	           this.arrayList.push(0);
+	           this.gpname = '';
+	        } else if (this.gpname && !flag) {
+	            wx.showToast({
+	               title: "不能输入相同内容",
+	               duration: 1000
+	            });   
+	          } else {
+	               wx.showToast({
+	                 title: "不能为空",
+	                 duration: 1000
+	               });
+	            } 
+    	},
+
+    	deleteItem (index) {
+            this.list.splice(index,1)
+            this.arrayList.splice(index,1)
+    	},
+
+    	resetStorage () {
+    		this.addhide = false;
+    		this.deletehide = false;
+    		this.pickerhide = false;
+
+            for (let i = 0; i <= 100; i++) {
+            	this.priceList.push(i)
+            }
+    	},
+
+    	submitStorage () {
+            this.addhide = true
+
+            let time = env.formatTime(new Date()).split(" ")[0];
+            let price_type = this.toggle == "开盘价" ? 'open' : 'close'
+            let data = this.list
+            let obj = {
+            	"trade_date": time,
+            	"price_type": price_type,
+            	"data": this.list
+            }
+            let url = env.host + `forecast/pl_data/update/${this.pl_id}`
+            let token = wx.getStorageSync("token")
+
+            wx.request({
+                url: url,
+                header: {
+                	token: token
+                },
+                method: 'POST',
+                data: obj
+            })
+
+            wx.showToast({
+            	title: "调仓已提交",
+            	duration: 1000
+            })
+    	},
 
     	bindInput (e) {
 	        this.gpname = e.target.value;
@@ -105,7 +227,6 @@ export default {
 	          //url: 'http://127.0.0.1:6060/search',
 		        url: url,
 		        success: (res) => {
-		        	console.log(res.data)
 		            this.namelist = res.data.results;
 		        }
             })
@@ -171,6 +292,9 @@ html,body {
   top: 1.5vh;
   height: 70rpx;
 }
+.history:active {
+  background: #E4E2E2;
+}
 .gpdc {
   background: #fff;
 }
@@ -185,8 +309,16 @@ html,body {
 .gpsubt {
   padding-left: 2vw;
 }
+.selected {
+  padding: 5rpx;
+  border: 1px solid #878686;
+  border-radius: 6px;
+}
 .setgp { 
-  padding-right: 5vw;
+  padding: 5rpx;
+  border: 1px solid #878686;
+  margin-right: 3vw;
+  border-radius: 6px;
 }
 .gpItem {
   border-top: 1px solid #CBCBCB;
@@ -208,14 +340,18 @@ html,body {
   margin-right: 2vw;
 }
 .slider {
-  width: 40vw;
+  width: 35vw;
+  position: absolute;
+  left: 30vw;
 }
 .gpxs {
   font-size: 0.8em;
-  margin-right: 2vw;
+  right: 2vw;
+  display: flex;
+  position: absolute;
 }
 .zh-input {
-  width: 80%;
+  width: 70%;
   padding-left: 2vw;
 }
 .input-gp {
@@ -226,6 +362,7 @@ html,body {
   width: 100%;
   height: 20vh;
   position: relative;
+  width: 
 }
 .first-item {
   text-align: center;
@@ -260,15 +397,38 @@ input {
   margin-bottom: 1vh;
   height: 70rpx;
   align-items: center;
+  justify-content: space-between;
 }
 .addBtn {
-  margin-left: 5vw;
-  border: 1px solid #F6E4E4;
-  padding: 6rpx;
+  margin-right: 3vw;
+  border: 1px solid #878686;
+  padding: 5rpx;
   font-size: 0.8em;
+  font-weight: bold;
+  border-radius: 6px;
+}
+.item-delete {
+  border-radius: 50%;
+  border: 2rpx solid black;
+  margin-left: 2vw;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+}
+.addBtn:active,.setgp:active,.item-delete:active {
+  background: #878686;
 }
 .first-title {
   font-weight: bold;
   background: #F37878;
+}
+.picker {
+  width: 20vw;
+  height: 8vh;
+  left: 0;
+  position: absolute;
+}
+.pickerpadding {
+  height: 8vh;
 }
 </style>

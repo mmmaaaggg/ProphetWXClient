@@ -4,7 +4,7 @@
       <div class="tr bg-t">
         <div class="th th-name">组合</div>
         <div class="th th-date">起止日期</div>
-        <div class="th th-rate">净值</div>
+        <div class="th th-rate">准确率</div>
         <div class="th th-person">预言家</div>
       </div>
       <div 
@@ -23,15 +23,11 @@
           </div>
         </div>      
         <div class="td th-rate">
-          {{items.nav}}
+          {{items.cmp_id}}
         </div>
         <div class="td th-person">
           <div class="username">
             {{items.username}}
-          </div>
-          <div class="button-collection" v-on:click="handleCollect(items,index)">
-             <wxc-icon v-if ="collect[index]" size="40" type="star-active" class="collected" />
-             <wxc-icon v-else  size="40" type="star" class="collected"></wxc-icon>
           </div>
         </div>
       </div> 
@@ -167,7 +163,7 @@ import * as env from '../../utils/index'
       getList () {
         let pageIndex = this.pageIndex;
         let token = wx.getStorageSync('token');
-        let url = env.host + 'forecast/pl/get_list/all'
+        let url = env.host + 'forecast/cmp/get_list/all'
         wx.request({  
           url: url, 
           header: {  
@@ -319,7 +315,7 @@ import * as env from '../../utils/index'
   width: 50px;
   height: 50px;
   position: fixed;
-  background: #F4C6C6;
+  background: #F64F4F;
   left: 0;
   right: 0;
   margin:0 auto;
@@ -328,5 +324,6 @@ import * as env from '../../utils/index'
   text-align: center;
   z-index: 999;
   opacity: 0.5;
+  border-radius: 50%;
 }
 </style>

@@ -18,6 +18,7 @@ export default {
       "pages/createPredict/main",
       "pages/createCombine/main",
       "pages/detailcb/main",
+      "pages/historylist/main",
       "pages/detailpred/main",
       "pages/manual/main",
       '^pages/index/main'  

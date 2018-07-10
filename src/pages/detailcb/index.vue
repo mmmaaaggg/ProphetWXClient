@@ -69,9 +69,9 @@
                <div class="gp-code">{{items.asset_code}}</div>
              </div>
              <div class="gpxs">
-               <span class="weight-before">{{items.weight_before}}%</span>
+               <span class="weight-before">{{weightbeforelist[index]}}%</span>
                <span class="weight-code">-></span>
-               <span class="weight">{{arrayList[index]}}%</span>
+               <span class="weight">{{weightlist[index]}}%</span>
              </div>
            </div>
          </div>
@@ -198,7 +198,8 @@ export default {
       list: '',
       curId: '',
       collect: false,
-      arrayList: [],
+      weightlist: [],
+      weightbeforelist: [],
       onInit: this.initChart,
     }
   },
@@ -338,7 +339,8 @@ export default {
                      this.list = res.data.data[0].data;
                      this.time = res.data.data[0].trade_date;
                      for (let i = 0; i < this.list.length; i++) {
-                         this.arrayList[i] = (this.list[i].weight * 100).toFixed(2);
+                         this.weightlist[i] = (this.list[i].weight * 100).toFixed(2);
+                         this.weightbeforelist[i] = (this.list[i].weight_before * 100).toFixed(2);
                      }
                 }
              

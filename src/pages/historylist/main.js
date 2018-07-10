@@ -9,9 +9,8 @@ export default {
 	 config: {
       "navigationBarBackgroundColor": "#fff",
       "navigationBarTextStyle": "black",
-      "navigationBarTitleText": "详细调仓",      
-      usingComponents: {    
-        'wxc-progress': "../../../static/@minui/wxc-progress/index/index",
-      } 
+      "navigationBarTitleText": "历史调仓",
+      "backgroundColor": '#E9EBEC',
+      "enablePullDownRefresh": true
     }
 }

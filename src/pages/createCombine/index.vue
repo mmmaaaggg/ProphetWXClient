@@ -96,9 +96,9 @@
           <div class="th asset-price">仓位</div>
           <div class="th th-normal delete">删除</div>
         </div>
-        <div class="tr" v-for="(item,index) in buffer" :key="index">
+        <div class="tr itemlist" v-for="(item,index) in buffer" :key="index">
           <div class="td asset-name item-name">
-            <div>{{item.category}}</div> 
+            <div class="cate-type">{{item.category}}</div> 
             <div class="category">{{item.name}}</div>
           </div>
           <div class='td th-normal'>
@@ -142,36 +142,7 @@
                @focus="changeItem(ishide,inputValue)"
                @blur="ishide = !ishide"
             />
-            </div>
-            
-            <div 
-              class="search-content"
-              :hidden="ishide"
-            >
-              <scroll-view scroll-y="true" class="scroll" >
-                <ul>
-                  <li
-                    class="first-item"
-                    v-for="(item,index) in List"
-                    :key="index"
-                  >       
-                    <div class="first-title item-info">{{item.text}}</div>  
-                    <ul>
-                      <li
-                        class="second-item item-info"
-                        v-for="(second,cindex) in item.children"
-                        :class="{ odd : cindex % 2 == 0 }"
-                        @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
-                        :key="cindex"
-                      >
-                        <span>{{second.text}}</span>
-                        
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </scroll-view>
-            </div>
+            </div>  
           </div>
           <div 
             class="add-icon"
@@ -179,6 +150,31 @@
           >
             添加股票
           </div>
+        </div>
+        <div class="search-content" :hidden="ishide">
+            <scroll-view scroll-y="true" class="scroll" >
+              <ul>
+                <li
+                  class="first-item"
+                  v-for="(item,index) in List"
+                  :key="index"
+                >       
+                  <div class="first-title item-info">{{item.text}}</div>  
+                  <ul>
+                    <li
+                      class="second-item item-info"
+                      v-for="(second,cindex) in item.children"
+                      :class="{ odd : cindex % 2 == 0 }"
+                      @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
+                      :key="cindex"
+                    >
+                      <span>{{second.text}}</span>
+                      
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </scroll-view>
         </div>
         <div class="button">
           <div 
@@ -406,6 +402,11 @@
   	width: 100%;
   	height: 100%;
   }
+   .input>input,.input-gp>input {
+    padding-left: 20rpx;
+    padding-top: 4rpx;
+    padding-bottom: 6rpx;
+  }
   .scroll {
     position: absolute;
     top: 0;
@@ -413,16 +414,17 @@
     height: 100%;
   }
   .container {
-  	width: 100%;
-  	height: 100%;
-    background: #F0E7E7;
+    width: 100%;
+    height: 100%;
+    background: #E9EBEC;
   }
   .jbxx {
     width: 100%;
     height: 7vh;
     display: flex;
+    background: #FFFFFF;
     align-items: center;
-    border-bottom: 1px solid #CAC1C1;
+    margin-bottom: 1vh;
   }
   .left-tab {
     position: absolute;
@@ -436,57 +438,62 @@
     position: absolute;
     right: 3vw;
     height: 5vh;
-
   }
   .select-item {
     width: 20vw;
     text-align: center;
     font-size: 0.8em;
-    border: 1px solid #2E73E1;
+    border: 1px solid #ACA4AB;
     margin-right: -1px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 4px;
   }
   .active {
-    background: #2E73E1;
+    background: #3D7AC2;
+    color: #FFFFFF;
   }
   .cjzh {
     width: 100%;
     font-size: 16px;
-    border-bottom: 2px solid #CAC1C1;
+    background: #FFFFFF;
   }
   .single-input,.switch-input {
     display: flex;
   }
   .single-input {
-    height: 6vh;
+    height: 8vh;
     width: 100%;
     align-items: center;
   }
-  .zh-name,.zh-mode,.secret {
+  .zh-name,.zh-mode,.secret,.trans-time,.trans-price,.add-text {
     text-align: center;
     margin-left: 2vw;
+    font-weight: bold;
+    font-size: 0.8em;
   }
   .input {
     width: 70vw;
     margin-left: 4vw;
-    border: 1px solid #F3EEEE;
+    border: 1px solid #A68585;
   }
   .multiple-input {
     width: 100%;
     display: flex;
     height: 13vh;
-    margin-top: 1vh;
   }
   .switch-input {
     margin-top: 1vh;
     height: 7vh;
     align-items: center;
     margin-bottom: 1vh;
+    padding-bottom: 10rpx;
   }
   textarea {
-    padding: 3px;
+    padding-left: 19rpx;
+    padding-top: 3px;
+    padding-bottom: 3px;
   }
   switch {
     margin-left: 4vw;
@@ -528,6 +535,7 @@
     text-align: center;
     height: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
   }
   .trans-time {
@@ -543,6 +551,7 @@
   }
   .asset-name {
     width: 30%;
+    position: relative;
   }
   .asset-price {
     width: 40%;
@@ -552,18 +561,13 @@
     width: 100%;
     height: 85rpx;
   }
+  .itemlist {
+    border-top: 1px solid #CBCBCB;
+  }
   .td,.th{
-    border: 1px solid #D1B9B9;
-    margin-right: -1px;
-    margin-bottom: -1px;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .slider {
-    border: 1px solid #D1B9B9;
-    margin-right: -1px;
-    margin-bottom: -1px;
   }
   .item-name {
     font-size: 0.7em;
@@ -573,11 +577,15 @@
   .category {
     font-size: 1.1em;
     font-weight: bold;
-    margin-right: 1vw
+    position: absolute;
+    right: 2vw;
   }
-  .th{ 
+  .cate-type {
+    left: 2vw;
+    position: absolute;
+  }
+  .th { 
     font-weight: bold;
-    background: #D7E6F6;
   }
   .th-normal {
     width: 18%;
@@ -608,7 +616,7 @@
     margin-top: 1vh;
     width: 100%;
     height: 40vh;
-    background: #FDC4C4;
+    background: #fff;
     position: relative;
   }
   .addItem {
@@ -616,38 +624,27 @@
     width: 100%;
     height: 8vh;
     align-items: center;
-  }
-  .add-text {
-    margin-left: 2vw;
-    margin-right: 3vw;
+    justify-content: space-between;
   }
   .add-icon {
-    position: absolute;
-    right: 5vw;
-    width: 145rpx;
-    height: 55rpx;
+    padding: 10rpx;
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid #EBEEB0;
     border-radius: 6px;
+    margin-right: 12px;
   }
   .add-icon:active {
     background: #BBBBE2;
   }
   .input-gp {
-    height: 8vh;
     display: flex;
     align-items: center;
+    border: 1px solid #A68585;
   }
   .input-gp>input {
     height: 1.4em;
-  }
-  .input-wrap {
-     position:absolute;
-     top: 0;
-     left: 24vw;
-     width: 49%;
   }
   .search-content {
     background: #FFFFFF;

@@ -3,26 +3,35 @@
   	<scroll-view scroll-y="true" class="scroll" >
   	<div class="hd">
   	  <div class="hdfst">
-  	  	<span>关注人数：4</span>  
-  	  	<span>创建于2018.05.16</span>
+  	  	<span class="followers"> 
+          <span class="follow-text">4</span>人关注
+        </span> 
+  	  	<span class="founded">
+           <span class="founded-text">创建于</span> 
+           <span class="found-date">2018.05.16</span> 
+        </span>
   	  </div>
   	  <div class="hdscnd">
   	  	<div class="hdwk">
-  	  	  <div>周</div>
+  	  	  <div class="wk-text">周</div>
   	  	  <div class="hdsz">60%</div>
   	  	</div>
   	  	<div class="hdmnt">
-  	  	  <div>月</div>
+  	  	  <div class="wk-text">月</div>
   	  	  <div class="hdsz">70%</div>	
   	  	</div>
   	  	<div class="hdjz">
-  	  	  <div>净值</div>
+  	  	  <div class="wk-text">净值</div>
   	  	  <div class="hdsz">1.0245</div>
   	  	</div>
   	  	<div class="hdfz">
-  	  	  <div>高于沪深300指</div>
+  	  	  <div class="wk-text">高于沪深300指</div>
   	  	  <div class="hdsz">5%</div>
   	  	</div>
+        <div class="button-collection" v-on:click="handleCollect(curId)">
+           <wxc-icon v-if ="collect" size="50" type="star-active" class="collected" />
+           <wxc-icon v-else  size="50" type="star" class="collected"></wxc-icon>
+          </div> 
   	  </div>
   	  <div class="hdtrd">
   	  	<span class="zql">56</span>%准确率，累计<span class="ljts">25</span>天跑赢沪深300指数
@@ -39,19 +48,13 @@
   	  	  <div class="dtsz">跑赢<span>71%</span>预测</div>	
   	  	</div>
   	  </div>
-  	  <div class="dtjs">
-  	  	<span class="gpmz">医药跑赢沪深300</span>
-  	  	<span class="By">By</span>
-  	  	<span class="ycr">王博士</span>
-  	  </div>
   	</div>
-  	<div class="chart">
-  	  <div class="bt">医药组合跑赢沪深300</div>
+  	
   	  <div class="chartContainer">
         <div class="chartPick">
           <div class="zsdb">
             <div class="datePick">{{date}}</div>
-            <div>走势对比</div>
+            <div class="zs-text">走势对比</div>
           </div>
           <div class="dpick">
           	<div 
@@ -80,9 +83,11 @@
         </div>  
       </div>
       <div class="chartTb">
-      	<div class="syl">
-          <div class="datePick">{{date}}</div>
-          <div>收益率</div> 
+      	<div class="chartPick">
+          <div class="zsdb">
+            <div class="datePick">{{date}}</div>
+            <div class="zs-text">收益率</div>
+          </div>
         </div>
       	<div class="echarts">
           <ec-canvas 
@@ -97,9 +102,11 @@
         </div> 
       </div>
       <div class="chartTb">
-      	<div class="hcl">
-          <div class="datePick">{{date}}</div>
-          <div>回撤率</div> 
+      	<div class="chartPick">
+          <div class="zsdb">
+            <div class="datePick">{{date}}</div>
+            <div class="zs-text">回撤率</div>
+          </div>
         </div>
       	<div class="echarts">
           <ec-canvas 
@@ -114,9 +121,11 @@
         </div> 
       </div>
       <div class="chartContainer">
-      	<div class="zcpz">
-          <div class="datePick">{{date}}</div>
-          <div>资产配比</div> 
+      	<div class="chartPick">
+          <div class="zsdb">
+            <div class="datePick">{{date}}</div>
+            <div class="zs-text">资产配比</div>
+          </div>
         </div>
       	<div class="echarts">
           <ec-canvas 
@@ -127,9 +136,11 @@
         </div>
       </div>
       <div class="chartContainer">
-      	<div class="pzgp">
-          <div class="datePick">{{date}}</div>
-          <div>行业配置仅股票</div>
+        <div class="chartPick">
+          <div class="zsdb">
+            <div class="datePick">{{date}}</div>
+            <div class="zs-text">行业配置仅股票</div>
+          </div>
         </div>
       	<div class="echarts">
           <ec-canvas 
@@ -138,7 +149,7 @@
             canvas-id="mychart-bar" :ec="ec3">
           </ec-canvas>
         </div>
-      </div>
+     
   	</div>
   </scroll-view>
   </div>
@@ -146,6 +157,8 @@
 
 
 <script>
+
+import * as env from '../../utils/index'
 
 var options1 = {
     backgroundColor: "#fff",
@@ -271,11 +284,14 @@ var options3 = {
       ]
     }
   }
+
 export default {
   data () {
     return {
       selected: '日',
       date: '日',
+      curId: '',
+      collect: false,
       ec1: {
       	options: options1
       },
@@ -289,15 +305,48 @@ export default {
   },
 
   methods: {
+    
     selectItem (item) {
       this.selected = item;
       this.date = item;
-    }
+    },
 
+    splitData () {
+
+      let query = JSON.parse(this.$root.$mp.query.detail)
+      let curId = query.itemId
+      let navTitle = query.itemName
+      this.curId = curId
+      wx.setNavigationBarTitle({
+        title: navTitle
+      })
+
+    }, 
+
+    handleCollect() {
+      this.collect = ! this.collect
+      let temp = this.collect == true ? 1 : 0; 
+      let url =  env.host + `forecast/pl/favorite/${this.curId}/${temp}`
+      let token = wx.getStorageSync('token');
+      wx.request({
+        url: url,
+        method: 'POST',
+        header: {
+          token: token
+        }
+      });  
+      wx.showToast({  
+          title: this.collect == true ? "收藏成功":"收藏取消",  
+          duration: 1000,  
+          icon: "sucess",  
+          make: true  
+      })  
+    },
+     
   },
   
   mounted () {
-  	
+  	  this.splitData()
   }
 }
 
@@ -319,16 +368,16 @@ export default {
   	position: absolute;
     width: 100%;
     height: 300px;
-    margin-top: 2vh;
   }
   .container {
   	width: 100%;
   	height: 100%;
-    background: #F5EEEE;
+    background: #E7E2E2;
   }
-  .hdfst>span {
-    margin-right: 1vw;
-    margin-left: 2vw;
+  .followers {
+    right: 5vw;
+    position: absolute;
+    font-size: 0.8em;
   }
   .hd {
     width: 100%;
@@ -341,20 +390,36 @@ export default {
     flex-direction: column;
     justify-content: space-around;
   }
-  .hdfst>span {
-  	margin-right: 2vw;
+  .hdfst {
+    height:4vh;
+    display:flex;
+    align-items:center;
+  }
+  .founded-text,.wk-text,.dtdy,.dtmnt,.dtsz {
+    color: #D8D2D2;
+  }
+  .founded,.found-date {
+    margin-left: 2vw;
   }
   .hdscnd {
     display: flex;
-    margin-top: 2vh;
+    align-items: center;
+  }
+  .button-collection {
+    margin-left: 2vw;
+  }
+  .hdwk,.hdmnt {
+    width: 15%;
+  }
+  .hdjz {
+    width: 20%;
   }
   .hdwk,.hdmnt,.hdjz {
-  	width: 20%;
   	text-align: center;
   	border-right: 1px solid #D69EDD;
   }
   .hdfz {
-  	width: 40%;
+  	width: 35%;
   	text-align: center;
   }
   .hdtrd>span {
@@ -373,7 +438,6 @@ export default {
   .data {
   	width: 100%;
   	font-size: 0.8em;
-    background: #FFFFFF;
   }
   .dtjs>span {
   	font-size: 1.5em;
@@ -384,12 +448,13 @@ export default {
     text-align: center;
     height: 185rpx;
     align-items: center;
-  }
-  .dtsz {
-  	color:  #78A0ED;
+    background-image: linear-gradient(to top , #78A0ED 70%, #F0E9F0);
   }
   .dtsz>span {
     font-size: 1.8em;
+    color:  #fff;
+    margin-left: 1vw;
+    margin-right: 1vw;
   }
   .dtdy {
   	width: 49%;
@@ -426,21 +491,20 @@ export default {
     display: flex;
   }
   .zsdb {
-    position: absolute;
-    left: 2vw;
+    margin-left: 2vw;
     display: flex;
+    font-size: 0.8em;
+    align-items: center;
   }
   .datePick {
     background: #19EA3B;
     width: 29px;
     border-radius: 50%;
     height: 29px;
-    text-align: center;
-    margin-right: 0.5vw;
-  }
-  .fxsy {
-    margin-left: 2vw;
-    margin-bottom: 1vh;
+    margin-right: 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .bt {
   	text-align: center;
@@ -450,16 +514,19 @@ export default {
   }
   .chartPick {
   	display: flex;
+    align-items: center;
+    justify-content: space-between;
   	width: 100%;
-  	margin-top: 1.5vh;
-    height: 6.57vh;
-    position: relative;
+  	margin-top: 1vh;
+    height: 7vh;
+    border-bottom: 1px solid #8A7E7E;
+    background: #fff;
   }
   .dpick {
   	display: flex;
   	text-align: center;
-  	position: absolute;
-    right: 2vw;
+  	margin-right: 2vw;
+    font-size: 0.8em;
   }
   .pickItem {
   	border: 1px solid #78A0ED;
@@ -468,26 +535,29 @@ export default {
   }
   .active {
   	background: #78A0ED;
-  }
-  .chartContainer{
-    width: 100%;
-    border-top: 1px solid #8A7E7E;
-    height: 700rpx;
+    color: #fff;
   }
   .echarts {
   	display: flex;
   	width: 100%;
   	height: 300px;
-    margin-bottom: 2vh;
+    margin-bottom: 1vh;
   	justify-content: center;
   }
   .chartTb {
   	width: 100%;
     margin-top: 1vh;
-    border-top: 1px solid #8A7E7E;
+    background: #fff;
   }
   .fxsy {
-  	margin-top: 2vh;
   	font-size: 0.8em;
+    padding-left: 2vw;
+    padding-bottom: 10rpx;
+  }
+  .zs-text {
+    font-weight: bold;
+  }
+  .chartContainer {
+    background: #fff;
   }
 </style>

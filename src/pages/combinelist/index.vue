@@ -1,43 +1,45 @@
 <template> 
   <div class="container">
-  	
-      <div class="tr bg-t">
-        <div class="th th-name">组合</div>
-        <div class="th th-date">起止日期</div>
-        <div class="th th-rate">净值</div>
-        <div class="th th-person">预言家</div>
-      </div>
-      <div 
-        v-for="(items,index) in listData" 
-        :key="index" 
-        class="tr bg-c" 
-        @click="selectItem(items.pl_id,items.name)"
-      >
-        <div class="td name th-name">
-          {{items.name}}
+  	 <scroll-view scroll-y="true" class="scroll">
+        <div class="tr bg-t">
+          <div class="th th-name">组合</div>
+          <div class="th th-date">起止日期</div>
+          <div class="th th-rate">净值</div>
+          <div class="th th-person">预言家</div>
         </div>
-        <div class='td th-date'>
-          <div class="td-date">
-            <div class="date">{{items.date_from}}</div>
-            <div class="date">{{items.date_to}}</div>
+        <div 
+          v-for="(items,index) in listData" 
+          :key="index" 
+          class="tr bg-c" 
+          @click="selectItem(items.pl_id,items.name)"
+        >
+          <div class="td name th-name">
+            {{items.name}}
           </div>
-        </div>      
-        <div class="td th-rate">
-          {{items.nav}}
-        </div>
-        <div class="td th-person">
-          <div class="username">
-            {{items.username}}
+          <div class='td th-date'>
+            <div class="td-date">
+              <div class="date">{{items.date_from}}</div>
+              <div class="date">{{items.date_to}}</div>
+            </div>
+          </div>      
+          <div class="td th-rate">
+            {{items.nav}}
           </div>
+          <div class="td th-person">
+            <div class="username">
+              {{items.username}}
+            </div>
+          </div>
+        </div> 
+        <div class="created" @click="addPredict">
+          <wxc-icon size="40" type="add" class="create" />
         </div>
-      </div> 
-      <div class="created" @click="addPredict">
-        <wxc-icon size="40" type="add" class="create" />
-      </div>
+
       <div class="weui-loadmore" :hidden="isHideLoadMore">
         <div class="weui-loading"></div>
         <div class="weui-loadmore__tips">正在加载</div>
-     </div>
+      </div>
+    </scroll-view> 
   </div>
 </template>
 
@@ -212,6 +214,10 @@ import * as env from '../../utils/index'
   	height: 100%;
     background: #E9EBEC
   }
+  .scroll {
+    width: 100%;
+    height: 100%;
+  }
   .bg-c,.bg-t {
     background: #fff;
     border-bottom: 1px solid #E6E5E5;
@@ -314,7 +320,7 @@ import * as env from '../../utils/index'
   width: 50px;
   height: 50px;
   position: fixed;
-  background: #F4C6C6;
+  background: #F64F4F;
   left: 0;
   right: 0;
   margin:0 auto;
@@ -323,5 +329,6 @@ import * as env from '../../utils/index'
   text-align: center;
   z-index: 999;
   opacity: 0.5;
+  border-radius:50%;
 }
 </style>
