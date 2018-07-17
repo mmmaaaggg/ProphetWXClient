@@ -1,7 +1,7 @@
 <template> 
   <div class="container">
       <div class="tr bg-t">
-          <div class="th th-name">组合</div>
+          <div class="th th-name">名称</div>
           <div class="th th-date">起止日期</div>
           <div class="th th-rate">准确率</div>
           <div class="th th-person">预言家</div>
@@ -10,25 +10,34 @@
         v-for="(items,index) in listData" 
         :key="index" 
         class="tr bg-c" 
-        @click="selectItem(items.pl_id,items.name)"
       >
-          <div class="td name th-name">
-            {{items.name}}
+          <div  
+            @touchstart="handleTouchstart($event,index)"
+            @touchmove="handleTouchmove($event,index)"
+            @touchend="handleTouchend($event,index)"
+            @click="selectItem(items.cmp_id,items.name,items.favorite)"
+            class="inner text" 
+            :style="stylelist[index]" 
+          >
+            <div class="td name th-name">
+              {{items.name}}
+            </div>
+            <div class='td th-date'>
+                <div class="td-date">
+                    <div class="date">{{items.date_from}}</div>
+                    <div class="date">{{items.date_to}}</div>
+                </div>
+            </div>      
+            <div class="td th-rate">
+                {{items.cmp_id}}
+            </div>
+            <div class="td th-person">
+                <div class="username">
+                    {{items.username}}
+                </div>
+            </div>
           </div>
-          <div class='td th-date'>
-              <div class="td-date">
-                  <div class="date">{{items.date_from}}</div>
-                  <div class="date">{{items.date_to}}</div>
-              </div>
-          </div>      
-          <div class="td th-rate">
-              {{items.cmp_id}}
-          </div>
-          <div class="td th-person">
-              <div class="username">
-                  {{items.username}}
-              </div>
-          </div>
+          <div class="inner del" @click="delItem(index,items)">删除</div>
       </div> 
       <div class="created" @click="addPredict">
           <wxc-icon size="40" type="add" class="create" />
@@ -64,7 +73,10 @@ import * as env from '../../utils/index'
               total: 1,
               count: 16,
               isHideLoadMore: true,
-              collect: []
+              collect: [],
+              startX: 0,
+              stylelist: [],
+              delWidth: 180,
           }
       },
 
@@ -102,6 +114,51 @@ import * as env from '../../utils/index'
 
       methods: {
 
+          handleTouchstart (e) {
+              this.startX = e.clientX
+          },
+          handleTouchmove (e,id) {
+              let moveX = e.clientX;
+              let disX = this.startX - moveX;
+              let delWidth = this.delWidth;
+              let tempstyle = '';
+              if (disX == 0 || disX < 0) {
+                  tempstyle = "left: 0rpx"
+              }
+              else if (disX > 0 && disX <= delWidth) {
+                  tempstyle = "left:-" + disX + "rpx"
+              }
+              else {
+                  tempstyle = "left:-" + delWidth + "rpx"
+              }
+              this.$set(this.stylelist,id,tempstyle)
+
+          },
+          handleTouchend (e,id) {
+              let disX = -e.currentTarget.offsetLeft;
+              let delWidth = this.delWidth;
+              let tempstyle = disX >= delWidth/2 ? "left:-" + delWidth + "rpx" : "left: 0rpx"
+              this.$set(this.stylelist,id,tempstyle)
+          },
+
+          delItem (id,item) {
+              this.listData.splice(id,1)
+              this.stylelist.splice(id,1)
+              let token = wx.getStorageSync("token")
+              wx.request({
+                  url: env.host + `/forecast/cmp/info/${item.cmp_id}`,
+                  header: {
+                      "Content-Type": "json",
+                      token: token
+                  },
+                  method: 'DELETE',
+                  sucess: function(res) {
+                      console.log(res)
+                  }
+              })
+          },
+
+
           addPredict () {
               wx.navigateTo({url: "/pages/createPredict/main"})
               wx.setNavigationBarTitle({
@@ -109,8 +166,8 @@ import * as env from '../../utils/index'
               })
           },
 
-          selectItem (id,name) {
-              let detail = {itemId: id, itemName: name}
+          selectItem (id,name,collection) {
+              let detail = {itemId: id, itemName: name, collected:collection}
               wx.navigateTo({
                   url: "/pages/detailpred/main?detail="+JSON.stringify(detail),
               })
@@ -215,7 +272,6 @@ import * as env from '../../utils/index'
       margin-top: 2vh;
   }
   .bg-c,.bg-t {
-      background: #fff;
       border-bottom: 1px solid #E6E5E5;
   }
   .tr {
@@ -326,5 +382,28 @@ import * as env from '../../utils/index'
     z-index: 999;
     opacity: 0.5;
     border-radius: 50%;
+}
+.del{
+    background-color: #e64340;
+    width: 180rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+    right: 0;
+    color: #fff;
+    height: 2em;
+}
+.text {
+     transition: left 0.2s ease-in-out;
+     width: 100%;
+     display: flex;
+     height: 2em;
+     z-index: 5;
+     overflow: hidden;
+     background: #fff;
+}
+.inner {
+    position: absolute;
 }
 </style>

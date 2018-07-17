@@ -61,7 +61,7 @@
                          (<span class="time">{{time}}</span>)
                        </span>
                      </span>
-                     <span class="gpmore">
+                     <span class="gpmore" @click="reset(curId)">
                        更多调仓
                        <span>></span>
                      </span>

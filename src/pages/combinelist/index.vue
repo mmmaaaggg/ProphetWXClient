@@ -25,12 +25,12 @@
                     </div>
                     <div class='td th-date'>
                         <div class="td-date">
-                            <div class="date">{{items.date_from}}</div>
-                            <div class="date">{{items.date_to}}</div>
+                            <div class="date">{{items.date_from || '---'}}</div>
+                            <div class="date">{{items.date_to || '---'}}</div>
                         </div>
                     </div>      
                     <div class="td th-rate">
-                        {{items.nav}}
+                        {{items.nav || '---'}}
                     </div>
                     <div class="td th-person">
                         <div class="username">
@@ -165,7 +165,7 @@ import * as env from '../../utils/index'
         addPredict () {
             wx.navigateTo({url: "/pages/createCombine/main"})
             wx.setNavigationBarTitle({
-               title: '创建组合'
+                title: '创建组合'
             })
         },
 
@@ -203,14 +203,8 @@ import * as env from '../../utils/index'
             if (pageIndex == 1) {
                 this.listData = res.data.data;
                 this.total = res.data.data.total;
-                for (let i = 0; i < this.listData.length; i++) {
-                    while (this.collect.length < this.listData.length) {
-                        this.collect.push(0)
-                        this.stylelist.push('')
-                    }
-                    if (this.collect.length == this.listData.length) {
-                        this.collect[i] = this.listData[i].favorite
-                    }
+                for (let i = 0; i < this.listData.length; i++) {     
+                    this.stylelist.push('')
                 }
             } 
             else {

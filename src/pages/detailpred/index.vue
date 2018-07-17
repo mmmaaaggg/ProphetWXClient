@@ -317,6 +317,7 @@ export default {
       let curId = query.itemId
       let navTitle = query.itemName
       this.curId = curId
+      this.collect = query.collected == 1 ? true : false
       wx.setNavigationBarTitle({
         title: navTitle
       })
@@ -326,7 +327,7 @@ export default {
     handleCollect() {
       this.collect = ! this.collect
       let temp = this.collect == true ? 1 : 0; 
-      let url =  env.host + `forecast/pl/favorite/${this.curId}/${temp}`
+      let url =  env.host + `/forecast/cmp/favorite/${this.curId}/${temp}`
       let token = wx.getStorageSync('token');
       wx.request({
         url: url,
