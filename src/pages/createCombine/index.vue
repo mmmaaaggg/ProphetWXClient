@@ -34,7 +34,6 @@
           <input 
             type="text" 
             placeholder="name" 
-            placeholder-style='margin-left:3px'
             @change="bindInputName($event)"
           />
         </div>
@@ -134,7 +133,6 @@
           <div class="input-wrap">
             <div class="input-gp">
               <input
-               placeholder-style='margin-left:3px'
                placeholder="search"
                v-model="query"
                :value="inputValue"

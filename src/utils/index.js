@@ -65,7 +65,7 @@ function calculateMA(dayCount, data) {
 
 
 //主机
-const host = 'https://prophets.top/'
+const host = 'https://www.prophets.top'
 
 
 //阴阳色

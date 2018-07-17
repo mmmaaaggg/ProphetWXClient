@@ -7,13 +7,13 @@
   	  <div class="zh-input">
         <div class="input-gp">
             <input
-		        placeholder="投资组合"
-		        placeholder-style='text-align:center'
-		        v-model="query"
-		        :value="gpname"
-		        @input="bindInput($event)"
-		        @focus="ishide=false"
-		        @blur="ishide=true"
+  		        placeholder="投资组合"
+  		        placeholder-style='text-align:center'
+  		        v-model="query"
+  		        :value="gpname"
+  		        @input="bindInput($event)"
+  		        @focus="ishide=false"
+  		        @blur="ishide=true"
             />
         </div>
       </div>
@@ -33,7 +33,7 @@
 			                  class="second-item"
 			                  v-for="(second,cindex) in item.children"
 			                  :class="{ odd : cindex % 2 == 0 }"
-			                  @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
+			                  @click="chooseItem(second.asset_name,item.text,second.asset_type,second.text)"
 			                  :key="cindex"
 			                >
 			                  <span>{{second.text}}</span>
@@ -147,14 +147,14 @@ export default {
     	},
 
     	addItem () {
-            let flag = true;
+          let flag = true;
 	        for (let item of this.list) {
 	           if (item.asset_name == this.gpname) {
 	               flag = false;
 	           }
 	        }
 	        if (this.gpname && flag ) {
-	           this.list.push({
+	            this.list.push({
 	             category: this.category,
 	             asset_name: this.gpname,
 	             asset_type: this.type,
@@ -163,17 +163,19 @@ export default {
 	           });
 	           this.arrayList.push(0);
 	           this.gpname = '';
-	        } else if (this.gpname && !flag) {
+	        } 
+          else if (this.gpname && !flag) {
 	            wx.showToast({
 	               title: "不能输入相同内容",
 	               duration: 1000
 	            });   
-	          } else {
-	               wx.showToast({
-	                 title: "不能为空",
-	                 duration: 1000
-	               });
-	            } 
+	       } 
+         else {
+             wx.showToast({
+               title: "不能为空",
+               duration: 1000
+             });
+	       } 
     	},
 
     	deleteItem (index) {
@@ -182,13 +184,12 @@ export default {
     	},
 
     	resetStorage () {
-    		this.addhide = false;
-    		this.deletehide = false;
-    		this.pickerhide = false;
-
-            for (let i = 0; i <= 100; i++) {
-            	this.priceList.push(i)
-            }
+      		this.addhide = false;
+      		this.deletehide = false;
+      		this.pickerhide = false;
+          for (let i = 0; i <= 100; i++) {
+          	this.priceList.push(i)
+          }
     	},
 
     	submitStorage () {
@@ -202,15 +203,16 @@ export default {
             	"price_type": price_type,
             	"data": this.list
             }
-            let url = env.host + `forecast/pl_data/update/${this.pl_id}`
+            let url = env.host + `/forecast/pl/data/${this.pl_id}`
             let token = wx.getStorageSync("token")
 
             wx.request({
                 url: url,
                 header: {
-                	token: token
+                    'content-type': 'json',
+                	  token: token
                 },
-                method: 'POST',
+                method: 'PUT',
                 data: obj
             })
 
@@ -222,30 +224,30 @@ export default {
 
     	bindInput (e) {
 	        this.gpname = e.target.value;
-	        let url = `https://prophets.top/asset/get_list/${this.gpname}`;
+	        let url = env.host + `/asset/asset/${this.gpname}`;
 	        wx.request({
-	          //url: 'http://127.0.0.1:6060/search',
 		        url: url,
 		        success: (res) => {
 		            this.namelist = res.data.results;
 		        }
-            })
+          })
         },
-        chooseItem (name,category,type,code) {
-	        this.gpname = name;
-	        this.category = category;
-	        this.type = type;
-	        this.code = code;
-        },
+      chooseItem (name,category,type,text) {
+        this.gpname = name;
+        this.category = category;
+        this.type = type;
+        this.code = text.split(":")[0]
+      },
 
     	loadList () {
     		let that = this;
     		let token = wx.getStorageSync('token');
     		wx.request({
-    			url: env.host + `forecast/pl/get_data_list/${that.pl_id}/latest`,
+    			url: env.host + `/forecast/pl/data/${that.pl_id}/latest/record`,
     			header: {
-                    token: token
-                },
+              'content-type': 'json',
+              token: token
+          },
     			success (res) {
     		        if (res.data.count) {
                      that.list = res.data.data[0].data;

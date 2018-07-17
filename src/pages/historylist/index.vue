@@ -67,8 +67,9 @@ export default {
         let that = this
         let token = wx.getStorageSync("token")
         wx.request({
-            url: env.host + `forecast/pl/get_data_list_by_date/${that.id}/recent`,
+            url: env.host + `/forecast/pl/data/${that.id}/recent/date`,
             header: {
+                "Content-Type": "json",
                 token: token
             },
             success (res) {

@@ -395,7 +395,7 @@ export default {
     display:flex;
     align-items:center;
   }
-  .founded-text,.wk-text,.dtdy,.dtmnt,.dtsz {
+  .founded-text,.wk-text,.dtdy,.dtmnt,.dtsz,.hdtrd {
     color: #D8D2D2;
   }
   .founded,.found-date {
@@ -425,6 +425,7 @@ export default {
   .hdtrd>span {
     font-size: 1.8em;
     margin-right: 1vw;
+    color: #fff;
   }
   .zql {
     margin-left: 2vw;

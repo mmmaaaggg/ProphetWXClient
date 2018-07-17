@@ -372,7 +372,8 @@
 
 
 <script>
-  import Vue from 'vue';
+  import Vue from 'vue'
+  import * as env from '../../utils/index'
 
   export default {
 
@@ -447,12 +448,12 @@
 
       bindInputCBName (e) {
         this.combinationName = e.target.value;
-        let url = `https://prophets.top/asset/get_list/${this.combinationName}`;
+        let url = env.host + `/asset/asset/${this.combinationName}`;
         wx.request({
           //url: 'http://127.0.0.1:6060/search',
           url: url,
           header: {  
-            'content-type': 'application/json' // 默认值  
+            'content-type': 'json' // 默认值  
           },
           success: (res) => {
             this.List = res.data.results;
@@ -470,12 +471,12 @@
 
       bindInputNewName (e) {
         this.nameValue2 = e.target.value;
-        let url = `https://prophets.top/asset/get_list/${this.nameValue2}`;
+        let url = env.host + `/asset/asset/${this.nameValue2}`;
         wx.request({
           //url: 'http://127.0.0.1:6060/search',
           url: url,
           header: {  
-            'content-type': 'application/json' // 默认值  
+            'content-type': 'json' // 默认值  
           },
           success: (res) => {
             this.List = res.data.results;
@@ -485,12 +486,12 @@
 
       bindInputNewName1 (e) {
         this.nameValue3 = e.target.value;
-        let url = `https://prophets.top/asset/get_list/${this.nameValue3}`;
+        let url = env.host + `/asset/asset/${this.nameValue3}`;
         wx.request({
           //url: 'http://127.0.0.1:6060/search',
           url: url,
           header: {  
-            'content-type': 'application/json' // 默认值  
+            'content-type': 'json' // 默认值  
           },
           success: (res) => {
             this.List = res.data.results;
@@ -585,11 +586,10 @@
         let obj = this.spliteData();
         console.log(obj)
         wx.request ({
-          url: 'https://prophets.top/forecast/cmp/create',
+          url: env.host + '/forecast/cmp',
           method: 'POST',
           header: { 
-            'content-type': 'application/json' ,
-            "token": token
+              "token": token
           },
           data: obj,
           success (res) {
@@ -660,12 +660,12 @@
       bindInput (e) {
         let that = this;
         that.inputValue = e.target.value;
-        let url = `http://10.0.3.66:8100/asset/get_list/${that.inputValue}`;
+        let url = env.host + `/asset/asset/${that.inputValue}`;
         wx.request({
           //url: 'http://127.0.0.1:6060/search',
           url: url,
           header: {  
-            'content-type': 'application/json' // 默认值  
+            'content-type': 'json' 
           },
           success: (res) => {
             that.List = res.data.results;

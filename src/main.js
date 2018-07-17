@@ -25,7 +25,7 @@ export default {
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#4CACF0',
+      navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: '预言家',
       navigationBarTextStyle: 'black'
     },

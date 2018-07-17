@@ -6,20 +6,17 @@ function firstLogin () {
             //发起网络请求
             wx.request({
               url: 'https://prophets.top/auth/login',
-              //url: 'http://127.0.0.1:6060/wx/login',
+              header: {
+                  'content-type': 'json',
+              },
               data: {
                 code: res.code
               },
-              header: { "Content-Type": "application/x-www-form-urlencoded" },
               success(res) {
                 wx.setStorageSync('token',res.data.token)        
               }
             })
           } 
-        },
-        
-        fail(error) {
-          console.log("request fail")
         }
       });
   }
