@@ -272,10 +272,7 @@
               />
               </div>
               
-              <div 
-                class="search-content"
-                :hidden="ishide0"
-              >
+              <div class="search-content" :hidden="ishide0">
                 <scroll-view scroll-y="true" class="scroll" >
                   <ul>
                     <li
@@ -376,15 +373,6 @@
   import * as env from '../../utils/index'
 
   export default {
-
-    config: {
-      "navigationBarBackgroundColor": "#646363",
-      "navigationBarTextStyle":"#fff",
-      "navigationBarTitleText": "建立预测", 
-      usingComponents: {
-        'wxc-input': "../../../static/@minui/wxc-input/index/index"
-      }
-    },
 
   	data () {
       return {
@@ -561,7 +549,6 @@
         }
 
         let obj = {
-          "data": {
               "name": this.inputName,
                "access_type": access_type,
                "desc": this.inputDescription,
@@ -575,8 +562,7 @@
                   "value_2": asset_2,
                   "value_3": asset_3,
                   "date_start": redate,
-               }
-          }
+               }  
         }
         return obj;
       },
@@ -589,6 +575,7 @@
           url: env.host + '/forecast/cmp',
           method: 'POST',
           header: { 
+              'content-type': 'application/json', 
               "token": token
           },
           data: obj,
@@ -599,30 +586,30 @@
       },
 
       deleteItem (index) {
-        this.buffer.splice(index,1)
-        this.priceBuffer.splice(index,1)
+          this.buffer.splice(index,1)
+          this.priceBuffer.splice(index,1)
       },
 
       resetItem () {
-        this.inputName = ''
-        this.inputDescription = ''
-        this.date = '2018-01-01'
-        this.date1 = "2018-12-01"
-        this.index =  0
-        this.index1 = 2
-        this.typedata = "点位"
-        this.showTimePicker = true
-        this.isSelected = true
-        this.isChoose = false
-        this.ischange = false
-        this.ischange0 = false
-        this.ischange1 = false
-        this.ischange2 = false
-        this.combinationName = ''
-        this.nameValue0 = ''
-        this.nameValue1 = ''
-        this.nameValue2 = ''
-        this.nameValue3 = ''
+          this.inputName = ''
+          this.inputDescription = ''
+          this.date = '2018-01-01'
+          this.date1 = "2018-12-01"
+          this.index =  0
+          this.index1 = 2
+          this.typedata = "点位"
+          this.showTimePicker = true
+          this.isSelected = true
+          this.isChoose = false
+          this.ischange = false
+          this.ischange0 = false
+          this.ischange1 = false
+          this.ischange2 = false
+          this.combinationName = ''
+          this.nameValue0 = ''
+          this.nameValue1 = ''
+          this.nameValue2 = ''
+          this.nameValue3 = ''
       },
 
       addItem () {
@@ -658,38 +645,38 @@
       },
 
       bindInput (e) {
-        let that = this;
-        that.inputValue = e.target.value;
-        let url = env.host + `/asset/asset/${that.inputValue}`;
-        wx.request({
-          //url: 'http://127.0.0.1:6060/search',
-          url: url,
-          header: {  
-            'content-type': 'json' 
-          },
-          success: (res) => {
-            that.List = res.data.results;
-          }
-        });
+          let that = this;
+          that.inputValue = e.target.value;
+          let url = env.host + `/asset/asset/${that.inputValue}`;
+          wx.request({
+            //url: 'http://127.0.0.1:6060/search',
+            url: url,
+            header: {  
+              'content-type': 'json' 
+            },
+            success: (res) => {
+              that.List = res.data.results;
+            }
+          });
       },
 
       chooseItem (name,category,type,code) {
-        this.combinationName = name;
-        this.category = category;
-        this.type = type;
-        this.code = code;
+          this.combinationName = name;
+          this.category = category;
+          this.type = type;
+          this.code = code;
       },
       chooseItem0 (name,category,type,code) {
-        this.nameValue2 = name;
-        this.category = category;
-        this.type = type;
-        this.code = code;
+          this.nameValue2 = name;
+          this.category = category;
+          this.type = type;
+          this.code = code;
       },
        chooseItem1 (name,category,type,code) {
-        this.nameValue3 = name;
-        this.category = category;
-        this.type = type;
-        this.code = code;
+           this.nameValue3 = name;
+           this.category = category;
+           this.type = type;
+           this.code = code;
       },
       changeItem (ishide) {
          this.ishide = !ishide; 

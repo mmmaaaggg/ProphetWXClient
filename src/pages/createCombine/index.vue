@@ -163,7 +163,7 @@
                       class="second-item item-info"
                       v-for="(second,cindex) in item.children"
                       :class="{ odd : cindex % 2 == 0 }"
-                      @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
+                      @click="chooseItem(second.asset_name,item.text,second.asset_type,second.text)"
                       :key="cindex"
                     >
                       <span>{{second.text}}</span>
@@ -279,8 +279,7 @@
         console.log(this.buffer)
         let token = wx.getStorageSync('token')
         let obj = {
-          "data": {
-              "name": this.inputName,
+               "name": this.inputName,
                "access_type": this.switchChecked,
                "desc": this.inputDescription,
                "pl_data": {
@@ -288,10 +287,9 @@
                    "price_type": open,
                    "data": this.buffer
               }
-          }
         }
         wx.request ({
-          url: 'https://prophets.top/forecast/pl/create',
+          url: 'https://prophets.top/forecast/pl',
           method: 'POST',
           header: { 
             'content-type': 'application/json' ,
@@ -354,12 +352,11 @@
       bindInput (e) {
         let that = this;
         that.inputValue = e.target.value;
-        let url = `https://prophets.top/asset/get_list/${that.inputValue}`;
+        let url = `https://prophets.top/asset/asset/${that.inputValue}`;
         wx.request({
-          //url: 'http://127.0.0.1:6060/search',
           url: url,
           header: {  
-            'content-type': 'application/json' // 默认值  
+            'content-type': 'json'  
           },
           success: (res) => {
             that.List = res.data.results;
@@ -367,11 +364,11 @@
         });
       },
 
-      chooseItem (name,category,type,code) {
+      chooseItem (name,category,type,text) {
         this.inputValue = name;
         this.category = category;
         this.type = type;
-        this.code = code;
+        this.code = text.split(".")[0];
       },
 
       changeItem (ishide) {
