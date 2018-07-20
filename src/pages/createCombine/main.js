@@ -10,7 +10,6 @@ export default {
 	      "navigationBarBackgroundColor": "#463939",
 	      "navigationBarTextStyle":"#fff",
 	      "navigationBarTitleText": "创建组合",
-	      "backgroundColor": '#040404',
-	     
+	      "backgroundColor": '#040404',     
     },
 }

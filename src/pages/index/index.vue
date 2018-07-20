@@ -9,7 +9,7 @@
                     <div class="wxcIcon vertifyIcon">
                         <wxc-icon size="45" type="feedback" class="feedback" /> 
                     </div>
-                    <div class="bg-right" @click="handleBg">
+                    <div class="bg-right" @click="navTounvertifie">
                         <div class="bg-item digita">{{confirmData}}</div>
                         <div class="bg-item blogitem">待验证</div>
                     </div>
@@ -18,7 +18,7 @@
                     <div class="wxcIcon vertifiedIcon">
                         <wxc-icon size="45" type="rate" class="rate" /> 
                     </div>
-                    <div class="bg-right" @click="handleCb">
+                    <div class="bg-right" @click="navTovertifie">
                         <div class="bg-item digita">{{vertified}}</div>
                         <div class="bg-item blogitem">已验证</div>
                     </div>
@@ -27,7 +27,7 @@
                     <div class="wxcIcon attentionIcon">
                         <wxc-icon size="45" type="star" class="star" /> 
                     </div>
-                    <div class="bg-right">
+                    <div class="bg-right" @click="navTofavorite">
                         <div class="bg-item digita">{{interest}}</div>
                         <div class="bg-item blogitem">关注预言</div>
                     </div>
@@ -325,42 +325,16 @@ export default {
       },
 
 
-      handleBg: function () {
-        //wx.navigateTo({url: "/pages/list/main"})
+      navTounvertifie () {
+          wx.navigateTo({url: "/pages/unvertifielist/main"})
       },
 
-      handleCb () {
-        //wx.navigateTo({url: "/pages/combination/main"})
+      navTovertifie () {
+          wx.navigateTo({url: "/pages/vertifielist/main"})
       },
-      /*
-      handleCollect: function (items,index) {
-          let temp = this.collect[index];
-          temp = temp == 0 ? 1 : 0; 
-          this.$set(this.collect,index,temp);
-          wx.setStorageSync('collect',this.collect)
-          let url =  env.host + `forecast/cmp/favorite/${items.cmp_id}/${temp}`
-          let token = wx.getStorageSync('token');
-          wx.request({
-              url: url,
-              method: 'POST',
-              header: {
-                  token: token
-              },
-              success: (res) => {
-                //console.log(res)
-              },
-              fail: () => {
-                console.log('request fail')
-              }
-          });
-          wx.showToast({  
-            title: this.collect[index] == 1 ? "收藏成功":"收藏取消",  
-            duration: 1000,  
-            icon: "sucess",  
-            make: true  
-          }) 
+      navTofavorite () {
+          wx.navigateTo({url: "/pages/favoritelist/main"})
       },
-      */
 
       ConfirmLogin () {
          let that = this;

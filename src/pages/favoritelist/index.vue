@@ -20,7 +20,7 @@
             :style="stylelist[index]" 
           >
             <div class="td name th-name">
-                {{items.name}}
+              {{items.name}}
             </div>
             <div class='td th-date'>
                 <div class="td-date">
@@ -39,9 +39,6 @@
           </div>
           <div class="inner del" @click="delItem(index,items)">删除</div>
       </div> 
-      <div class="created" @click="addPredict">
-          <wxc-icon size="40" type="add" class="create" />
-      </div>
       <div class="weui-loadmore" :hidden="isHideLoadMore">
           <div class="weui-loading"></div>
           <div class="weui-loadmore__tips">正在加载</div>
@@ -158,14 +155,6 @@ import * as env from '../../utils/index'
               })
           },
 
-
-          addPredict () {
-              wx.navigateTo({url: "/pages/createPredict/main"})
-              wx.setNavigationBarTitle({
-                  title: '创建预测'
-              })
-          },
-
           selectItem (id,name,collection) {
               let detail = {itemId: id, itemName: name, collected:collection}
               wx.navigateTo({
@@ -178,7 +167,7 @@ import * as env from '../../utils/index'
             if (pageIndex == 1) {
                 this.listData = res.data.data;
                 this.total = res.data.data.total;
-                for (let i = 0; i < this.listData.length; i ++) {
+                for (let i = 0;i < this.listData.length;i++) {
                     this.listData[i].name = env.splitename(this.listData[i].name)
                     while (this.collect.length < this.listData.length) {
                         this.collect.push(0)
@@ -200,7 +189,7 @@ import * as env from '../../utils/index'
           getList () {
               let pageIndex = this.pageIndex;
               let token = wx.getStorageSync('token');
-              let url = env.host + '/forecast/cmp/all'
+              let url = env.host + '/forecast/cmp/my'
               wx.request({  
                   url: url, 
                   header: {  
@@ -246,9 +235,6 @@ import * as env from '../../utils/index'
       width: 100%;
       height: 100%;
       background: #E9EBEC;
-  }
-  .bg-t {
-      margin-top: 2vh;
   }
   .bg-c,.bg-t {
       border-bottom: 1px solid #E6E5E5;

@@ -21,6 +21,9 @@ export default {
       "pages/historylist/main",
       "pages/detailpred/main",
       "pages/manual/main",
+      "pages/vertifielist/main",
+      "pages/unvertifielist/main",
+      "pages/favoritelist/main",
       '^pages/index/main'  
     ],
     window: {
