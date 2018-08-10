@@ -383,9 +383,9 @@ export default {
                               if (res.data.token) {
                                   wx.setStorageSync('token',res.data.token) 
                               }
-                              that.loadEchartData()
-                              that.loadplsum()
-                              that.loadTap()
+                             // that.loadEchartData()
+                             // that.loadplsum()
+                             // that.loadTap()
                           }
                       })
                   } 
@@ -552,13 +552,12 @@ export default {
   .bg-type {
       width: 100%;
       display: flex;
-      justify-content: center;
       align-items: center;
       height: 7vh;
       margin-top: 2vh;
-      margin-bottom: 2vh;
-      color: #fff;
-      background: #D3CFCF;
+      margin-bottom: 1vh;
+      padding-left: 3vw;
+      font-weight: 600;
   }
   .cb {
       margin-top: 7vh;
