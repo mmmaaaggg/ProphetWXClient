@@ -338,21 +338,18 @@ export default {
       },
 
       ConfirmLogin () {
-         let that = this;
-        /*
         let that = this;
         let token = wx.getStorageSync('token')
         wx.request({
-            url: env.host+'auth/has_login',
+            url: env.host + '/auth/login_detection',
             header: {
               token: token
             },
             success (res) {
               if (res.data.message) {
-                 //that.loadplsum();
-                 //that.loadEchartData();
-                 //that.loadTap();
-                 loginNum = 0;
+              //   that.loadEchartData()
+              //   that.loadplsum()
+              //   that.loadTap()
               } else {
                     console.log('login fail,Please login again')
                     apiLogin.firstLogin();
@@ -363,34 +360,8 @@ export default {
               console.log('request fail')
             }
                   
-        })*/
+        })
 
-          wx.login({
-              success(res) {
-                  if (res.code) {
-                    //发起网络请求
-                     // let url = env.host + `/auth/login`
-                      console.log(res.code)
-                      wx.request({
-                          url: env.host + `/auth/login`, 
-                          header: {
-                              "Content-Type": "json"
-                          },
-                          data: {
-                              code: res.code
-                          },
-                          success(res) {
-                              if (res.data.token) {
-                                  wx.setStorageSync('token',res.data.token) 
-                              }
-                             // that.loadEchartData()
-                             // that.loadplsum()
-                             // that.loadTap()
-                          }
-                      })
-                  } 
-              }
-          })
       },
 
       
@@ -398,9 +369,6 @@ export default {
 
     mounted () { 
         this.ConfirmLogin(); 
-        if (wx.getStorageSync('collect')) {
-           this.collect = wx.getStorageSync('collect')
-        }
     },
 
     created() {

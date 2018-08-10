@@ -247,9 +247,6 @@ import * as env from '../../utils/index'
       height: 100%;
       background: #E9EBEC;
   }
-  .bg-t {
-      margin-top: 2vh;
-  }
   .bg-c,.bg-t {
       border-bottom: 1px solid #E6E5E5;
   }

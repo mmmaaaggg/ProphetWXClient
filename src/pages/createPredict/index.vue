@@ -842,8 +842,7 @@ export default {
   }
   textarea {
       padding-left: 19rpx;
-      padding-top: 3px;
-      padding-bottom: 3px;
+      padding-top: 3rpx;
   }
   switch {
       margin-left: 4vw;
