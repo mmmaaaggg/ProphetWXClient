@@ -269,11 +269,11 @@ export default {
               },
               success (res) {
                   let data = res.data
-                  that.foundtime = data.general.created_at.split(" ")[0];
-                  that.rr_tot = data.performance.rr_tot;
-                  that.rr_month = data.performance.rr_month;
-                  that.final_value = Number(data.performance.final_value).toFixed(2);
-                  that.times_yeb = Number(data.performance.times_yeb).toFixed(2)
+                  that.foundtime = data.general.created_at.split(" ")[0] || '-';
+                  that.rr_tot = data.performance.rr_tot ? Number(data.performance.rr_tot).toFixed(3) : '-';
+                  that.rr_month = data.performance.rr_month ? data.performance.rr_month : '-';
+                  that.final_value = data.performance.final_value ? Number(data.performance.final_value).toFixed(2) : '-';
+                  that.times_yeb = data.performance.times_yeb ? Number(data.performance.times_yeb).toFixed(2) : '-';
               }
           })
       },

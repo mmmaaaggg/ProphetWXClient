@@ -4,13 +4,14 @@
             <div class="chartContainer">
                 <mpvue-echarts :echarts="echarts"  :onInit="onInit"></mpvue-echarts>
             </div>
+            <div class="bg-type">预测</div>
             <div class="tapContainer trTap">
                 <div class="blog vertify">
                     <div class="wxcIcon vertifyIcon">
                         <wxc-icon size="45" type="feedback" class="feedback" /> 
                     </div>
-                    <div class="bg-right" @click="navTounvertifie">
-                        <div class="bg-item digita">{{confirmData}}</div>
+                    <div class="bg-right" @click="navTocmpunvertifie">
+                        <div class="bg-item digita">{{cmpSum[0]}}</div>
                         <div class="bg-item blogitem">待验证</div>
                     </div>
                 </div>
@@ -18,8 +19,8 @@
                     <div class="wxcIcon vertifiedIcon">
                         <wxc-icon size="45" type="rate" class="rate" /> 
                     </div>
-                    <div class="bg-right" @click="navTovertifie">
-                        <div class="bg-item digita">{{vertified}}</div>
+                    <div class="bg-right" @click="navTocmpvertifie">
+                        <div class="bg-item digita">{{cmpSum[1]}}</div>
                         <div class="bg-item blogitem">已验证</div>
                     </div>
                 </div>
@@ -27,43 +28,42 @@
                     <div class="wxcIcon attentionIcon">
                         <wxc-icon size="45" type="star" class="star" /> 
                     </div>
-                    <div class="bg-right" @click="navTofavorite">
-                        <div class="bg-item digita">{{interest}}</div>
+                    <div class="bg-right" @click="navTocmpfavorite">
+                        <div class="bg-item digita">{{cmpSum[2]}}</div>
                         <div class="bg-item blogitem">关注预言</div>
                     </div>
                 </div>
             </div>
-     <!--   <div class="tbContainer">
-          <div class="tr bg-t">
-            <div class="th th-name">预测名称</div>
-            <div class="th th-date">起止日期</div>
-            <div class="th th-rate">准确率</div>
-            <div class="th th-person">预言家</div>
-          </div>
-          <div v-for="(items,index) in listData" :key="index" class="tr bg-c" >
-            <div class="td name th-name">
-              {{items.name}}
+            <div class="bg-type cb">组合</div>
+            <div class="tapContainer trTap">
+                <div class="blog plvertify">
+                    <div class="wxcIcon vertifyIcon">
+                        <wxc-icon size="45" type="feedback" class="feedback" /> 
+                    </div>
+                    <div class="bg-right" @click="navToplunvertifie">
+                        <div class="bg-item digita">{{plSum[0]}}</div>
+                        <div class="bg-item blogitem">所有组合</div>
+                    </div>
+                </div>
+                <div class="blog plvertified">
+                    <div class="wxcIcon vertifiedIcon">
+                        <wxc-icon size="45" type="rate" class="rate" /> 
+                    </div>
+                    <div class="bg-right" @click="navToplvertifie">
+                        <div class="bg-item digita">{{plSum[1]}}</div>
+                        <div class="bg-item blogitem">我的组合</div>
+                    </div>
+                </div>
+                <div class="blog plattention">
+                    <div class="wxcIcon attentionIcon">
+                        <wxc-icon size="45" type="star" class="star" /> 
+                    </div>
+                    <div class="bg-right" @click="navToplfavorite">
+                        <div class="bg-item digita">{{plSum[2]}}</div>
+                        <div class="bg-item blogitem">关注组合</div>
+                    </div>
+                </div>
             </div>
-            <div class='td th-date'>
-              <div class="td-date">
-                <div class="date">{{items.date_from}}</div>
-                <div class="date">{{items.date_to}}</div>
-              </div>
-            </div>      
-            <div class="td th-rate">
-              {{items.cmp_id}}
-            </div>
-            <div class="td th-person">
-              <div class="username">
-                {{items.username}}
-              </div>
-              <div class="button-collection" v-on:click="handleCollect(items,index)">
-                 <wxc-icon v-if ="collect[index]" size="40" type="star-active" class="collected" />
-                 <wxc-icon v-else  size="40" type="star" class="collected"></wxc-icon>
-              </div>
-            </div>
-          </div>
-        </div>  -->
         </scroll-view>
     </div>
 </template>
@@ -88,10 +88,8 @@ export default {
             listData: {},
             echarts,
             onInit: this.initChart,
-            confirmData: 0,
-            vertified: 0,
-            interest: 0,
-            collect: []
+            cmpSum: [0,0,0],
+            plSum: [0,0,0]
         }
     },
    
@@ -274,34 +272,27 @@ export default {
               }
           });
       },
-      /*
-      loadChartData () {
+      
+      loadplsum () {
           let that = this;
           let token = wx.getStorageSync('token');
           wx.request({  
-              url: env.host + 'forecast/cmp/get_list/all', 
-              //url: 'http://127.0.0.1:6060/list',
+              url: env.host + '/forecast/pl/summary', 
               header: {  
                   token: token
               },  
               success: (res) => {  
                   if (res.data.errcode == 41008) {
                      apiLogin.firstLogin();
-                     this.loadChartData();
+                     this.loadplsum();
                   }
-                  that.listData = res.data.data;
-                  for (let i = 0;i < that.listData.length;i++) {
-                      while (that.collect.length < that.listData.length) {
-                          that.collect.push(0)
-                      }
-                      if (that.collect.length == that.listData.length) {
-                          that.collect[i] = that.listData[i].favorite
-                      }
-                  }
+                  that.$set(that.plSum,0,res.data.data[0].count.split('.')[0]) 
+                  that.$set(that.plSum,1,res.data.data[1].count.split('.')[0]) 
+                  that.$set(that.plSum,2,res.data.data[2].count.split('.')[0])
               }
           })     
       },
-      */
+      
       loadTap () {
           let that = this
           let token = wx.getStorageSync('token')
@@ -317,23 +308,33 @@ export default {
                       apiLogin.firstLogin();
                       that.loadTap();
                   }
-                  that.confirmData = res.data.data[0].count.split('.')[0];
-                  that.vertified = res.data.data[1].count.split('.')[0];
-                  that.interest = res.data.data[2].count.split('.')[0];
+                  that.$set(that.cmpSum,0,res.data.data[0].count.split('.')[0]) 
+                  that.$set(that.cmpSum,1,res.data.data[1].count.split('.')[0]) 
+                  that.$set(that.cmpSum,2,res.data.data[2].count.split('.')[0])
               }
           })     
       },
 
 
-      navTounvertifie () {
-          wx.navigateTo({url: "/pages/unvertifielist/main"})
+      navTocmpunvertifie () {
+          wx.navigateTo({url: "/pages/cmpunvertifielist/main"})
       },
 
-      navTovertifie () {
-          wx.navigateTo({url: "/pages/vertifielist/main"})
+      navTocmpvertifie () {
+          wx.navigateTo({url: "/pages/cmpvertifielist/main"})
       },
-      navTofavorite () {
-          wx.navigateTo({url: "/pages/favoritelist/main"})
+      navTocmpfavorite () {
+          wx.navigateTo({url: "/pages/cmpfavoritelist/main"})
+      },
+      navToplunvertifie () {
+          wx.navigateTo({url: "/pages/plunvertifielist/main"})
+      },
+
+      navToplvertifie () {
+          wx.navigateTo({url: "/pages/plvertifielist/main"})
+      },
+      navToplfavorite () {
+          wx.navigateTo({url: "/pages/plfavoritelist/main"})
       },
 
       ConfirmLogin () {
@@ -348,7 +349,7 @@ export default {
             },
             success (res) {
               if (res.data.message) {
-                 //that.loadChartData();
+                 //that.loadplsum();
                  //that.loadEchartData();
                  //that.loadTap();
                  loginNum = 0;
@@ -383,6 +384,7 @@ export default {
                                   wx.setStorageSync('token',res.data.token) 
                               }
                               that.loadEchartData()
+                              that.loadplsum()
                               that.loadTap()
                           }
                       })
@@ -421,34 +423,36 @@ export default {
   .container {
       width: 100%;
       height: 100%;
-      background: #ECEBEB;
+      background: #fff;
   }
   .chartContainer{
       width: 100vw;
       height: 45vh;
   }
   .tapContainer {
-      margin-top: 10vh;
       width: 100vw;
       height: 12vh;
   }
   .vertify {
-      background: #9F52CD;
+      background-image: linear-gradient(to right, #FCEDCD, 20%, #C18F3B);
+  }
+  .plvertify {
+      background-image: linear-gradient(to right, #FCC8E4, 10%, #850ABD);
   }
   .vertified {
-      background: #fff;
+      background-image: linear-gradient(to right, #FFD4CC, 20%, #F95C2F);
   }
-  .vertifyIcon {
+  .plvertified {
+      background-image: linear-gradient(to right, #FF9885, 40%, #AB48D8);
+  }
+  .vertifyIcon,.vertifiedIcon,.attentionIcon {
       border-right: 1px solid #F0DEDE;
   }
-  .vertifiedIcon {
-      border-right: 1px solid #D0A1A1;
-  }
   .attention {
-      background: #C18F3B;
+      background-image: linear-gradient(to right, #F1D2F7, 20%, #AB48D8);
   }
-  .attentionIcon {
-      border-right: 1px solid #E28BB7;
+  .plattention {
+      background-image: linear-gradient(to right, #F1D2F7, 20%, #31FA7A);
   }
   .tbContainer {
       margin-top: 5vh;
@@ -467,16 +471,9 @@ export default {
   }
   .bg-right {
       width: 22vw;
-      box-shadow: 0 4px 0 #404346, 0 3px 20px rgba(0,0,0,0.3);
   }
   .bg-right:active {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) inset;
-  }
-  .bg-t {
-      background-color: #7FBFF0;
-  }
-  .bg-c {
-      background-color: #F7F9FA;
   }
   .wxcIcon {
       width: 8vw;
@@ -490,6 +487,11 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+  }
+  .blogitem {
+      color: #fff;
+      font-size: 0.8em;
+      font-weight: bold;
   }
   .tr {
       display: flex;
@@ -547,15 +549,18 @@ export default {
       align-items: center;
       font-size: 0.5em;
   }
-  .button-collection {
-      height: 100%;
-      width: 40%;
+  .bg-type {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 7vh;
+      margin-top: 2vh;
+      margin-bottom: 2vh;
+      color: #fff;
+      background: #D3CFCF;
   }
-  .collected {
-      width: 5vw;
-      height: 5vh;
-      padding-top: 1vh;
-      right: 2vh;
-      position: absolute;
+  .cb {
+      margin-top: 7vh;
   }
 </style>

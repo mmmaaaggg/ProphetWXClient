@@ -21,9 +21,12 @@ export default {
       "pages/historylist/main",
       "pages/detailpred/main",
       "pages/manual/main",
-      "pages/vertifielist/main",
-      "pages/unvertifielist/main",
-      "pages/favoritelist/main",
+      "pages/cmpvertifielist/main",
+      "pages/cmpunvertifielist/main",
+      "pages/cmpfavoritelist/main",
+      "pages/plvertifielist/main",
+      "pages/plunvertifielist/main",
+      "pages/plfavoritelist/main",
       '^pages/index/main'  
     ],
     window: {

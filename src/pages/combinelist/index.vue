@@ -203,7 +203,10 @@ import * as env from '../../utils/index'
             if (pageIndex == 1) {
                 this.listData = res.data.data;
                 this.total = res.data.data.total;
-                for (let i = 0; i < this.listData.length; i++) {     
+                for (let i = 0; i < this.listData.length; i++) {  
+                    if (this.listData[i].nav) {
+                        this.listData[i].nav = Number(this.listData[i].nav).toFixed(3)
+                    }  
                     this.stylelist.push('')
                 }
             } 
@@ -291,6 +294,7 @@ import * as env from '../../utils/index'
   }
   .th-rate {
       width: 20%;
+      font-size: 0.8em;
   }
   .th-person {
       width: 30%;

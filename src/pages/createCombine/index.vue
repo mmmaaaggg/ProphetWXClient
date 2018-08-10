@@ -34,6 +34,7 @@
                     <input 
                       type="text" 
                       placeholder="name" 
+                      :value="inputName"
                       @change="bindInputName($event)"
                     />
                   </div>
@@ -44,6 +45,7 @@
                     <textarea
                       auto-height
                       placeholder="description"
+                      :value="inputDescription"
                       @change="bindInputDescription($event)"
                     />
                   </div>
@@ -315,6 +317,8 @@ export default {
         resetItem () {
             this.buffer = [];
             this.priceBuffer = [];
+            this.inputName = '';
+            this.inputDescription = '';
         },
 
         addItem () {
