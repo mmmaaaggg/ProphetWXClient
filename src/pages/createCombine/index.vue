@@ -1,39 +1,39 @@
-<template> 
+<template>
   <div class="container">
       <scroll-view scroll-y="true" class="scroll" >
         	<div class="jbxx">
               <div class="left-tab">基本信息</div>
               <div class="right-tab">
-                  <div 
+                  <div
                     class="select-item"
                     :class="{active:selected == 'zq'}"
                     @click="selectItem('zq')"
                   >
                     证券资产
                   </div>
-                  <div 
+                  <div
                     class="select-item"
                     :class="{active:selected == 'sz'}"
                     @click="selectItem('sz')"
                   >
                     数字资产
                   </div>
-                  <div 
+                  <div
                     class="select-item"
                     :class="{active:selected == 'hh'}"
                     @click="selectItem('hh')"
                   >
                     混合资产
                   </div>
-              </div> 
+              </div>
           </div>
           <div class="cjzh">
               <div class="single-input">
                   <div class="zh-name">组合名称</div>
                   <div class="input">
-                    <input 
-                      type="text" 
-                      placeholder="name" 
+                    <input
+                      type="text"
+                      placeholder="name"
                       :value="inputName"
                       @change="bindInputName($event)"
                     />
@@ -52,8 +52,8 @@
               </div>
               <div class="switch-input">
                   <div class="secret">公开组合</div>
-                  <div> 
-                    <switch 
+                  <div>
+                    <switch
                       checked="switchChecked"
                       @change="switchChange($event)"
                     />
@@ -64,8 +64,8 @@
               <div class="basic-info">
                   <div class="trans-date">
                       <div class="trans-time">交易日期</div>
-                      <div class="date"> 
-                        <picker 
+                      <div class="date">
+                        <picker
                           mode="date"
                           :value="date"
                           start="2000-01-01"
@@ -79,7 +79,7 @@
                   <div class="trans-m">
                       <div class="trans-price">价格</div>
                       <div class="price">
-                        <picker 
+                        <picker
                           mode="selector"
                           :value="index"
                           :range="array"
@@ -99,20 +99,20 @@
                   </div>
                   <div class="tr itemlist" v-for="(item,index) in buffer" :key="index">
                       <div class="td asset-name item-name">
-                          <div class="cate-type">{{item.category}}</div> 
+                          <div class="cate-type">{{item.category}}</div>
                           <div class="category">{{item.name}}</div>
                       </div>
                       <div class='td th-normal'>
-                          <div 
+                          <div
                             class="toggle-item"
                             @click="Toggle(item)"
                           >
                             {{item.toggleText}}
-                          </div> 
-                      </div>      
+                          </div>
+                      </div>
                       <div class="asset-price slider">
-                        <slider 
-                          @change="sliderchange($event,item,index)" 
+                        <slider
+                          @change="sliderchange($event,item,index)"
                           show-value = true
                           :value="priceBuffer[index]"
                           block-size ='12'
@@ -120,7 +120,7 @@
                         />
                       </div>
                       <div class="td th-normal delete">
-                          <div 
+                          <div
                             class="delete-item"
                             @click="deleteItem(index)"
                           >
@@ -129,79 +129,37 @@
                       </div>
                   </div>
               </div>
-              <div class="newItem">
-                  <div class="addItem">
-                    <div class="add-text">添加资产</div>
-                    <div class="input-wrap">
-                      <div class="input-gp">
-                        <input
-                         placeholder="search"
-                         v-model="query"
-                         :value="inputValue"
-                         @input="bindInput($event)"
-                         @focus="changeItem(ishide,inputValue)"
-                         @blur="ishide = !ishide"
-                      />
-                      </div>  
-                    </div>
-                    <div 
-                      class="add-icon"
-                      @click="addItem"
-                    >
-                      添加股票
-                    </div>
+              <div
+                  class="add-item"
+                  @click="addItem"
+              >
+               <!--  <div class="add-symbol">+</div> <!-->
+                  <div class="add-txt">添加股票</div>
+              </div>
+              <div class="button">
+                  <div
+                    class="btn submit"
+                    @click="submitItem"
+                  >
+                    提交
                   </div>
-                  <div class="search-content" :hidden="ishide">
-                      <scroll-view scroll-y="true" class="scroll" >
-                        <ul>
-                          <li
-                            class="first-item"
-                            v-for="(item,index) in List"
-                            :key="index"
-                          >       
-                            <div class="first-title item-info">{{item.text}}</div>  
-                            <ul>
-                              <li
-                                class="second-item item-info"
-                                v-for="(second,cindex) in item.children"
-                                :class="{ odd : cindex % 2 == 0 }"
-                                @click="chooseItem(second.asset_name,item.text,second.asset_type,second.text)"
-                                :key="cindex"
-                              >
-                                <span>{{second.text}}</span>
-                                
-                              </li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </scroll-view>
-                  </div>
-                  <div class="button">
-                      <div 
-                        class="btn submit"
-                        @click="submitItem"
-                      >
-                        提交
-                      </div>
-                      <div 
-                        class="btn reset"
-                        @click="resetItem"
-                      >
-                        重置
-                      </div>
+                  <div
+                    class="btn reset"
+                    @click="resetItem"
+                  >
+                    重置
                   </div>
               </div>
-          </div>  
+          </div>
       </scroll-view>
   </div>
 </template>
 
 
 <script>
-import Vue from 'vue';
 
 export default {
-    
+
   	data () {
         return {
             selected: 'zq',
@@ -212,8 +170,6 @@ export default {
             inputDescription: '',
             array: ['收盘价','开盘价'],
             toggleText: "做多",
-            query: '',
-            ishide: true,
             inputValue: '',
             buffer: [],
             priceBuffer: [],
@@ -225,7 +181,7 @@ export default {
   	},
 
   	computed: {
-     
+
       /*computeList () {
          let vm = this;
          return vm.List.filter(function (item) {
@@ -257,15 +213,15 @@ export default {
             for (let i of this.priceBuffer) {
               tempSum += i;
             }
-            
+
             sum = tempSum - this.priceBuffer[index];
-            
+
             if (tempSum >= 100) {
               wx.showToast({
                 title: '现金用尽',
                 duration: 1500
               });
-              Vue.set(this.priceBuffer,index,100-sum);
+              this.$set(this.priceBuffer,index,100-sum);
               console.log(this.priceBuffer)
             } else {
               this.priceBuffer[index] = tempValue;
@@ -293,7 +249,7 @@ export default {
             wx.request ({
               url: 'https://prophets.top/forecast/pl',
               method: 'POST',
-              header: { 
+              header: {
                 'content-type': 'application/json' ,
                 "token": token
               },
@@ -322,70 +278,13 @@ export default {
         },
 
         addItem () {
-            let flag = true;
-            for (let item of this.buffer) {
-               if (item.name == this.inputValue) {
-                   flag = false;
-               }
-            }
-            if (this.inputValue && flag ) {
-               this.buffer.push({
-                 category: this.category,
-                 name: this.inputValue,
-                 toggleText: this.toggleText,
-                 asset_type: this.type,
-                 asset_code: this.code,
-                 direction: 1
-               });
-               this.priceBuffer.push(0);
-               this.inputValue = '';
-            } 
-            else if (this.inputValue && !flag) {
-                wx.showToast({
-                   title: "不能输入相同内容",
-                   duration: 1000
-                });   
-              } 
-              else {
-                   wx.showToast({
-                     title: "不能为空",
-                     duration: 1000
-                   });
-              } 
-          
-        },
-
-        bindInput (e) {
-            let that = this;
-            that.inputValue = e.target.value;
-            let url = `https://prophets.top/asset/asset/${that.inputValue}`;
-            wx.request({
-              url: url,
-              header: {  
-                'content-type': 'json'  
-              },
-              success: (res) => {
-                that.List = res.data.results;
-              }
-            });
-        },
-
-        chooseItem (name,category,type,text) {
-            this.inputValue = name;
-            this.category = category;
-            this.type = type;
-            this.code = text.split(".")[0];
-        },
-
-        changeItem (ishide) {
-           let that = this;
-           that.ishide = !ishide; 
+            wx.navigateTo({url: "/pages/select/main"})
         },
 
         dateChange (e) {
             this.date = e.target.value;
         },
-        
+
         priceChange (e) {
             this.index = e.target.value;
         },
@@ -393,15 +292,25 @@ export default {
         selectItem (item) {
             this.selected = item;
         }
-  	}
-}  
+  	},
+    mounted () {
+        let detail = this.$root.$mp.query.detail
+        if (detail) {
+            detail = detail.split(',')
+            for (let i = 0; i < detail.length; i++)
+                console.log(detail[i])
+                this.$set(this.buffer,i,detail[i])
+        }
+        console.log(this.buffer)
+    }
+}
 </script>
 
 
-<style> 
+<style>
   html,body {
-    	width: 100%;
-    	height: 100%;
+    width: 100%;
+    height: 100%;
   }
   .input>input,.input-gp>input {
       padding-left: 20rpx;
@@ -417,7 +326,7 @@ export default {
   .container {
       width: 100%;
       height: 100%;
-      background: #E9EBEC;
+      background: #EDEDED;
   }
   .jbxx {
       width: 100%;
@@ -585,7 +494,7 @@ export default {
       left: 2vw;
       position: absolute;
   }
-  .th { 
+  .th {
       font-weight: bold;
   }
   .th-normal {
@@ -620,23 +529,16 @@ export default {
       background: #fff;
       position: relative;
   }
-  .addItem {
+  .add-item {
       display: flex;
-      width: 100%;
-      height: 8vh;
-      align-items: center;
-      justify-content: space-between;
-  }
-  .add-icon {
-      padding: 10rpx;
-      display: flex;
+      height: 6vh;
       justify-content: center;
       align-items: center;
-      border: 1px solid #EBEEB0;
-      border-radius: 6px;
-      margin-right: 12px;
+      background: #fff;
+      margin-top: 1vh;
+      color: #8BA4FF;
   }
-  .add-icon:active {
+  .add-item:active {
       background: #BBBBE2;
   }
   .input-gp {

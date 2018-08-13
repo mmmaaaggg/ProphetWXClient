@@ -1,24 +1,24 @@
-<template> 
+<template>
     <div class="container">
       	 <scroll-view scroll-y="true" class="scroll">
-              <div class="tr bg-t">
+              <div class="tr bg-t">·
                   <div class="th th-name">组合</div>
                   <div class="th th-date">起止日期</div>
                   <div class="th th-rate">净值</div>
                   <div class="th th-person">预言家</div>
               </div>
-              <div 
-                v-for="(items,index) in listData" 
-                :key="index" 
-                class="tr bg-c"      
-              >    
-                  <div  
+              <div
+                v-for="(items,index) in listData"
+                :key="index"
+                class="tr bg-c"
+              >
+                  <div
                     @touchstart="handleTouchstart($event,index)"
                     @touchmove="handleTouchmove($event,index)"
                     @touchend="handleTouchend($event,index)"
                     @click="selectItem(items.pl_id,items.name,items.favorite)"
-                    class="inner text" 
-                    :style="stylelist[index]" 
+                    class="inner text"
+                    :style="stylelist[index]"
                   >
                     <div class="td name th-name">
                       {{items.name}}
@@ -28,7 +28,7 @@
                             <div class="date">{{items.date_from || '---'}}</div>
                             <div class="date">{{items.date_to || '---'}}</div>
                         </div>
-                    </div>      
+                    </div>
                     <div class="td th-rate">
                         {{items.nav || '---'}}
                     </div>
@@ -36,11 +36,11 @@
                         <div class="username">
                             {{items.username}}
                         </div>
-                    </div> 
+                    </div>
                   </div>
-                  
+
                   <div class="inner del" @click="delItem(index,items)">删除</div>
-              </div> 
+              </div>
               <div class="created" @click="addPredict">
                   <wxc-icon size="40" type="add" class="create" />
               </div>
@@ -49,7 +49,7 @@
                 <div class="weui-loading"></div>
                 <div class="weui-loadmore__tips">正在加载</div>
             </div>
-        </scroll-view> 
+        </scroll-view>
     </div>
 </template>
 
@@ -60,17 +60,17 @@ import * as apiLogin from '../../components/login'
 import * as env from '../../utils/index'
 
  var dataList = [{
-      "id": 11, 
+      "id": 11,
       "cmp_id": 16,
       "status":"30%",
-      "date_from": "2018-03-25", 
-      "date_to": "2018-04-24", 
+      "date_from": "2018-03-25",
+      "date_to": "2018-04-24",
       "username": "fbx",
       "collectionstatus": false
     }];
 
   export default {
-    
+
   	data () {
         return {
           	listData: {},
@@ -86,15 +86,15 @@ import * as env from '../../utils/index'
   	},
 
   	onPullDownRefresh () {
-        wx.showNavigationBarLoading(); 
+        wx.showNavigationBarLoading();
         setTimeout( () => {
           	this.pageIndex = 1;
           	this.getList();
-          	wx.hideNavigationBarLoading(); 
-            wx.stopPullDownRefresh(); 
+          	wx.hideNavigationBarLoading();
+            wx.stopPullDownRefresh();
         }, 1000);
     },
-    
+
     onReachBottom () {
         console.log ('load more')
         this.isHideLoadMore = false;
@@ -104,9 +104,9 @@ import * as env from '../../utils/index'
             	   wx.showLoading();
             	   this.getList();
                  wx.hideLoading();
-                 wx.stopPullDownRefresh() 
+                 wx.stopPullDownRefresh()
               }, 1000);
-         } 
+         }
          else {
          	   this.isHideLoadMore = true;
         	   wx.showToast({
@@ -178,7 +178,7 @@ import * as env from '../../utils/index'
         /*
     	  handleCollect: function (items,index) {
           let temp = this.collect[index];
-          temp = temp == 0 ? 1 : 0; 
+          temp = temp == 0 ? 1 : 0;
           this.$set(this.collect,index,temp);
           wx.setStorageSync('collectList',this.collect)
           let url =  env.host + `forecast/cmp/favorite/${items.cmp_id}/${temp}`
@@ -189,13 +189,13 @@ import * as env from '../../utils/index'
             header: {
               token: token
             }
-          });  
-          wx.showToast({  
-            title: this.collect[index] == 1 ? "收藏成功":"收藏取消",  
-            duration: 1000,  
-            icon: "sucess",  
-            make: true  
-          })  
+          });
+          wx.showToast({
+            title: this.collect[index] == 1 ? "收藏成功":"收藏取消",
+            duration: 1000,
+            icon: "sucess",
+            make: true
+          })
         },
         */
         loadData (res) {
@@ -203,13 +203,13 @@ import * as env from '../../utils/index'
             if (pageIndex == 1) {
                 this.listData = res.data.data;
                 this.total = res.data.data.total;
-                for (let i = 0; i < this.listData.length; i++) {  
+                for (let i = 0; i < this.listData.length; i++) {
                     if (this.listData[i].nav) {
                         this.listData[i].nav = Number(this.listData[i].nav).toFixed(3)
-                    }  
+                    }
                     this.stylelist.push('')
                 }
-            } 
+            }
             else {
                 console.log('load more');
                 //let tempList = res.data.data;
@@ -223,13 +223,13 @@ import * as env from '../../utils/index'
             let pageIndex = this.pageIndex;
             let token = wx.getStorageSync('token');
             let url = env.host + '/forecast/pl/all'
-            wx.request({  
-                url: url, 
-                header: {  
+            wx.request({
+                url: url,
+                header: {
                     'content-type': 'json',
                     token: token
-                },  
-                success: (res) => { 
+                },
+                success: (res) => {
                   /*if (res.data.errcode == 41008) {
                       apiLogin.firstLogin();
                       this.getList()
@@ -237,9 +237,9 @@ import * as env from '../../utils/index'
                         this.loadData(res)
                     }*/
                 	  this.loadData(res)
-                  
-                } 
-            })   
+
+                }
+            })
         }
   	},
 
@@ -252,11 +252,11 @@ import * as env from '../../utils/index'
         }
 
     }
-  }  
+  }
 </script>
 
 
-<style> 
+<style>
   html,body {
     	width: 100%;
     	height: 100%;
@@ -271,7 +271,7 @@ import * as env from '../../utils/index'
       height: 100%;
   }
   .bg-c,.bg-t {
-      
+
       border-bottom: 1px solid #E6E5E5;
   }
   .tr {

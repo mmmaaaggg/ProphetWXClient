@@ -8,7 +8,7 @@
             <div class="tapContainer trTap">
                 <div class="blog vertify">
                     <div class="wxcIcon vertifyIcon">
-                        <wxc-icon size="45" type="feedback" class="feedback" /> 
+                        <wxc-icon size="45" type="feedback" class="feedback" />
                     </div>
                     <div class="bg-right" @click="navTocmpunvertifie">
                         <div class="bg-item digita">{{cmpSum[0]}}</div>
@@ -17,7 +17,7 @@
                 </div>
                 <div class="blog vertified">
                     <div class="wxcIcon vertifiedIcon">
-                        <wxc-icon size="45" type="rate" class="rate" /> 
+                        <wxc-icon size="45" type="rate" class="rate" />
                     </div>
                     <div class="bg-right" @click="navTocmpvertifie">
                         <div class="bg-item digita">{{cmpSum[1]}}</div>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="blog attention">
                     <div class="wxcIcon attentionIcon">
-                        <wxc-icon size="45" type="star" class="star" /> 
+                        <wxc-icon size="45" type="star" class="star" />
                     </div>
                     <div class="bg-right" @click="navTocmpfavorite">
                         <div class="bg-item digita">{{cmpSum[2]}}</div>
@@ -38,7 +38,7 @@
             <div class="tapContainer trTap">
                 <div class="blog plvertify">
                     <div class="wxcIcon vertifyIcon">
-                        <wxc-icon size="45" type="feedback" class="feedback" /> 
+                        <wxc-icon size="45" type="feedback" class="feedback" />
                     </div>
                     <div class="bg-right" @click="navToplunvertifie">
                         <div class="bg-item digita">{{plSum[0]}}</div>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="blog plvertified">
                     <div class="wxcIcon vertifiedIcon">
-                        <wxc-icon size="45" type="rate" class="rate" /> 
+                        <wxc-icon size="45" type="rate" class="rate" />
                     </div>
                     <div class="bg-right" @click="navToplvertifie">
                         <div class="bg-item digita">{{plSum[1]}}</div>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="blog plattention">
                     <div class="wxcIcon attentionIcon">
-                        <wxc-icon size="45" type="star" class="star" /> 
+                        <wxc-icon size="45" type="star" class="star" />
                     </div>
                     <div class="bg-right" @click="navToplfavorite">
                         <div class="bg-item digita">{{plSum[2]}}</div>
@@ -72,7 +72,7 @@
 
 import * as echarts from 'echarts'
 import mpvueEcharts from 'mpvue-echarts'
-import * as apiLogin from '../../components/login'
+import * as login from '../../components/login'
 import * as env from '../../utils/index'
 
 let chart = null
@@ -92,7 +92,7 @@ export default {
             plSum: [0,0,0]
         }
     },
-   
+
     methods: {
 
       initChart (canvas, width, height) {
@@ -105,6 +105,7 @@ export default {
       },
 
       loadEchartData () {
+          login.ConfirmLogin()
           let that = this;
           wx.request({
               url: env.host + '/asset/candle/index/000300.SH/DOCLHV',
@@ -196,7 +197,7 @@ export default {
                         ],
                         yAxis: [
                             {
-                                scale: true, 
+                                scale: true,
                             },
                             {
                                 scale: true,
@@ -208,7 +209,7 @@ export default {
                                 splitLine: {show: false}
                             }
                         ],
-                       
+
                         series: [
                             {
                                 name: 'index',
@@ -272,47 +273,49 @@ export default {
               }
           });
       },
-      
+
       loadplsum () {
+          login.ConfirmLogin()
           let that = this;
           let token = wx.getStorageSync('token');
-          wx.request({  
-              url: env.host + '/forecast/pl/summary', 
-              header: {  
+          wx.request({
+              url: env.host + '/forecast/pl/summary',
+              header: {
                   token: token
-              },  
-              success: (res) => {  
+              },
+              success: (res) => {
                   if (res.data.errcode == 41008) {
                      apiLogin.firstLogin();
                      this.loadplsum();
                   }
-                  that.$set(that.plSum,0,res.data.data[0].count.split('.')[0]) 
-                  that.$set(that.plSum,1,res.data.data[1].count.split('.')[0]) 
+                  that.$set(that.plSum,0,res.data.data[0].count.split('.')[0])
+                  that.$set(that.plSum,1,res.data.data[1].count.split('.')[0])
                   that.$set(that.plSum,2,res.data.data[2].count.split('.')[0])
               }
-          })     
+          })
       },
-      
+
       loadTap () {
+          login.ConfirmLogin()
           let that = this
           let token = wx.getStorageSync('token')
-          wx.request({  
-              url: env.host + '/forecast/cmp/summary', 
+          wx.request({
+              url: env.host + '/forecast/cmp/summary',
               //url: 'http://127.0.0.1:6060/list',
-              header: {  
+              header: {
                   token: token
-              },  
+              },
               method: 'GET',
-              success: (res) => { 
+              success: (res) => {
                   if (res.data.errcode == 41008) {
                       apiLogin.firstLogin();
                       that.loadTap();
                   }
-                  that.$set(that.cmpSum,0,res.data.data[0].count.split('.')[0]) 
-                  that.$set(that.cmpSum,1,res.data.data[1].count.split('.')[0]) 
+                  that.$set(that.cmpSum,0,res.data.data[0].count.split('.')[0])
+                  that.$set(that.cmpSum,1,res.data.data[1].count.split('.')[0])
                   that.$set(that.cmpSum,2,res.data.data[2].count.split('.')[0])
               }
-          })     
+          })
       },
 
 
@@ -337,42 +340,16 @@ export default {
           wx.navigateTo({url: "/pages/plfavoritelist/main"})
       },
 
-      ConfirmLogin () {
-        let that = this;
-        let token = wx.getStorageSync('token')
-        wx.request({
-            url: env.host + '/auth/login_detection',
-            header: {
-              token: token
-            },
-            success (res) {
-              if (res.data.message) {
-              //   that.loadEchartData()
-              //   that.loadplsum()
-              //   that.loadTap()
-              } else {
-                    console.log('login fail,Please login again')
-                    apiLogin.firstLogin();
-              }
-              
-            },
-            fail: () => {
-              console.log('request fail')
-            }
-                  
-        })
-
-      },
-
-      
     },
 
-    mounted () { 
-        this.ConfirmLogin(); 
+    mounted () {
+        this.loadEchartData()
+        this.loadplsum()
+        this.loadTap()
     },
 
     created() {
-     
+
     }
 }
 </script>
@@ -402,13 +379,13 @@ export default {
       height: 12vh;
   }
   .vertify {
-      background-image: linear-gradient(to right, #FCEDCD, 20%, #C18F3B);
+      background: #FA872B;
   }
   .plvertify {
-      background-image: linear-gradient(to right, #FCC8E4, 10%, #850ABD);
+      background: #C18CEB;
   }
   .vertified {
-      background-image: linear-gradient(to right, #FFD4CC, 20%, #F95C2F);
+      background: #95C04E;
   }
   .plvertified {
       background-image: linear-gradient(to right, #FF9885, 40%, #AB48D8);
@@ -417,10 +394,10 @@ export default {
       border-right: 1px solid #F0DEDE;
   }
   .attention {
-      background-image: linear-gradient(to right, #F1D2F7, 20%, #AB48D8);
+      background: #C3C92A;
   }
   .plattention {
-      background-image: linear-gradient(to right, #F1D2F7, 20%, #31FA7A);
+      background:#ED8FA0;
   }
   .tbContainer {
       margin-top: 5vh;
@@ -431,7 +408,6 @@ export default {
       justify-content: space-around;
   }
   .blog {
-      border: 1px solid #DD94C5;
       border-radius: 6px;
       height: 100%;
       width: 30vw;

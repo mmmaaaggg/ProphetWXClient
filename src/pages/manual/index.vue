@@ -2,7 +2,7 @@
   <div class="container">
     	<div class="hdcontainer">
     		  <div class="history" @click="showlist(pl_id)">调仓历史</div>
-    	</div> 	
+    	</div>
     	<div class="addinfo" :hidden="addhide">
       	  <div class="zh-input">
             <div class="input-gp">
@@ -26,8 +26,8 @@
 		                class="first-item"
 		                v-for="(item,index) in namelist"
 		                :key="index"
-		            >       
-		                <div class="first-title item-info">{{item.text}}</div>  
+		            >
+		                <div class="first-title">{{item.text}}</div>
 		                <ul>
 			                <li
 			                  class="second-item"
@@ -37,14 +37,14 @@
 			                  :key="cindex"
 			                >
 			                  <span>{{second.text}}</span>
-			                  
+
 			                </li>
 		              </ul>
 		           </li>
 		        </ul>
 	        </scroll-view>
       </div>
-  
+
     	<div class="gpdc">
           <div class="gpbt">
               <span class="gpsubt">当前仓位</span>
@@ -59,8 +59,8 @@
     	                <div class="gp-code">{{items.asset_code}}</div>
     	            </div>
                     <div class="slider">
-                 	    <wxc-progress 
-                 	        :percent="arrayList[index]" 
+                 	    <wxc-progress
+                 	        :percent="arrayList[index]"
                  	    />
                     </div>
                     <div class="gpxs">
@@ -68,16 +68,16 @@
                         <div class="item-delete" :hidden="deletehide" @click="deleteItem(index)">-</div>
                     </div>
       	            <div class="picker" :hidden="pickerhide">
-      	             	<picker 
+      	             	<picker
       		                mode="selector"
       		                :range="priceList"
       		                @change="bindChange($event,index)"
                           >
                               <div class="pickerpadding"></div>
                           </picker>
-      	            </div>      
+      	            </div>
   			      </div>
-          </div>          
+          </div>
       </div>
   </div>
 </template>
@@ -113,9 +113,9 @@ export default {
 
     methods: {
       	showlist (id) {
-        		wx.navigateTo({
-        			url: "/pages/historylist/main?id=" + id
-        		})
+    		wx.navigateTo({
+    			url: "/pages/historylist/main?id=" + id
+    		})
       	},
 
       	toggled () {
@@ -130,7 +130,7 @@ export default {
             for (let item of this.arrayList) {
             	num += Number(item);
             }
-            
+
             if (num > 100) {
             	value = 100 - (num - value)
             	wx.showToast({
@@ -138,7 +138,7 @@ export default {
             		duration: 1000
             	})
             }
-             
+
             value = Number(value).toFixed(2)
             this.$set(this.arrayList,index,value)
       	},
@@ -160,19 +160,19 @@ export default {
   	            });
   	            this.arrayList.push(0);
   	            this.gpname = '';
-  	        } 
+  	        }
             else if (this.gpname && !flag) {
   	            wx.showToast({
   	               title: "不能输入相同内容",
   	               duration: 1000
-  	            });   
-  	       } 
+  	            });
+  	       }
            else {
                wx.showToast({
                  title: "不能为空",
                  duration: 1000
                });
-  	       } 
+  	       }
       	},
 
       	deleteItem (index) {
@@ -265,13 +265,6 @@ export default {
 </script>
 
 <style>
-html,body {
-    height: 100%;
-    width: 100%;
-}
-.hidden {
-    display: none;
-}
 .container {
     height: 100%;
     width: 100%;
@@ -313,7 +306,7 @@ html,body {
     border: 1px solid #878686;
     border-radius: 6px;
 }
-.setgp { 
+.setgp {
     padding: 5rpx;
     border: 1px solid #878686;
     margin-right: 3vw;
