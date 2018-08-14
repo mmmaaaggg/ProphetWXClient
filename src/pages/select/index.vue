@@ -29,15 +29,15 @@
                               <div class="stock-item">{{second.text}}</div>
                               <div
                                 class="add-txt"
-                                v-if="showlist[second.text] == 0"
-                                @click="addItem(second.text)"
+                                v-if="showlist[second.text] == 0 || !showlist[second.text]"
+                                @click="addItem(item.text,second)"
                               >
                                 添加
                               </div>
                               <div
                                 class="add-txt-plus"
                                 v-else
-                                @click="deleteItem(second.text)"
+                                @click="deleteItem(second)"
                               >
                                 已关注
                               </div>
@@ -65,7 +65,8 @@ import * as env from '../../utils/index'
             }
         },
         mounted() {
-
+            this.nameBuffer = []
+            this.showlist = {}
         },
         methods: {
             bindInput (e) {
@@ -85,19 +86,29 @@ import * as env from '../../utils/index'
                     })
                 }
             },
-            addItem (item) {
-                this.$set(this.showlist,item,1)
-                this.nameBuffer.push(item)
+            addItem (text,item) {
+                this.$set(this.showlist,item.text,1)
+                console.log(item)
+                let category = text
+                let type = item.asset_type
+                let name = item.asset_name
+                let code = text.split(':')[0]
+                this.nameBuffer.push({
+                    category: category,
+                    asset_type: type,
+                    asset_code: code,
+                    name: name
+                })
             },
             deleteItem (item) {
-                this.$set(this.showlist,item,0)
+                this.$set(this.showlist,item.text,0)
                 let index = this.nameBuffer.indexOf(item)
                 this.nameBuffer.splice(index,1)
             },
             submit () {
                 let detail = this.nameBuffer
                 wx.navigateTo({
-                    url: "/pages/createCombine/main?detail="+detail,
+                    url: "/pages/createCombine/main?detail="+JSON.stringify(detail),
                 })
             },
         }

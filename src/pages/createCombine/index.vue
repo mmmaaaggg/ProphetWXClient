@@ -275,6 +275,7 @@ export default {
             this.priceBuffer = [];
             this.inputName = '';
             this.inputDescription = '';
+            this.date = '2017-12-16';
         },
 
         addItem () {
@@ -296,10 +297,16 @@ export default {
     mounted () {
         let detail = this.$root.$mp.query.detail
         if (detail) {
-            detail = detail.split(',')
-            for (let i = 0; i < detail.length; i++)
-                console.log(detail[i])
-                this.$set(this.buffer,i,detail[i])
+            detail = JSON.parse(detail)
+            for (let item of detail) {
+                item.toggleText = '做多'
+            }
+            for (let i = 0; i < detail.length; i++){
+                if (this.buffer.indexOf(detail[i].name) == -1) {
+                    this.$set(this.buffer,i,detail[i])
+                }
+            }
+
         }
         console.log(this.buffer)
     }
@@ -579,13 +586,11 @@ export default {
       background: #90BCD8;
   }
   .button {
-      position: absolute;
-      right: 5vw;
-      bottom: 3vh;
       display: flex;
+      justify-content: space-between;
   }
   .submit {
-      margin-right: 3vw;
+      margin-left: 63vw;
   }
   .btn {
       width: 14vw;
@@ -593,11 +598,15 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px solid #EBEEB0;
+      border: 1px solid #535C54;
       border-radius: 6px;
+      margin-top: 2vh;
   }
   .btn:active {
       background: #BBBBE2;
+  }
+  .reset {
+    margin-right: 4vw;
   }
 </style>
 
