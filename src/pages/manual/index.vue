@@ -3,48 +3,13 @@
     	<div class="hdcontainer">
     		  <div class="history" @click="showlist(pl_id)">调仓历史</div>
     	</div>
-    	<div class="addinfo" :hidden="addhide">
-      	  <div class="zh-input">
-            <div class="input-gp">
-                <input
-      		        placeholder="投资组合"
-      		        placeholder-style='text-align:center'
-      		        v-model="query"
-      		        :value="gpname"
-      		        @input="bindInput($event)"
-      		        @focus="ishide=false"
-      		        @blur="ishide=true"
-                />
-            </div>
-          </div>
-      		<div class="addBtn" @click="addItem">添加</div>
+    	<div
+          class="addinfo"
+          :hidden="addhide"
+          @click="addItem"
+        >
+      		<div>添加股票</div>
     	</div>
-    	<div class="search-content" :hidden="ishide">
-	        <scroll-view scroll-y="true" class="scroll" >
-		        <ul>
-		            <li
-		                class="first-item"
-		                v-for="(item,index) in namelist"
-		                :key="index"
-		            >
-		                <div class="first-title">{{item.text}}</div>
-		                <ul>
-			                <li
-			                  class="second-item"
-			                  v-for="(second,cindex) in item.children"
-			                  :class="{ odd : cindex % 2 == 0 }"
-			                  @click="chooseItem(second.asset_name,item.text,second.asset_type,second.text)"
-			                  :key="cindex"
-			                >
-			                  <span>{{second.text}}</span>
-
-			                </li>
-		              </ul>
-		           </li>
-		        </ul>
-	        </scroll-view>
-      </div>
-
     	<div class="gpdc">
           <div class="gpbt">
               <span class="gpsubt">当前仓位</span>
@@ -93,14 +58,8 @@ import * as env from '../../utils/index'
 export default {
     data () {
       	return {
-        		query: '',
-        		gpname: '',
         		pl_id: '',
         		list: '',
-        		namelist: '',
-        		category: '',
-        		type: '',
-        		code: '',
         		toggle: "开盘价",
         		addhide: true,
         		deletehide: true,
@@ -144,35 +103,10 @@ export default {
       	},
 
       	addItem () {
-            let flag = true;
-  	        for (let item of this.list) {
-  	           if (item.asset_name == this.gpname) {
-  	               flag = false;
-  	           }
-  	        }
-  	        if (this.gpname && flag ) {
-  	            this.list.push({
-    	              category: this.category,
-    	              asset_name: this.gpname,
-    	              asset_type: this.type,
-    	              asset_code: this.code,
-    	              direction: 1
-  	            });
-  	            this.arrayList.push(0);
-  	            this.gpname = '';
-  	        }
-            else if (this.gpname && !flag) {
-  	            wx.showToast({
-  	               title: "不能输入相同内容",
-  	               duration: 1000
-  	            });
-  	       }
-           else {
-               wx.showToast({
-                 title: "不能为空",
-                 duration: 1000
-               });
-  	       }
+            let pages = 'manual'
+            wx.navigateTo({
+                url: "/pages/select/main?pages=" + pages
+            })
       	},
 
       	deleteItem (index) {
@@ -219,47 +153,44 @@ export default {
             })
       	},
 
-      	bindInput (e) {
-  	        this.gpname = e.target.value;
-  	        let url = env.host + `/asset/asset/${this.gpname}`;
-  	        wx.request({
-    		        url: url,
-    		        success: (res) => {
-    		            this.namelist = res.data.results;
-    		        }
-              })
-          },
-        chooseItem (name,category,type,text) {
-            this.gpname = name;
-            this.category = category;
-            this.type = type;
-            this.code = text.split(":")[0]
-        },
-
       	loadList () {
         		let that = this;
         		let token = wx.getStorageSync('token');
         		wx.request({
           			url: env.host + `/forecast/pl/data/${that.pl_id}/latest/record`,
           			header: {
-                    'content-type': 'json',
-                    token: token
-                },
+                        'content-type': 'json',
+                        token: token
+                    },
           			success (res) {
         		        if (res.data.count) {
-                         that.list = res.data.data[0].data;
-                         for (let i = 0; i < that.list.length; i++) {
-                             that.arrayList[i] = (that.list[i].weight * 100).toFixed(2);
-                         }
-                    }
+                            that.list = res.data.data[0].data;
+                            for (let i = 0; i < that.list.length; i++) {
+                                that.arrayList[i] = (that.list[i].weight * 100).toFixed(2);
+                            }
+                        }
           			}
         		})
       	}
     },
 
     mounted () {
-      	this.pl_id = this.$root.$mp.query.pl_id
-      	this.loadList()
+        if (this.$root.$mp.query.pl_id) {
+            this.pl_id = this.$root.$mp.query.pl_id
+            this.loadList()
+        }
+        let detail = this.$root.$mp.query.detail
+      	if (detail) {
+            detail = JSON.parse(detail)
+            console.log(detail)
+            for (let i = 0; i < detail.length; i++){
+                if (this.list.indexOf(detail[i].asset_name) == -1) {
+                    this.$set(this.list,this.list.length+i,detail[i])
+                    this.arrayList.push(0)
+                }
+            }
+
+        }
     }
 }
 </script>
@@ -286,6 +217,15 @@ export default {
 }
 .history:active {
     background: #E4E2E2;
+}
+.addinfo {
+    display: flex;
+    height: 6vh;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    margin-bottom: 1vh;
+    color: #8BA4FF;
 }
 .gpdc {
     background: #fff;
@@ -326,6 +266,7 @@ export default {
 .gp-code {
     font-size: 0.7em;
     color: #B6AEAE;
+    text-align: center;
 }
 .weight-code {
     margin-left: 2vw;
@@ -341,54 +282,6 @@ export default {
     right: 2vw;
     display: flex;
     position: absolute;
-}
-.zh-input {
-    width: 70%;
-    padding-left: 2vw;
-}
-.input-gp {
-    text-align: center;
-}
-.search-content {
-    background: #F9A9A9;
-    width: 100%;
-    height: 20vh;
-    position: relative;
-}
-.first-item {
-    text-align: center;
-    position: relative;
-}
-.first-item>ul {
-    top: 20px;
-}
-.second-item {
-    height: 4vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.6em;
-}
-.odd {
-    background: #90BCD8;
-}
-.scroll {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-}
-input {
-    border: 1px solid #F6E4E4;
-    font-size: 0.8em;
-}
-.addinfo {
-    display: flex;
-    background: #fff;
-    margin-bottom: 1vh;
-    height: 70rpx;
-    align-items: center;
-    justify-content: space-between;
 }
 .addBtn {
     margin-right: 3vw;

@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div class="container">
       <scroll-view scroll-y="true" class="scroll">
           <div class="listContainer" v-for="items in listData" :key="index">
@@ -16,8 +16,8 @@
                       </div>
                   </div>
               </div>
-          </div>	
-      </scroll-view> 
+          </div>
+      </scroll-view>
   </div>
 </template>
 
@@ -30,8 +30,8 @@ import * as env from '../../utils/index'
 
 
 export default {
-  
- 
+
+
   	data () {
         return {
           	listData: '',
@@ -46,22 +46,22 @@ export default {
   	},
 
   	onPullDownRefresh () {
-        wx.showNavigationBarLoading(); 
+        wx.showNavigationBarLoading();
         setTimeout( () => {
         	this.pageIndex = 1;
         	this.getList();
-        	wx.hideNavigationBarLoading(); 
-          wx.stopPullDownRefresh(); 
+        	wx.hideNavigationBarLoading();
+          wx.stopPullDownRefresh();
         }, 1000);
 
     },
-    
+
     onReachBottom () {
-      
+
     },
 
   	methods: {
-      
+
         getList () {
             let that = this
             let token = wx.getStorageSync("token")
@@ -81,7 +81,7 @@ export default {
                     }
                     that.listData = data
                 }
-            })    
+            })
         }
     },
 
@@ -90,11 +90,11 @@ export default {
          this.getList()
     }
 
-}  
+}
 </script>
 
 
-<style> 
+<style>
   html,body {
   	  width: 100%;
   	  height: 100%;

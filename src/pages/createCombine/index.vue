@@ -246,6 +246,7 @@ export default {
                        "data": this.buffer
                   }
             }
+            console.log(JSON.stringify(obj))
             wx.request ({
               url: 'https://prophets.top/forecast/pl',
               method: 'POST',
@@ -279,7 +280,10 @@ export default {
         },
 
         addItem () {
-            wx.navigateTo({url: "/pages/select/main"})
+            let pages = 'createCombine'
+            wx.navigateTo({
+                url: "/pages/select/main?pages=" + pages
+            })
         },
 
         dateChange (e) {

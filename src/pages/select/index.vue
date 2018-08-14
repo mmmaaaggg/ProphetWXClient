@@ -58,6 +58,7 @@ import * as env from '../../utils/index'
         data () {
             return {
                 query: '',
+                page: '',
                 gpname: '',
                 showlist: {},
                 namelist: '',
@@ -67,6 +68,8 @@ import * as env from '../../utils/index'
         mounted() {
             this.nameBuffer = []
             this.showlist = {}
+            this.page = this.$root.$mp.query.pages
+            console.log(this.page)
         },
         methods: {
             bindInput (e) {
@@ -88,16 +91,15 @@ import * as env from '../../utils/index'
             },
             addItem (text,item) {
                 this.$set(this.showlist,item.text,1)
-                console.log(item)
                 let category = text
                 let type = item.asset_type
                 let name = item.asset_name
-                let code = text.split(':')[0]
+                let code = item.text.split(':')[0]
                 this.nameBuffer.push({
                     category: category,
                     asset_type: type,
                     asset_code: code,
-                    name: name
+                    asset_name: name
                 })
             },
             deleteItem (item) {
@@ -107,9 +109,17 @@ import * as env from '../../utils/index'
             },
             submit () {
                 let detail = this.nameBuffer
-                wx.navigateTo({
-                    url: "/pages/createCombine/main?detail="+JSON.stringify(detail),
-                })
+                if (this.page == 'createCombine') {
+                    wx.navigateTo({
+                        url: "/pages/createCombine/main?detail="+JSON.stringify(detail)
+                    })
+                }
+                if (this.page == 'manual') {
+                    wx.navigateTo({
+                        url: "/pages/manual/main?detail="+JSON.stringify(detail)
+                    })
+                }
+
             },
         }
 
