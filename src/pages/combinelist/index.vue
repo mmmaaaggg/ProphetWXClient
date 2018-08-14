@@ -373,7 +373,7 @@ import * as env from '../../utils/index'
     width: 50px;
     height: 50px;
     position: fixed;
-    background: #F64F4F;
+    background: #fff;
     left: 0;
     right: 0;
     margin:0 auto;

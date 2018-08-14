@@ -110,12 +110,12 @@ import * as env from '../../utils/index'
             submit () {
                 let detail = this.nameBuffer
                 if (this.page == 'createCombine') {
-                    wx.navigateTo({
+                    wx.redirectTo({
                         url: "/pages/createCombine/main?detail="+JSON.stringify(detail)
                     })
                 }
                 if (this.page == 'manual') {
-                    wx.navigateTo({
+                    wx.redirectTo({
                         url: "/pages/manual/main?detail="+JSON.stringify(detail)
                     })
                 }

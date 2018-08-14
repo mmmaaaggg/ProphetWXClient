@@ -144,12 +144,18 @@ export default {
                 	  token: token
                 },
                 method: 'PUT',
-                data: obj
-            })
-
-            wx.showToast({
-            	title: "调仓已提交",
-            	duration: 1000
+                data: obj,
+                success (res) {
+                    if (res.statusCode == 200) {
+                        wx.showToast({
+                            title: '调仓已提交',
+                            duration: 1500
+                        })
+                    }
+                    wx.reLaunch({
+                        url: '/pages/combinelist/main'
+                    })
+                }
             })
       	},
 
@@ -182,14 +188,24 @@ export default {
         let detail = this.$root.$mp.query.detail
       	if (detail) {
             detail = JSON.parse(detail)
-            console.log(detail)
-            for (let i = 0; i < detail.length; i++){
-                if (this.list.indexOf(detail[i].asset_name) == -1) {
-                    this.$set(this.list,this.list.length+i,detail[i])
-                    this.arrayList.push(0)
+            console.log(this.list)
+            for (let i = 0; i < detail.length; i++) {
+                if (this.list.length == 0) {
+                    this.$set(this.list,i,detail[i])
+                    this.arrayList.push(0.00)
+                }
+                else {
+                    for (var j = 0; j < this.list.length; j++) {
+                        if (this.list[j].asset_name == detail[i].asset_name) {
+                            break
+                        }
+                    }
+                    if (j == this.list.length) {
+                        this.$set(this.list,this.list.length,detail[i])
+                        this.arrayList.push((0).toFixed(2))
+                    }
                 }
             }
-
         }
     }
 }

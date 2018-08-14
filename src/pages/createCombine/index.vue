@@ -100,7 +100,7 @@
                   <div class="tr itemlist" v-for="(item,index) in buffer" :key="index">
                       <div class="td asset-name item-name">
                           <div class="cate-type">{{item.category}}</div>
-                          <div class="category">{{item.name}}</div>
+                          <div class="category">{{item.asset_name}}</div>
                       </div>
                       <div class='td th-normal'>
                           <div
@@ -246,18 +246,26 @@ export default {
                        "data": this.buffer
                   }
             }
-            console.log(JSON.stringify(obj))
+           //console.log(JSON.stringify(obj))
             wx.request ({
-              url: 'https://prophets.top/forecast/pl',
-              method: 'POST',
-              header: {
-                'content-type': 'application/json' ,
-                "token": token
-              },
-              data: obj,
-              success (res) {
-                console.log(res)
-              }
+                url: 'https://prophets.top/forecast/pl',
+                method: 'POST',
+                header: {
+                    'content-type': 'application/json' ,
+                    "token": token
+                },
+                data: obj,
+                success (res) {
+                    if (res.statusCode == 200) {
+                        wx.showToast({
+                            title: '创建成功',
+                            duration: 1500
+                        })
+                    }
+                    wx.reLaunch({
+                        url: '/pages/combinelist/main'
+                    })
+                }
             });
         },
 
@@ -305,14 +313,26 @@ export default {
             for (let item of detail) {
                 item.toggleText = '做多'
             }
-            for (let i = 0; i < detail.length; i++){
-                if (this.buffer.indexOf(detail[i].name) == -1) {
+            if (this.buffer.length == 0) {
+                for (let i = 0; i < detail.length; i++)
                     this.$set(this.buffer,i,detail[i])
+            }
+            else {
+                for (let i = 0; i < detail.length; i++){
+                    for (var j = 0; j < this.buffer.length; j++) {
+                        if (this.buffer[j].asset_name == detail[i].asset_name)
+                            break
+                    }
+                    if ( j == this.buffer.length) {
+                        this.$set(this.buffer,this.buffer.length,detail[i])
+                    }
                 }
             }
 
         }
-        console.log(this.buffer)
+        else {
+            this.buffer = []
+        }
     }
 }
 </script>
