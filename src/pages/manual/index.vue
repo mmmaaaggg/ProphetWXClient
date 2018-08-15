@@ -5,17 +5,45 @@
     	</div>
     	<div
           class="addinfo"
-          :hidden="addhide"
+          :class="{hidden: addhide}"
           @click="addItem"
         >
       		<div>添加股票</div>
     	</div>
+        <div class="date-select">
+        <div class="trans-date">
+          <div class="trans-time">交易日期</div>
+          <div class="date">
+            <picker
+              mode="date"
+              :value="date"
+              start="2000-01-01"
+              end="2100-01-01"
+              @change="dateChange($event)"
+            >
+              {{date}}
+            </picker>
+          </div>
+        </div>
+        <div class="trans-m">
+          <div class="trans-price">价格</div>
+          <div class="price">
+            <picker
+              mode="selector"
+              :value="index"
+              :range="array"
+              @change="priceChange($event)"
+            >
+              {{array[index]}}
+            </picker>
+          </div>
+        </div>
+    </div>
     	<div class="gpdc">
           <div class="gpbt">
               <span class="gpsubt">当前仓位</span>
-              <span class="selected" @click="toggled">{{toggle}}</span>
-              <span class="setgp" @click="resetStorage" :hidden="!addhide">调仓</span>
-              <span class="setgp" @click="submitStorage" :hidden="addhide">创建</span>
+              <span class="setgp" @click="resetStorage" :class="{hidden: !addhide}">调仓</span>
+              <span class="setgp" @click="submitStorage" :class="{hidden: addhide}">创建</span>
           </div>
           <div class="gpItemContainer">
               <div class="gpItem" v-for="(items,index) in list" :key="index">
@@ -30,9 +58,9 @@
                     </div>
                     <div class="gpxs">
                         <span class="weight">{{arrayList[index]}}%</span>
-                        <div class="item-delete" :hidden="deletehide" @click="deleteItem(index)">-</div>
+                        <div class="item-delete" :class="{hidden: deletehide}" @click="deleteItem(index)">-</div>
                     </div>
-      	            <div class="picker" :hidden="pickerhide">
+      	            <div class="picker" :class="{hidden: pickerhide}">
       	             	<picker
       		                mode="selector"
       		                :range="priceList"
@@ -52,6 +80,7 @@
 
 import * as apiLogin from '../../components/login'
 import * as env from '../../utils/index'
+import card from '@/components/card'
 
 
 
@@ -60,25 +89,30 @@ export default {
       	return {
         		pl_id: '',
         		list: '',
-        		toggle: "开盘价",
         		addhide: true,
         		deletehide: true,
         		pickerhide: true,
-        		ishide: true,
         		arrayList: [],
-        		priceList: []
+        		priceList: [],
+                index: 0,
+                array: ['收盘价','开盘价'],
+                date: '2017-12-16'
       	}
     },
 
     methods: {
+        dateChange (e) {
+            this.date = e.target.value;
+        },
+
+        priceChange (e) {
+            this.index = e.target.value;
+        },
+
       	showlist (id) {
     		wx.navigateTo({
     			url: "/pages/historylist/main?id=" + id
     		})
-      	},
-
-      	toggled () {
-      		  this.toggle = this.toggle == "开盘价" ? "收盘价" : "开盘价"
       	},
 
       	bindChange (e,index) {
@@ -124,8 +158,6 @@ export default {
       	},
 
       	submitStorage () {
-            this.addhide = true
-
             let time = env.formatTime(new Date()).split(" ")[0];
             let price_type = this.toggle == "开盘价" ? 'open' : 'close'
             let data = this.list
@@ -136,7 +168,7 @@ export default {
             }
             let url = env.host + `/forecast/pl/data/${this.pl_id}`
             let token = wx.getStorageSync("token")
-
+            console.log(obj)
             wx.request({
                 url: url,
                 header: {
@@ -207,11 +239,14 @@ export default {
                 }
             }
         }
+    },
+    onUnload () {
+        this.addhide = true
     }
 }
 </script>
 
-<style>
+<style scoped>
 .container {
     height: 100%;
     width: 100%;
@@ -256,11 +291,6 @@ export default {
 }
 .gpsubt {
     padding-left: 2vw;
-}
-.selected {
-    padding: 5rpx;
-    border: 1px solid #878686;
-    border-radius: 6px;
 }
 .setgp {
     padding: 5rpx;
@@ -330,5 +360,50 @@ export default {
 }
 .pickerpadding {
     height: 8vh;
+}
+.date-select {
+    width: 100vw;
+    display: flex;
+    height: 6vh;
+    align-items: center;
+    margin-bottom: 1vh;
+    background: #FFFFFF;
+    font-size: 0.8em;
+  }
+.trans-date {
+    width: 60%;
+    display: flex;
+    height: 5vh;
+    align-items: center;
+}
+.trans-m {
+    display: flex;
+    height: 5vh;
+    align-items: center;
+    margin-left: 8vw;
+}
+.date {
+    width: 32vw;
+}
+.price {
+    width: 10vw;
+}
+.date,.price {
+    border: 1px solid #F2DEFC;
+    margin-left: 4vw;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.trans-time {
+    margin-left: 2vw;
+}
+.price {
+    width: 16vw;
+}
+.hidden {
+    display: none;
 }
 </style>
