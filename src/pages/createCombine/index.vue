@@ -236,9 +236,10 @@ export default {
             let open = this.array[this.index] == "收盘价" ? 'open' : 'close';
             console.log(this.buffer)
             let token = wx.getStorageSync('token')
+            let access_type = this.switchChecked == true ? 'public' : 'private'
             let obj = {
                    "name": this.inputName,
-                   "access_type": this.switchChecked,
+                   "access_type": access_type,
                    "desc": this.inputDescription,
                    "pl_data": {
                        "trade_date": this.date,

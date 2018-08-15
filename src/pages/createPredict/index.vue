@@ -1,40 +1,40 @@
-<template> 
+<template>
     <div class="container">
         <scroll-view scroll-y="true" class="scroll" >
           	<div class="jbxx">
                 <div class="left-tab">基本信息</div>
                 <div class="right-tab">
-                    <div 
+                    <div
                       class="select-item"
                       :class="{active:selected == 'zq'}"
                       @click="selectItem('zq')"
                     >
                       证券资产
                     </div>
-                    <div 
+                    <div
                       class="select-item"
                       :class="{active:selected == 'sz'}"
                       @click="selectItem('sz')"
                     >
                       数字资产
                     </div>
-                    <div 
+                    <div
                       class="select-item"
                       :class="{active:selected == 'hh'}"
                       @click="selectItem('hh')"
                     >
                       混合资产
                     </div>
-                </div> 
+                </div>
             </div>
             <div class="cjzh">
                 <div class="single-input">
                     <div class="zh-name">预测名称</div>
                     <div class="input">
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         placeholder="name"
-                        :value="inputName" 
+                        :value="inputName"
                         @change="bindInputName($event)"
                       >
                     </div>
@@ -52,8 +52,8 @@
                 </div>
                 <div class="switch-input">
                     <div class="secret">公开组合</div>
-                    <div> 
-                      <switch 
+                    <div>
+                      <switch
                         checked="switchChecked"
                         @change="switchChange($event)"
                       />
@@ -65,7 +65,7 @@
                     <div class="predict-type">
                         <div class="type-text">预测类型</div>
                         <div class="price">
-                          <picker 
+                          <picker
                             mode="selector"
                             :value="index"
                             :range="array"
@@ -77,8 +77,8 @@
                     </div>
                     <div class="trans-date">
                         <div class="trans-time">预测区间</div>
-                        <div class="date"> 
-                          <picker 
+                        <div class="date">
+                          <picker
                             mode="date"
                             :value="date"
                             :end="date1"
@@ -89,7 +89,7 @@
                         </div>
                         <span class="mid-text">至</span>
                         <div class="date">
-                          <picker 
+                          <picker
                             mode="date"
                             :value="date1"
                             :start="date"
@@ -99,11 +99,11 @@
                             {{date1}}
                           </picker>
                         </div>
-                    </div>  
+                    </div>
                     <div class="trans-date" :class="{activeType: showTimePicker}">
                         <div class="trans-time">相对起点</div>
-                        <div class="date"> 
-                          <picker 
+                        <div class="date">
+                          <picker
                             mode="date"
                             :value="date3"
                             @change="dateChange2($event)"
@@ -111,60 +111,30 @@
                             {{date3}}
                           </picker>
                         </div>
-                    </div> 
+                    </div>
                 </div>
-            </div>  
+            </div>
             <div class="combination">
                 <div class="combine-row" :class="{activeType: isChoose}">
-                  <div class="combine-item invest-name">
-                    <div class="item-text">投资组合1</div>
-               
-                    <div class="zh-input">
-                      <div class="input-gp">
-                        <input
-                         placeholder="投资组合"
-                         placeholder-style='text-align:center'
-                         v-model="query"
-                         :value="combinationName"
-                         @input="bindInputCBName($event)"
-                         @focus="changeItem(ishide,combinationName)"
-                         @blur="ishide = !ishide"
-                      />
-                      </div>
-                      
-                      <div 
-                        class="search-content"
-                        :hidden="ishide"
-                      >
-                        <scroll-view scroll-y="true" class="scroll" >
-                          <ul>
-                            <li
-                              class="first-item"
-                              v-for="(item,index) in List"
-                              :key="index"
-                            >       
-                              <div class="first-title item-info">{{item.text}}</div>  
-                              <ul>
-                                <li
-                                  class="second-item"
-                                  v-for="(second,cindex) in item.children"
-                                  :class="{ odd : cindex % 2 == 0 }"
-                                  @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
-                                  :key="cindex"
-                                >
-                                  <span>{{second.text}}</span>
-                                  
-                                </li>
-                              </ul>
-                            </li>
-                          </ul>
-                        </scroll-view>
-                      </div>
-                    </div>
+                    <div class="combine-item invest-name">
+                        <div class="item-text">投资组合1</div>
+                        <div class="zh-input">
+                            <div class="input-gp">
+                              <input
+                                placeholder="投资组合"
+                                placeholder-style='text-align:center'
+                                v-model="query"
+                                :value="combinationName"
+                                @input="bindInputCBName($event)"
+                                @focus="changeItem(ishide,combinationName)"
+                                @blur="ishide = !ishide"
+                              />
+                            </div>
+                        </div>
                   </div>
                   <div class="combine-item select-type">
                     <div class="type-select">
-                      <picker 
+                      <picker
                         mode="selector"
                         :value="index1"
                         :range="typeList"
@@ -177,9 +147,9 @@
                   <div class="combine-item ratio" :class="{activeType: ischange}">
                     <div class="item-text">{{typedata}}</div>
                     <div class="ratioInput">
-                      <input 
-                        type="text" 
-                        placeholder="ratio" 
+                      <input
+                        type="text"
+                        placeholder="ratio"
                         :value="nameValue0"
                         placeholder-style='text-align:center'
                         @change="bindInputRatio($event)"
@@ -189,9 +159,9 @@
                   <div class="combine-item ratio" :class="{activeType: ischange0}">
                     <div class="item-text">{{typedata}}</div>
                     <div class="ratioInput">
-                      <input 
-                        type="text" 
-                        placeholder="ratio" 
+                      <input
+                        type="text"
+                        placeholder="ratio"
                         :value="nameValue1"
                         placeholder-style='text-align:center'
                         @change="bindInputRatio1($event)"
@@ -214,7 +184,7 @@
                               @blur="ishide = !ishide"
                             >
                           </div>
-                          
+
                           <div class="search-content" :hidden="ishide">
                               <scroll-view scroll-y="true" class="scroll" >
                                   <ul>
@@ -222,8 +192,8 @@
                                       class="first-item"
                                       v-for="(item,index) in List"
                                       :key="index"
-                                    >       
-                                      <div class="first-title item-info">{{item.text}}</div>  
+                                    >
+                                      <div class="first-title item-info">{{item.text}}</div>
                                       <ul>
                                         <li
                                           class="second-item"
@@ -233,7 +203,7 @@
                                           :key="cindex"
                                         >
                                           <span>{{second.text}}</span>
-                                          
+
                                         </li>
                                       </ul>
                                     </li>
@@ -244,7 +214,7 @@
                     </div>
                     <div class="combine-item select-type-mix">
                       <div class="type-select">
-                        <picker 
+                        <picker
                           mode="selector"
                           :value="index1"
                           :range="typeList"
@@ -268,7 +238,7 @@
                              @blur="ishide0 = !ishide0"
                           />
                           </div>
-                          
+
                           <div class="search-content" :hidden="ishide0">
                               <scroll-view scroll-y="true" class="scroll" >
                                   <ul>
@@ -276,8 +246,8 @@
                                       class="first-item"
                                       v-for="(item,index) in List"
                                       :key="index"
-                                    >       
-                                      <div class="first-title item-info">{{item.text}}</div>  
+                                    >
+                                      <div class="first-title item-info">{{item.text}}</div>
                                       <ul>
                                         <li
                                           class="second-item"
@@ -287,7 +257,7 @@
                                           :key="cindex"
                                         >
                                           <span>{{second.text}}</span>
-                                          
+
                                         </li>
                                       </ul>
                                     </li>
@@ -310,7 +280,7 @@
                                 @blur="ishide1 = !ishide1"
                               >
                             </div>
-                          
+
                             <div class="search-content" :hidden="ishide1">
                                 <scroll-view scroll-y="true" class="scroll" >
                                     <ul>
@@ -318,8 +288,8 @@
                                         class="first-item"
                                         v-for="(item,index) in List"
                                         :key="index"
-                                      >       
-                                        <div class="first-title item-info">{{item.text}}</div>  
+                                      >
+                                        <div class="first-title item-info">{{item.text}}</div>
                                         <ul>
                                           <li
                                             class="second-item"
@@ -328,7 +298,7 @@
                                             @click="chooseItem1(second.asset_name,item.text,second.asset_type,second.asset_code)"
                                             :key="cindex"
                                           >
-                                            <span>{{second.text}}</span>                                            
+                                            <span>{{second.text}}</span>
                                           </li>
                                         </ul>
                                       </li>
@@ -341,13 +311,13 @@
             </div>
             <div class="btnContainer">
                 <div class="button">
-                    <div 
+                    <div
                       class="btn submit"
                       @click="submitItem"
                     >
                       创建
                     </div>
-                    <div 
+                    <div
                       class="btn reset"
                       @click="resetItem"
                     >
@@ -355,7 +325,7 @@
                     </div>
                 </div>
             </div>
-          
+
         </scroll-view>
     </div>
 </template>
@@ -408,7 +378,7 @@ export default {
   	},
 
   	computed: {
-     
+
       /*computeList () {
          let vm = this;
          return vm.List.filter(function (item) {
@@ -433,8 +403,8 @@ export default {
           wx.request({
             //url: 'http://127.0.0.1:6060/search',
             url: url,
-            header: {  
-              'content-type': 'json' // 默认值  
+            header: {
+              'content-type': 'json' // 默认值
             },
             success: (res) => {
               this.List = res.data.results;
@@ -456,8 +426,8 @@ export default {
           wx.request({
             //url: 'http://127.0.0.1:6060/search',
             url: url,
-            header: {  
-              'content-type': 'json' // 默认值  
+            header: {
+              'content-type': 'json' // 默认值
             },
             success: (res) => {
               this.List = res.data.results;
@@ -471,15 +441,15 @@ export default {
           wx.request({
             //url: 'http://127.0.0.1:6060/search',
             url: url,
-            header: {  
-              'content-type': 'json' // 默认值  
+            header: {
+              'content-type': 'json' // 默认值
             },
             success: (res) => {
               this.List = res.data.results;
             }
           });
         },
-        
+
         switchChange (e) {
           this.switchChecked = !this.switchChecked;
         },
@@ -521,7 +491,7 @@ export default {
                   compare_method = "between";
                   break;
           }
-          
+
           let asset_2 = '';
           let asset_3 = '';
           let redate = '';
@@ -550,12 +520,12 @@ export default {
                  "params": {
                     "compare_type": compare_type,
                     "asset_1": this.combinationName,
-                    "compare_method": compare_method, 
+                    "compare_method": compare_method,
                     "asset_type_2": asset_type_2,
                     "value_2": asset_2,
                     "value_3": asset_3,
                     "date_start": redate,
-                 }  
+                 }
           }
           return obj;
         },
@@ -567,8 +537,8 @@ export default {
           wx.request ({
             url: env.host + '/forecast/cmp',
             method: 'POST',
-            header: { 
-                'content-type': 'application/json', 
+            header: {
+                'content-type': 'application/json',
                 "token": token
             },
             data: obj,
@@ -577,7 +547,7 @@ export default {
                     title: "创建成功",
                     duration: 1000
                 })
-            }   
+            }
           });
         },
 
@@ -630,14 +600,14 @@ export default {
               wx.showToast({
                  title: "不能输入相同内容",
                  duration: 1000
-              });   
+              });
             } else {
                  wx.showToast({
                    title: "不能为空",
                    duration: 1000
                  });
-              } 
-          
+              }
+
         },
 
         bindInput (e) {
@@ -647,8 +617,8 @@ export default {
             wx.request({
               //url: 'http://127.0.0.1:6060/search',
               url: url,
-              header: {  
-                'content-type': 'json' 
+              header: {
+                'content-type': 'json'
               },
               success: (res) => {
                 that.List = res.data.results;
@@ -675,13 +645,13 @@ export default {
              this.code = code;
         },
         changeItem (ishide) {
-           this.ishide = !ishide; 
+           this.ishide = !ishide;
         },
         changeItem0 (ishide) {
-           this.ishide0 = !ishide; 
+           this.ishide0 = !ishide;
         },
         changeItem1 (ishide) {
-           this.ishide1 = !ishide; 
+           this.ishide1 = !ishide;
         },
         dateChange (e) {
           this.date = e.target.value;
@@ -691,8 +661,8 @@ export default {
         },
         dateChange2 (e) {
           this.date3 = e.target.value;
-        }, 
-        
+        },
+
         indexChange (e) {
           this.index = e.target.value;
           if (this.array[this.index].indexOf("绝对") == -1) {
@@ -709,7 +679,7 @@ export default {
           } else {
                 this.index1 = 2;
                 this.isSelected = true;
-                this.isChoose = false; 
+                this.isChoose = false;
                 this.showTimePicker = true;
                 this.combinationName = '';
 
@@ -735,18 +705,18 @@ export default {
                 this.ischange0 = true;
                 this.ischange = false;
                 this.ischange1 = false;
-                this.ischange2 = true; 
-          } 
+                this.ischange2 = true;
+          }
         },
         selectItem (item) {
           this.selected = item;
         }
   	}
-}  
+}
 </script>
 
 
-<style> 
+<style>
   html,body {
     	width: 100%;
     	height: 100%;
@@ -859,13 +829,11 @@ export default {
   .trans-date {
       width: 100%;
       display: flex;
-      height: 5vh;
       align-items: center;
       padding-bottom: 20rpx;
   }
   .predict-type {
       display: flex;
-      height: 6vh;
       align-items: center;
       padding-top: 2vh;
       margin-bottom: 2vh;
@@ -893,7 +861,7 @@ export default {
       margin-left: 2vw;
   }
   .price {
-      width: 35vw;
+      width: 32vw;
       justify-content: center;
   }
   .combine-row {
@@ -901,10 +869,6 @@ export default {
       justify-content: space-around;
       width: 100%;
       padding-bottom: 8rpx;
-  }
-  .combine-item {
-      height: 11vh;
-      position: relative;
   }
   .select-type {
       width: 12%;
@@ -923,6 +887,7 @@ export default {
   }
   .zh-input,.ratioInput {
       width: 100%;
+      height: 4vh;
       border: 1px solid #A68585;
   }
   .search-content {
@@ -955,10 +920,10 @@ export default {
   .item-text {
       font-weight: bold;
       font-size: 0.8em;
-      text-align: center;
-      padding-top: 18rpx;
-      padding-bottom: 14rpx;
-
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 4vh;
   }
   .input-gp,.ratioInput {
       text-align: center;
@@ -972,10 +937,9 @@ export default {
   .type-select {
       border: 1px solid #A68585;
       width: 100%;
-      position: absolute;
-      bottom: 12rpx;
-      height: 4.5vh;
       display: flex;
+      height: 4vh;
+      margin-top: 4vh;
       justify-content: center;
       align-items: center;
   }

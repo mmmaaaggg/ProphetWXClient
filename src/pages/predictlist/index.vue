@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div class="container">
       <div class="tr bg-t">
           <div class="th th-name">名称</div>
@@ -6,18 +6,18 @@
           <div class="th th-rate">准确率</div>
           <div class="th th-person">预言家</div>
       </div>
-      <div 
-        v-for="(items,index) in listData" 
-        :key="index" 
-        class="tr bg-c" 
+      <div
+        v-for="(items,index) in listData"
+        :key="index"
+        class="tr bg-c"
       >
-          <div  
+          <div
             @touchstart="handleTouchstart($event,index)"
             @touchmove="handleTouchmove($event,index)"
             @touchend="handleTouchend($event,index)"
             @click="selectItem(items.cmp_id,items.name,items.favorite)"
-            class="inner text" 
-            :style="stylelist[index]" 
+            class="inner text"
+            :style="stylelist[index]"
           >
             <div class="td name th-name">
                 {{items.name}}
@@ -27,7 +27,7 @@
                     <div class="date">{{items.date_from}}</div>
                     <div class="date">{{items.date_to}}</div>
                 </div>
-            </div>      
+            </div>
             <div class="td th-rate">
                 {{items.cmp_id}}
             </div>
@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="inner del" @click="delItem(index,items)">删除</div>
-      </div> 
+      </div>
       <div class="created" @click="addPredict">
           <wxc-icon size="40" type="add" class="create" />
       </div>
@@ -56,11 +56,11 @@ import * as apiLogin from '../../components/login'
 import * as env from '../../utils/index'
 
  var dataList = [{
-      "id": 11, 
+      "id": 11,
       "cmp_id": 16,
       "status":"30%",
-      "date_from": "2018-03-25", 
-      "date_to": "2018-04-24", 
+      "date_from": "2018-03-25",
+      "date_to": "2018-04-24",
       "username": "fbx",
       "collectionstatus": false
     }];
@@ -81,16 +81,16 @@ import * as env from '../../utils/index'
       },
 
       onPullDownRefresh () {
-          wx.showNavigationBarLoading(); 
+          wx.showNavigationBarLoading();
           setTimeout( () => {
               this.pageIndex = 1;
               this.getList();
-              wx.hideNavigationBarLoading(); 
-              wx.stopPullDownRefresh(); 
+              wx.hideNavigationBarLoading();
+              wx.stopPullDownRefresh();
           }, 1000);
 
       },
-      
+
       onReachBottom () {
           console.log ('load more')
           this.isHideLoadMore = false;
@@ -100,9 +100,9 @@ import * as env from '../../utils/index'
                  wx.showLoading();
                  this.getList();
                  wx.hideLoading();
-                 wx.stopPullDownRefresh() 
+                 wx.stopPullDownRefresh()
               }, 1000);
-           } 
+           }
            else {
                this.isHideLoadMore = true;
                wx.showToast({
@@ -172,7 +172,7 @@ import * as env from '../../utils/index'
                   url: "/pages/detailpred/main?detail="+JSON.stringify(detail),
               })
           },
-          
+
           loadData (res) {
             let pageIndex = this.pageIndex;
             if (pageIndex == 1) {
@@ -187,7 +187,7 @@ import * as env from '../../utils/index'
                         this.collect[i] = this.listData[i].favorite
                     }
                 }
-            } 
+            }
             else {
                 console.log('load more');
                 //let tempList = res.data.data;
@@ -201,26 +201,26 @@ import * as env from '../../utils/index'
               let pageIndex = this.pageIndex;
               let token = wx.getStorageSync('token');
               let url = env.host + '/forecast/cmp/all'
-              wx.request({  
-                  url: url, 
-                  header: {  
+              wx.request({
+                  url: url,
+                  header: {
                       "Content-Type": "application/text",
                       token: token
-                  },  
-                  success: (res) => { 
+                  },
+                  success: (res) => {
                     /*if (res.data.errcode == 41008) {
                         apiLogin.firstLogin();
                         this.getList()
                     } else {
                           this.loadData(res)
                       }*/
-                      this.loadData(res) 
-                  },  
-                  fail: function () {  
-                      console.log("fail")  
-                  },  
-                
-              })   
+                      this.loadData(res)
+                  },
+                  fail: function () {
+                      console.log("fail")
+                  },
+
+              })
             }
       },
 
@@ -233,11 +233,11 @@ import * as env from '../../utils/index'
           }
 
       }
-  }  
+  }
 </script>
 
 
-<style> 
+<style>
   html,body {
       width: 100%;
       height: 100%;
@@ -348,7 +348,7 @@ import * as env from '../../utils/index'
     width: 50px;
     height: 50px;
     position: fixed;
-    background: #F64F4F;
+    background: #fff;
     left: 0;
     right: 0;
     margin:0 auto;
