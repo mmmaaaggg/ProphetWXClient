@@ -80,23 +80,23 @@
                         <div class="date">
                           <picker
                             mode="date"
-                            :value="date"
-                            :end="date1"
-                            @change="dateChange($event)"
+                            :value="date_from"
+                            :end="date_to"
+                            @change="dateBegin($event)"
                           >
-                            {{date}}
+                            {{date_from}}
                           </picker>
                         </div>
                         <span class="mid-text">至</span>
                         <div class="date">
                           <picker
                             mode="date"
-                            :value="date1"
+                            :value="date_to"
                             :start="date"
                             :end="date2"
-                            @change="dateChange1($event)"
+                            @change="dateFinal($event)"
                           >
-                            {{date1}}
+                            {{date_to}}
                           </picker>
                         </div>
                     </div>
@@ -105,29 +105,24 @@
                         <div class="date">
                           <picker
                             mode="date"
-                            :value="date3"
-                            @change="dateChange2($event)"
+                            :value="date_base"
+                            @change="dateBase($event)"
                           >
-                            {{date3}}
+                            {{date_base}}
                           </picker>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="combination">
-                <div class="combine-row" :class="{activeType: isChoose}">
+                <div class="combine-row" :class="{activeType: hideAbsolute}">
                     <div class="combine-item invest-name">
-                        <div class="item-text">投资组合1</div>
+                        <div class="item-text">投资组合</div>
                         <div class="zh-input">
-                            <div class="input-gp">
+                            <div class="input-gp" @click="stockSelect">
                               <input
                                 placeholder="投资组合"
-                                placeholder-style='text-align:center'
-                                v-model="query"
-                                :value="combinationName"
-                                @input="bindInputCBName($event)"
-                                @focus="changeItem(ishide,combinationName)"
-                                @blur="ishide = !ishide"
+                                :value="combinationName_1"
                               />
                             </div>
                         </div>
@@ -136,79 +131,48 @@
                     <div class="type-select">
                       <picker
                         mode="selector"
-                        :value="index1"
+                        :value="compareIdx"
                         :range="typeList"
                         @change="typeChange($event)"
                       >
-                        {{typeList[index1]}}
+                        {{typeList[compareIdx]}}
                       </picker>
                     </div>
                   </div>
-                  <div class="combine-item ratio" :class="{activeType: ischange}">
+                  <div class="combine-item ratio" :class="{activeType: hideRatio_2}">
                     <div class="item-text">{{typedata}}</div>
                     <div class="ratioInput">
                       <input
                         type="text"
                         placeholder="ratio"
-                        :value="nameValue0"
+                        :value="ratio_1"
                         placeholder-style='text-align:center'
                         @change="bindInputRatio($event)"
                       />
                     </div>
                   </div>
-                  <div class="combine-item ratio" :class="{activeType: ischange0}">
+                  <div class="combine-item ratio" :class="{activeType: hideRatio_1}">
                     <div class="item-text">{{typedata}}</div>
                     <div class="ratioInput">
                       <input
                         type="text"
                         placeholder="ratio"
-                        :value="nameValue1"
+                        :value="ratio_2"
                         placeholder-style='text-align:center'
                         @change="bindInputRatio1($event)"
                       />
                     </div>
                   </div>
                 </div>
-                <div class="combine-row" :class="{activeType: isSelected}">
+                <div class="combine-row" :class="{activeType: hideRelative}">
                     <div class="combine-item invest-name-mix">
                         <div class="item-text">投资组合1</div>
                         <div class="zh-input">
                           <div class="input-gp">
                             <input
                               placeholder="投资组合"
-                              placeholder-style='text-align:center'
-                              v-model="query"
-                              :value="combinationName"
-                              @input="bindInputCBName($event)"
-                              @focus="changeItem(ishide,combinationName)"
-                              @blur="ishide = !ishide"
+                              :value="combinationName_1"
                             >
-                          </div>
-
-                          <div class="search-content" :hidden="ishide">
-                              <scroll-view scroll-y="true" class="scroll" >
-                                  <ul>
-                                    <li
-                                      class="first-item"
-                                      v-for="(item,index) in List"
-                                      :key="index"
-                                    >
-                                      <div class="first-title item-info">{{item.text}}</div>
-                                      <ul>
-                                        <li
-                                          class="second-item"
-                                          v-for="(second,cindex) in item.children"
-                                          :class="{ odd : cindex % 2 == 0 }"
-                                          @click="chooseItem(second.asset_name,item.text,second.asset_type,second.asset_code)"
-                                          :key="cindex"
-                                        >
-                                          <span>{{second.text}}</span>
-
-                                        </li>
-                                      </ul>
-                                    </li>
-                                  </ul>
-                              </scroll-view>
                           </div>
                         </div>
                     </div>
@@ -216,94 +180,33 @@
                       <div class="type-select">
                         <picker
                           mode="selector"
-                          :value="index1"
+                          :value="compareIdx"
                           :range="typeList"
                           @change="typeChange($event)"
                         >
-                          {{typeList[index1]}}
+                          {{typeList[compareIdx]}}
                         </picker>
                       </div>
                     </div>
-                    <div class="combine-item invest-name-mix" :class="{activeType: ischange1}">
+                    <div class="combine-item invest-name-mix" :class="{activeType: hideCompare_2}">
                         <div class="item-text">投资组合2</div>
                         <div class="zh-input">
                           <div class="input-gp">
                             <input
                              placeholder="投资组合2"
-                             placeholder-style='text-align:center'
-                             v-model="query"
-                             :value="nameValue2"
-                             @input="bindInputNewName($event)"
-                             @focus="changeItem0(ishide0,nameValue2)"
-                             @blur="ishide0 = !ishide0"
+                             :value="combinationName_2"
                           />
-                          </div>
-
-                          <div class="search-content" :hidden="ishide0">
-                              <scroll-view scroll-y="true" class="scroll" >
-                                  <ul>
-                                    <li
-                                      class="first-item"
-                                      v-for="(item,index) in List"
-                                      :key="index"
-                                    >
-                                      <div class="first-title item-info">{{item.text}}</div>
-                                      <ul>
-                                        <li
-                                          class="second-item"
-                                          v-for="(second,cindex) in item.children"
-                                          :class="{ odd : cindex % 2 == 0 }"
-                                          @click="chooseItem0(second.asset_name,item.text,second.asset_type,second.asset_code)"
-                                          :key="cindex"
-                                        >
-                                          <span>{{second.text}}</span>
-
-                                        </li>
-                                      </ul>
-                                    </li>
-                                  </ul>
-                              </scroll-view>
                           </div>
                         </div>
                     </div>
-                    <div class="combine-item invest-name-mix" :class="{activeType: ischange2}">
+                    <div class="combine-item invest-name-mix" :class="{activeType: hideCompare_3}">
                         <div class="item-text">投资组合3</div>
                         <div class="zh-input">
                             <div class="input-gp">
                               <input
                                 placeholder="投资组合3"
-                                placeholder-style='text-align:center'
-                                v-model="query"
-                                :value="nameValue3"
-                                @input="bindInputNewName1($event)"
-                                @focus="changeItem1(ishide1,nameValue3)"
-                                @blur="ishide1 = !ishide1"
+                                :value="combinationName_3"
                               >
-                            </div>
-
-                            <div class="search-content" :hidden="ishide1">
-                                <scroll-view scroll-y="true" class="scroll" >
-                                    <ul>
-                                      <li
-                                        class="first-item"
-                                        v-for="(item,index) in List"
-                                        :key="index"
-                                      >
-                                        <div class="first-title item-info">{{item.text}}</div>
-                                        <ul>
-                                          <li
-                                            class="second-item"
-                                            v-for="(second,cindex) in item.children"
-                                            :class="{ odd : cindex % 2 == 0 }"
-                                            @click="chooseItem1(second.asset_name,item.text,second.asset_type,second.asset_code)"
-                                            :key="cindex"
-                                          >
-                                            <span>{{second.text}}</span>
-                                          </li>
-                                        </ul>
-                                      </li>
-                                    </ul>
-                                </scroll-view>
                             </div>
                         </div>
                     </div>
@@ -341,33 +244,32 @@ export default {
         return {
             selected: 'zq',
             switchChecked: true,
-            date: '2018-01-01',
-            date1: "2018-12-01",
+            date_from: '2018-01-01',
+            date_to: "2018-12-01",
             date2: '2050-01-01',
-            date3: '2018-01-01',
+            date_base: '2018-01-01',
             index: 0,
-            index1: 2,
+            compareIdx: 2,
             inputName: '',
             inputDescription: '',
             array: ['绝对点位预测','绝对收益率预测','相对点位预测','相对收益率预测'],
             typeList: ['强于','弱于','介于'],
             typedata:"点位",
-            query: '',
             showTimePicker: true,
-            isSelected:true,
-            isChoose: false,
-            ischange: false,
-            ischange0: false,
-            ischange1: false,
-            ischange2: false,
+            hideRelative:true,
+            hideAbsolute: false,
+            hideRatio_2: false,
+            hideRatio_1: false,
+            hideCompare_2: false,
+            hideCompare_3: false,
             ishide: true,
             ishide0: true,
             ishide1: true,
-            combinationName: '',
-            nameValue0: '',
-            nameValue1: '',
-            nameValue2: '',
-            nameValue3: '',
+            combinationName_1: '',
+            ratio_1: '',
+            ratio_2: '',
+            combinationName_2: '',
+            combinationName_3: '',
             inputValue: '',
             buffer: [],
             List: '',
@@ -388,6 +290,12 @@ export default {
     },
 
   	methods: {
+        stockSelect () {
+            let pages = 'createPredict'
+            wx.navigateTo({
+                url: "/pages/select/main?pages=" + pages
+            })
+        },
 
         bindInputDescription (e) {
           this.inputDescription = e.target.value;
@@ -397,32 +305,17 @@ export default {
           this.inputName = e.target.value;
         },
 
-        bindInputCBName (e) {
-          this.combinationName = e.target.value;
-          let url = env.host + `/asset/asset/${this.combinationName}`;
-          wx.request({
-            //url: 'http://127.0.0.1:6060/search',
-            url: url,
-            header: {
-              'content-type': 'json' // 默认值
-            },
-            success: (res) => {
-              this.List = res.data.results;
-            }
-          });
-        },
-
         bindInputRatio (e) {
-          this.nameValue0 = e.target.value;
+          this.ratio_1 = e.target.value;
         },
 
         bindInputRatio1 (e) {
-          this.nameValue1 = e.target.value;
+          this.ratio_2 = e.target.value;
         },
 
         bindInputNewName (e) {
-          this.nameValue2 = e.target.value;
-          let url = env.host + `/asset/asset/${this.nameValue2}`;
+          this.combinationName_2 = e.target.value;
+          let url = env.host + `/asset/asset/${this.combinationName_2}`;
           wx.request({
             //url: 'http://127.0.0.1:6060/search',
             url: url,
@@ -436,8 +329,8 @@ export default {
         },
 
         bindInputNewName1 (e) {
-          this.nameValue3 = e.target.value;
-          let url = env.host + `/asset/asset/${this.nameValue3}`;
+          this.combinationName_3 = e.target.value;
+          let url = env.host + `/asset/asset/${this.combinationName_3}`;
           wx.request({
             //url: 'http://127.0.0.1:6060/search',
             url: url,
@@ -451,21 +344,22 @@ export default {
         },
 
         switchChange (e) {
-          this.switchChecked = !this.switchChecked;
+            this.switchChecked = !this.switchChecked;
         },
 
         spliteData () {
-          let compare_type = '';
-          let compare_method = '';
-          let access_type = '';
+            let compare_type = '';
+            let compare_method = '';
+            let access_type = '';
 
-          if (this.switchChecked) {
-              access_type = 'pubic'
-          } else {
+            if (this.switchChecked) {
+                access_type = 'pubic'
+            }
+            else {
                 access_type = 'private'
-          }
+            }
 
-          switch (this.array[this.index]) {
+            switch (this.array[this.index]) {
                case "绝对点位预测":
                   compare_type = "abs.fix_point";
                   break;
@@ -478,77 +372,79 @@ export default {
                case "相对收益率预测":
                   compare_type = "rel.rr";
                   break;
-          }
+            }
 
-          switch (this.typeList[this.index1]) {
-               case "强于":
-                  compare_method = ">";
-                  break;
-               case "弱于":
-                  compare_method = "<";
-                  break;
-               case "介于":
-                  compare_method = "between";
-                  break;
-          }
+            switch (this.typeList[this.compareIdx]) {
+                case "强于":
+                    compare_method = ">";
+                    break;
+                 case "弱于":
+                    compare_method = "<";
+                    break;
+                 case "介于":
+                    compare_method = "between";
+                    break;
+            }
 
-          let asset_2 = '';
-          let asset_3 = '';
-          let redate = '';
-          let asset_type_2 = this.typedata;
+            let asset_2 = '';
+            let asset_3 = '';
+            let redate = '';
+            let asset_type_2 = this.typedata;
 
-          if (this.array[this.index].indexOf("绝对") == -1) {
-              asset_2 = this.nameValue2;
-              asset_3 = this.nameValue3;
-              asset_type_2 = '';
-              if (this.date3 != '2018-01-01') {
-                  redate = this.date3
-              } else {
+            if (this.array[this.index].indexOf("绝对") == -1) {
+                asset_2 = this.combinationName_2;
+                asset_3 = this.combinationName_3;
+                asset_type_2 = '';
+                if (this.date_base != '2018-01-01') {
+                    redate = this.date_base
+                }
+                else {
                     redate = this.date
-              }
-          } else {
-                asset_2 = this.nameValue0;
-                asset_3 = this.nameValue1
-          }
+                }
+            }
+            else {
+                asset_2 = this.ratio_1;
+                asset_3 = this.ratio_2
+            }
 
-          let obj = {
+            let obj = {
                 "name": this.inputName,
                  "access_type": access_type,
                  "desc": this.inputDescription,
-                 "date_from": this.date,
-                 "date_to": this.date1,
+                 "date_from": this.date_from,
+                 "date_to": this.date_to,
                  "params": {
                     "compare_type": compare_type,
-                    "asset_1": this.combinationName,
+                    "asset_1": this.combinationName_1,
                     "compare_method": compare_method,
                     "asset_type_2": asset_type_2,
                     "value_2": asset_2,
                     "value_3": asset_3,
                     "date_start": redate,
                  }
-          }
-          return obj;
+            }
+            return obj;
         },
 
         submitItem () {
-          let token = wx.getStorageSync('token')
-          let obj = this.spliteData();
-          console.log(obj)
-          wx.request ({
-            url: env.host + '/forecast/cmp',
-            method: 'POST',
-            header: {
-                'content-type': 'application/json',
-                "token": token
-            },
-            data: obj,
-            success (res) {
-                wx.showToast({
-                    title: "创建成功",
-                    duration: 1000
-                })
-            }
-          });
+            let token = wx.getStorageSync('token')
+            let obj = this.spliteData()
+            console.log(obj)
+            wx.request ({
+                url: env.host + '/forecast/cmp',
+                method: 'POST',
+                header: {
+                    'content-type': 'application/json',
+                    "token": token
+                },
+                data: obj,
+                success (res) {
+                    wx.showToast({
+                        title: "创建成功",
+                        duration: 1000
+                    })
+                }
+            })
         },
 
         deleteItem (index) {
@@ -556,162 +452,111 @@ export default {
             this.priceBuffer.splice(index,1)
         },
 
-        resetItem () {
+        resetItemItem () {
             this.inputName = ''
             this.inputDescription = ''
-            this.date = '2018-01-01'
-            this.date1 = "2018-12-01"
+            this.date_from = '2018-01-01'
+            this.date_to = "2018-12-01"
             this.index =  0
-            this.index1 = 2
+            this.compareIdx = 2
             this.typedata = "点位"
             this.showTimePicker = true
-            this.isSelected = true
-            this.isChoose = false
-            this.ischange = false
-            this.ischange0 = false
-            this.ischange1 = false
-            this.ischange2 = false
-            this.combinationName = ''
-            this.nameValue0 = ''
-            this.nameValue1 = ''
-            this.nameValue2 = ''
-            this.nameValue3 = ''
+            this.hideRelative = true
+            this.hideAbsolute = false
+            this.hideRatio_2 = false
+            this.hideRatio_1 = false
+            this.hideCompare_2 = false
+            this.hideCompare_3 = false
+            this.combinationName_1 = ''
+            this.ratio_1 = ''
+            this.ratio_2 = ''
+            this.combinationName_2 = ''
+            this.combinationName_3 = ''
         },
 
-        addItem () {
-          let flag = true;
-          for (let item of this.buffer) {
-             if (item.name == this.inputValue) {
-                 flag = false;
-             }
-          }
-          if (this.inputValue && flag ) {
-             this.buffer.push({
-               category: this.category,
-               name: this.inputValue,
-               toggleText: this.toggleText,
-               asset_type: this.type,
-               asset_code: this.code,
-               direction: 1
-             });
-             this.priceBuffer.push(0);
-             this.inputValue = '';
-          } else if (this.inputValue && !flag) {
-              wx.showToast({
-                 title: "不能输入相同内容",
-                 duration: 1000
-              });
-            } else {
-                 wx.showToast({
-                   title: "不能为空",
-                   duration: 1000
-                 });
-              }
-
-        },
-
-        bindInput (e) {
-            let that = this;
-            that.inputValue = e.target.value;
-            let url = env.host + `/asset/asset/${that.inputValue}`;
-            wx.request({
-              //url: 'http://127.0.0.1:6060/search',
-              url: url,
-              header: {
-                'content-type': 'json'
-              },
-              success: (res) => {
-                that.List = res.data.results;
-              }
-            });
-        },
-
-        chooseItem (name,category,type,code) {
-            this.combinationName = name;
-            this.category = category;
-            this.type = type;
-            this.code = code;
-        },
-        chooseItem0 (name,category,type,code) {
-            this.nameValue2 = name;
-            this.category = category;
-            this.type = type;
-            this.code = code;
-        },
-         chooseItem1 (name,category,type,code) {
-             this.nameValue3 = name;
-             this.category = category;
-             this.type = type;
-             this.code = code;
-        },
-        changeItem (ishide) {
-           this.ishide = !ishide;
-        },
         changeItem0 (ishide) {
            this.ishide0 = !ishide;
         },
         changeItem1 (ishide) {
            this.ishide1 = !ishide;
         },
-        dateChange (e) {
-          this.date = e.target.value;
+        dateBegin (e) {
+          this.date_from = e.target.value;
         },
-        dateChange1 (e) {
-          this.date1 = e.target.value;
+        dateFinal (e) {
+          this.date_to = e.target.value;
         },
-        dateChange2 (e) {
-          this.date3 = e.target.value;
+        dateBase (e) {
+          this.date_base = e.target.value;
         },
 
         indexChange (e) {
-          this.index = e.target.value;
-          if (this.array[this.index].indexOf("绝对") == -1) {
-              this.index1 = 2;
-              this.isSelected = false;
-              this.isChoose = true;
-              this.showTimePicker = false;
-              this.combinationName = '';
+            this.index = e.target.value;
 
-              this.ischange0 = false;
-              this.ischange = false;
-              this.ischange1 = false;
-              this.ischange2 = false;
-          } else {
-                this.index1 = 2;
-                this.isSelected = true;
-                this.isChoose = false;
-                this.showTimePicker = true;
-                this.combinationName = '';
+            if (this.array[this.index].indexOf("绝对") == -1) {
+                this.compareIdx = 2
+                this.hideRelative = false
+                this.hideAbsolute = true
+                this.showTimePicker = false
 
-                this.ischange0 = false;
-                this.ischange = false;
-                this.ischange1 = false;
-                this.ischange2 = false;
-                if (this.array[this.index].indexOf("点位") == -1){
+                this.combinationName_1 = ''
+                this.combinationName_2 = ''
+                this.combinationName_3 = ''
+                this.hideCompare_3 = false
+
+            }
+            else {
+                this.compareIdx = 2
+                this.hideRelative = true
+                this.hideAbsolute = false
+                this.showTimePicker = true
+
+                this.combinationName_1 = '';
+                this.ratio_1 = ''
+                this.ratio_2 = ''
+                this.hideRatio_2 = false
+
+                if (this.index == 1)
                     this.typedata = "收益率"
-                } else {
-                      this.typedata = "点位"
-                  }
-          }
+                if (this.index == 0)
+                    this.typedata = "点位"
+            }
         },
         typeChange (e) {
-          this.index1 = e.target.value;
-          if (this.typeList[this.index1] == "介于") {
-              this.ischange0 = false;
-              this.ischange = false;
-              this.ischange1 = false;
-              this.ischange2 = false;
-          } else {
-                this.ischange0 = true;
-                this.ischange = false;
-                this.ischange1 = false;
-                this.ischange2 = true;
-          }
+            this.compareIdx = e.target.value
+
+            if (this.array[this.index].indexOf("绝对") != -1) {
+                if (this.typeList[this.compareIdx] == "介于") {
+                    this.hideRatio_2 = false
+                }
+                else
+                    this.hideRatio_2 = true
+            }
+            else{
+                if (this.typeList[this.compareIdx] == "介于") {
+                    this.hideCompare_3 = false
+                }
+                else
+                    this.hideCompare_3 = true
+            }
         },
         selectItem (item) {
           this.selected = item;
         }
-  	}
+  	},
+    mounted() {
+        let detail = this.$root.$mp.query.detail
+        if (detail) {
+            detail = JSON.parse(detail)
+            if (this.array[this.index].indexOf("绝对") != -1) {
+                let value = detail[0]
+                this.combinationName_1 = value.asset_name
+            }
+        }
+    },
+    onUnload () {
+        this.resetItem()
+    }
 }
 </script>
 

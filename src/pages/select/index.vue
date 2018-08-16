@@ -110,13 +110,21 @@ import * as env from '../../utils/index'
             submit () {
                 let detail = this.nameBuffer
                 if (this.page == 'createCombine') {
+                    this.gpname = ''
                     wx.redirectTo({
                         url: "/pages/createCombine/main?detail="+JSON.stringify(detail)
                     })
                 }
-                if (this.page == 'manual') {
+                else if (this.page == 'manual') {
+                    this.gpname = ''
                     wx.redirectTo({
                         url: "/pages/manual/main?detail="+JSON.stringify(detail)
+                    })
+                }
+                else if (this.page == 'createPredict') {
+                    this.gpname = ''
+                    wx.redirectTo({
+                        url: "/pages/createPredict/main?detail="+JSON.stringify(detail)
                     })
                 }
 
