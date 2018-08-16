@@ -167,7 +167,7 @@
                 <div class="combine-row" :class="{activeType: hideRelative}">
                     <div class="combine-item invest-name-mix">
                         <div class="item-text">投资组合1</div>
-                        <div class="zh-input">
+                        <div class="zh-input" @click="rrStockSelect">
                           <div class="input-gp">
                             <input
                               placeholder="投资组合"
@@ -190,10 +190,11 @@
                     </div>
                     <div class="combine-item invest-name-mix" :class="{activeType: hideCompare_2}">
                         <div class="item-text">投资组合2</div>
-                        <div class="zh-input">
+                        <div class="zh-input" @click="rrStockModify">
                           <div class="input-gp">
                             <input
                              placeholder="投资组合2"
+                             disabled=true
                              :value="combinationName_2"
                           />
                           </div>
@@ -201,10 +202,11 @@
                     </div>
                     <div class="combine-item invest-name-mix" :class="{activeType: hideCompare_3}">
                         <div class="item-text">投资组合3</div>
-                        <div class="zh-input">
+                        <div class="zh-input" @click="rrStockModify">
                             <div class="input-gp">
                               <input
                                 placeholder="投资组合3"
+                                disabled=true
                                 :value="combinationName_3"
                               >
                             </div>
@@ -262,9 +264,6 @@ export default {
             hideRatio_1: false,
             hideCompare_2: false,
             hideCompare_3: false,
-            ishide: true,
-            ishide0: true,
-            ishide1: true,
             combinationName_1: '',
             ratio_1: '',
             ratio_2: '',
@@ -290,57 +289,39 @@ export default {
     },
 
   	methods: {
-        stockSelect () {
-            let pages = 'createPredict'
+        rrStockModify () {
+            let info = {'pages': 'createPredict', 'index':2}
             wx.navigateTo({
-                url: "/pages/select/main?pages=" + pages
+                url: "/pages/select/main?info=" + JSON.stringify(info)
+            })
+        },
+        rrStockSelect () {
+            let info = {'pages': 'createPredict', 'index':3}
+            wx.navigateTo({
+                url: "/pages/select/main?info=" + JSON.stringify(info)
+            })
+        },
+        stockSelect () {
+            let info = {'pages': 'createPredict', 'index':1}
+            wx.navigateTo({
+                url: "/pages/select/main?info=" + JSON.stringify(info)
             })
         },
 
         bindInputDescription (e) {
-          this.inputDescription = e.target.value;
+            this.inputDescription = e.target.value;
         },
 
         bindInputName (e) {
-          this.inputName = e.target.value;
+            this.inputName = e.target.value;
         },
 
         bindInputRatio (e) {
-          this.ratio_1 = e.target.value;
+            this.ratio_1 = e.target.value;
         },
 
         bindInputRatio1 (e) {
-          this.ratio_2 = e.target.value;
-        },
-
-        bindInputNewName (e) {
-          this.combinationName_2 = e.target.value;
-          let url = env.host + `/asset/asset/${this.combinationName_2}`;
-          wx.request({
-            //url: 'http://127.0.0.1:6060/search',
-            url: url,
-            header: {
-              'content-type': 'json' // 默认值
-            },
-            success: (res) => {
-              this.List = res.data.results;
-            }
-          });
-        },
-
-        bindInputNewName1 (e) {
-          this.combinationName_3 = e.target.value;
-          let url = env.host + `/asset/asset/${this.combinationName_3}`;
-          wx.request({
-            //url: 'http://127.0.0.1:6060/search',
-            url: url,
-            header: {
-              'content-type': 'json' // 默认值
-            },
-            success: (res) => {
-              this.List = res.data.results;
-            }
-          });
+            this.ratio_2 = e.target.value;
         },
 
         switchChange (e) {
@@ -447,12 +428,7 @@ export default {
             })
         },
 
-        deleteItem (index) {
-            this.buffer.splice(index,1)
-            this.priceBuffer.splice(index,1)
-        },
-
-        resetItemItem () {
+        resetItem () {
             this.inputName = ''
             this.inputDescription = ''
             this.date_from = '2018-01-01'
@@ -474,12 +450,6 @@ export default {
             this.combinationName_3 = ''
         },
 
-        changeItem0 (ishide) {
-           this.ishide0 = !ishide;
-        },
-        changeItem1 (ishide) {
-           this.ishide1 = !ishide;
-        },
         dateBegin (e) {
           this.date_from = e.target.value;
         },
@@ -548,9 +518,23 @@ export default {
         let detail = this.$root.$mp.query.detail
         if (detail) {
             detail = JSON.parse(detail)
+            console.log(detail)
             if (this.array[this.index].indexOf("绝对") != -1) {
                 let value = detail[0]
                 this.combinationName_1 = value.asset_name
+            }
+            else {
+                let length = detail.length
+                if (detail[0].index == 3) {
+                    this.combinationName_1 = detail[0] ? detail[0].asset_name : ''
+                    this.combinationName_2 = detail[1] ? detail[1].asset_name : ''
+                    this.combinationName_3 = detail[2] ? detail[2].asset_name : ''
+                }
+                else {
+                    this.combinationName_2 = detail[0] ? detail[0].asset_name == this.combinationName_1 ? '' : detail[0].asset_name : ''
+                    this.combinationName_3 = detail[1] ? detail[1].asset_name == this.combinationName_1 ? '' : detail[1].asset_name:  ''
+                }
+
             }
         }
     },

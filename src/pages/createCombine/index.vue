@@ -289,9 +289,9 @@ export default {
         },
 
         addItem () {
-            let pages = 'createCombine'
+            let info = {'pages': 'createCombine', 'index':5}
             wx.navigateTo({
-                url: "/pages/select/main?pages=" + pages
+                url: "/pages/select/main?info=" + JSON.stringify(info)
             })
         },
 

@@ -62,14 +62,30 @@ import * as env from '../../utils/index'
                 gpname: '',
                 showlist: {},
                 namelist: '',
+                index: '',
                 nameBuffer: []
             }
         },
         mounted() {
             this.nameBuffer = []
             this.showlist = {}
-            this.page = this.$root.$mp.query.pages
-            console.log(this.page)
+            let info  = this.$root.$mp.query.info
+            info = JSON.parse(info)
+            this.page = info.pages
+            this.index = info.index
+            if (this.index == 3) {
+                wx.showToast({
+                    title: '请按顺序选股,' + `最多选${info['index']}只`,
+                    duration: 2500,
+                    icon: 'none'
+                })
+            }
+            else
+                wx.showToast({
+                    title: `最多选${info['index']}只`,
+                    duration: 2000,
+                    icon: 'none'
+                })
         },
         methods: {
             bindInput (e) {
@@ -99,7 +115,8 @@ import * as env from '../../utils/index'
                     category: category,
                     asset_type: type,
                     asset_code: code,
-                    asset_name: name
+                    asset_name: name,
+                    index: this.index
                 })
             },
             deleteItem (item) {

@@ -137,9 +137,9 @@ export default {
       	},
 
       	addItem () {
-            let pages = 'manual'
+            let info = {'pages': 'manual', 'index':5}
             wx.navigateTo({
-                url: "/pages/select/main?pages=" + pages
+                url: "/pages/select/main?info=" + JSON.stringify(info)
             })
       	},
 
