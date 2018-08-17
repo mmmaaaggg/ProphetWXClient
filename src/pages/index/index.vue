@@ -105,7 +105,6 @@ export default {
       },
 
       loadEchartData () {
-          login.ConfirmLogin()
           let that = this;
           wx.request({
               url: env.host + '/asset/candle/index/000300.SH/DOCLHV',
@@ -343,9 +342,12 @@ export default {
     },
 
     mounted () {
+        login.firstLogin()
         this.loadEchartData()
-        this.loadplsum()
-        this.loadTap()
+        setTimeout(() => {
+            this.loadplsum()
+            this.loadTap()
+        },2000)
     },
 
     created() {

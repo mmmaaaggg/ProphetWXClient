@@ -253,7 +253,7 @@ import * as env from '../../utils/index'
   .tr {
       display: flex;
       width: 100%;
-      height: 2em;
+      height: 6vh;
   }
   .th {
       display: flex;
@@ -316,13 +316,6 @@ import * as env from '../../utils/index'
       height: 100%;
       width: 40%;
   }
-  .collected {
-      width: 5vw;
-      height: 5vh;
-      padding-top: 1vh;
-      right: 2vh;
-      position: absolute;
-  }
   .weui-loading {
       margin: 0 5px;
       width: 20px;
@@ -368,13 +361,13 @@ import * as env from '../../utils/index'
     z-index: 4;
     right: 0;
     color: #fff;
-    height: 2em;
+    height: 6vh;
 }
 .text {
      transition: left 0.2s ease-in-out;
      width: 100%;
      display: flex;
-     height: 2em;
+     height: 6vh;
      z-index: 5;
      overflow: hidden;
      background: #fff;

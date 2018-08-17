@@ -294,6 +294,8 @@ export default {
 }
 .setgp {
     padding: 5rpx;
+    width: 10vw;
+    text-align: center;
     border: 1px solid #878686;
     margin-right: 3vw;
     border-radius: 6px;
@@ -390,6 +392,7 @@ export default {
 }
 .date,.price {
     border: 1px solid #F2DEFC;
+    border-radius: 6px;
     margin-left: 4vw;
     text-align: center;
     height: 100%;

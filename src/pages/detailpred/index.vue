@@ -1,158 +1,152 @@
 <template>
-  <div class="container">
-  	<scroll-view scroll-y="true" class="scroll" >
-  	<div class="hd">
-  	  <div class="hdfst">
-  	  	<span class="followers"> 
-          <span class="follow-text">4</span>人关注
-        </span> 
-  	  	<span class="founded">
-           <span class="founded-text">创建于</span> 
-           <span class="found-date">2018.05.16</span> 
-        </span>
-  	  </div>
-  	  <div class="hdscnd">
-  	  	<div class="hdwk">
-  	  	  <div class="wk-text">周</div>
-  	  	  <div class="hdsz">60%</div>
-  	  	</div>
-  	  	<div class="hdmnt">
-  	  	  <div class="wk-text">月</div>
-  	  	  <div class="hdsz">70%</div>	
-  	  	</div>
-  	  	<div class="hdjz">
-  	  	  <div class="wk-text">净值</div>
-  	  	  <div class="hdsz">1.0245</div>
-  	  	</div>
-  	  	<div class="hdfz">
-  	  	  <div class="wk-text">高于沪深300指</div>
-  	  	  <div class="hdsz">5%</div>
-  	  	</div>
-        <div class="button-collection" v-on:click="handleCollect(curId)">
-           <wxc-icon v-if ="collect" size="50" type="star-active" class="collected" />
-           <wxc-icon v-else  size="50" type="star" class="collected"></wxc-icon>
-          </div> 
-  	  </div>
-  	  <div class="hdtrd">
-  	  	<span class="zql">56</span>%准确率，累计<span class="ljts">25</span>天跑赢沪深300指数
-  	  </div>
-  	</div>
-  	<div class="data">
-  	  <div class="dtshow">
-  	  	<div class="dtdy">
-  	  	  <div>日准确排名</div>
-  	  	  <div class="dtsz">跑赢<span>61%</span>预测</div>
-  	  	</div>
-  	  	<div class="dtmnt">
-  	  	  <div>月准确排名</div>
-  	  	  <div class="dtsz">跑赢<span>71%</span>预测</div>	
-  	  	</div>
-  	  </div>
-  	</div>
-  	
-  	  <div class="chartContainer">
-        <div class="chartPick">
-          <div class="zsdb">
-            <div class="datePick">{{date}}</div>
-            <div class="zs-text">走势对比</div>
-          </div>
-          <div class="dpick">
-          	<div 
-          	  class="pickItem" 
-          	  :class="{active:selected == '日'}"
-          	  @click="selectItem('日')">日
-          	</div>
-          	<div 
-          	  class="pickItem"
-          	  :class="{active:selected == '周'}"
-          	  @click="selectItem('周')">周
-          	</div>
-          	<div 
-          	  class="pickItem"
-          	  :class="{active:selected == '月'}"
-          	  @click="selectItem('月')">月
-          	</div>
-          </div>
+    <div class="container">
+    	<div class="hd">
+            <div class="hdfst">
+            	<span class="followers">
+                    <span class="follow-text">4</span>人关注
+                </span>
+            	<span class="founded">
+                    <span class="founded-text">创建于</span>
+                    <span class="found-date">2018.05.16</span>
+                </span>
+            </div>
+    	    <div class="hdscnd">
+        	  	<div class="hdwk">
+        	  	    <div class="wk-text">周</div>
+        	  	    <div class="hdsz">60%</div>
+        	  	</div>
+        	  	<div class="hdmnt">
+        	  	    <div class="wk-text">月</div>
+        	  	    <div class="hdsz">70%</div>
+        	  	</div>
+        	  	<div class="hdjz">
+        	  	    <div class="wk-text">净值</div>
+        	  	    <div class="hdsz">1.0245</div>
+        	  	</div>
+        	  	<div class="hdfz">
+        	  	    <div class="wk-text">高于沪深300指</div>
+        	  	    <div class="hdsz">5%</div>
+        	  	</div>
+                <div class="button-collection" v-on:click="handleCollect(curId)">
+                   <wxc-icon v-if ="collect" size="50" type="star-active" class="collected" />
+                   <wxc-icon v-else  size="50" type="star" class="collected" />
+                </div>
+        	</div>
+            <div class="hdtrd">
+            	<span class="zql">56</span>%准确率，累计<span class="ljts">25</span>天跑赢沪深300指数
+            </div>
         </div>
-        <div class="echarts">
-          <ec-canvas 
-            class="canvas" 
-            id="mychart-dom-bar" 
-            canvas-id="mychart-bar" :ec="ec1">
-          </ec-canvas>
-        </div>  
-      </div>
-      <div class="chartTb">
-      	<div class="chartPick">
-          <div class="zsdb">
-            <div class="datePick">{{date}}</div>
-            <div class="zs-text">收益率</div>
-          </div>
+        <div class="data">
+            <div class="dtshow">
+            	<div class="dtdy">
+            	    <div>日准确排名</div>
+            	    <div class="dtsz">跑赢<span>61%</span>预测</div>
+            	</div>
+            	<div class="dtmnt">
+                    <div>月准确排名</div>
+                    <div class="dtsz">跑赢<span>71%</span>预测</div>
+            	</div>
+            </div>
         </div>
-      	<div class="echarts">
-          <ec-canvas 
-            class="canvas" 
-            id="mychart-dom-bar" 
-            canvas-id="mychart-bar" :ec="ec2">
-          </ec-canvas>
+
+    	<div class="chartContainer">
+            <div class="chartPick">
+                <div class="zsdb">
+                    <div class="datePick">{{date}}</div>
+                    <div class="zs-text">走势对比</div>
+                </div>
+                <div class="dpick">
+                	<div
+                	  class="pickItem"
+                	  :class="{active:selected == '日'}"
+                	  @click="selectItem('日')"
+                    >
+                      日
+                	</div>
+                	<div
+                	  class="pickItem"
+                	  :class="{active:selected == '周'}"
+                	  @click="selectItem('周')">周
+                	</div>
+                	<div
+                	  class="pickItem"
+                	  :class="{active:selected == '月'}"
+                	  @click="selectItem('月')">月
+                	</div>
+                </div>
+            </div>
+            <div class="echarts">
+              <ec-canvas
+                class="canvas"
+                canvas-id="mychart-bar" :ec="ec1">
+              </ec-canvas>
+            </div>
         </div>
-        <div class="fxsy">
-          <div>收益率累计日高于沪深300指数，胜率%</div>
-          <div>近日每日连续高于沪深300指数</div>
-        </div> 
-      </div>
-      <div class="chartTb">
-      	<div class="chartPick">
-          <div class="zsdb">
-            <div class="datePick">{{date}}</div>
-            <div class="zs-text">回撤率</div>
-          </div>
+        <div class="chartTb">
+        	<div class="chartPick">
+                <div class="zsdb">
+                    <div class="datePick">{{date}}</div>
+                    <div class="zs-text">收益率</div>
+                </div>
+            </div>
+        	<div class="echarts">
+                <ec-canvas
+                  class="canvas"
+                  canvas-id="mychart-bar" :ec="ec2">
+                </ec-canvas>
+            </div>
+            <div class="fxsy">
+                  <div>收益率累计日高于沪深300指数，胜率%</div>
+                  <div>近日每日连续高于沪深300指数</div>
+            </div>
         </div>
-      	<div class="echarts">
-          <ec-canvas 
-            class="canvas" 
-            id="mychart-dom-bar" 
-            canvas-id="mychart-bar" :ec="ec2">
-          </ec-canvas>
+        <div class="chartTb">
+        	<div class="chartPick">
+                <div class="zsdb">
+                    <div class="datePick">{{date}}</div>
+                    <div class="zs-text">回撤率</div>
+                </div>
+            </div>
+        	<div class="echarts">
+                <ec-canvas
+                  class="canvas"
+                  canvas-id="mychart-bar" :ec="ec2">
+                </ec-canvas>
+            </div>
+            <div class="fxsy">
+                <div>回撤率累计日高于沪深300指数，胜率%</div>
+                <div>近日每日连续高于沪深300指数</div>
+            </div>
         </div>
-        <div class="fxsy">
-          <div>回撤率累计日高于沪深300指数，胜率%</div>
-          <div>近日每日连续高于沪深300指数</div>
-        </div> 
-      </div>
-      <div class="chartContainer">
-      	<div class="chartPick">
-          <div class="zsdb">
-            <div class="datePick">{{date}}</div>
-            <div class="zs-text">资产配比</div>
-          </div>
+        <div class="chartContainer">
+        	<div class="chartPick">
+                <div class="zsdb">
+                    <div class="datePick">{{date}}</div>
+                    <div class="zs-text">资产配比</div>
+                </div>
+            </div>
+        	<div class="echarts">
+                <ec-canvas
+                  class="canvas"
+                  canvas-id="mychart-bar" :ec="ec3">
+                </ec-canvas>
+            </div>
         </div>
-      	<div class="echarts">
-          <ec-canvas 
-            class="canvas" 
-            id="mychart-dom-bar" 
-            canvas-id="mychart-bar" :ec="ec3">
-          </ec-canvas>
+        <div class="chartContainer">
+            <div class="chartPick">
+                <div class="zsdb">
+                    <div class="datePick">{{date}}</div>
+                    <div class="zs-text">行业配置仅股票</div>
+                </div>
+            </div>
+        	<div class="echarts">
+                <ec-canvas
+                  class="canvas"
+                  canvas-id="mychart-bar" :ec="ec3">
+                </ec-canvas>
+            </div>
         </div>
-      </div>
-      <div class="chartContainer">
-        <div class="chartPick">
-          <div class="zsdb">
-            <div class="datePick">{{date}}</div>
-            <div class="zs-text">行业配置仅股票</div>
-          </div>
-        </div>
-      	<div class="echarts">
-          <ec-canvas 
-            class="canvas" 
-            id="mychart-dom-bar" 
-            canvas-id="mychart-bar" :ec="ec3">
-          </ec-canvas>
-        </div>
-     
-  	</div>
-  </scroll-view>
-  </div>
+    </div>
 </template>
 
 
@@ -305,7 +299,7 @@ export default {
   },
 
   methods: {
-    
+
     selectItem (item) {
       this.selected = item;
       this.date = item;
@@ -322,11 +316,11 @@ export default {
         title: navTitle
       })
 
-    }, 
+    },
 
     handleCollect() {
       this.collect = ! this.collect
-      let temp = this.collect == true ? 1 : 0; 
+      let temp = this.collect == true ? 1 : 0;
       let url =  env.host + `/forecast/cmp/favorite/${this.curId}/${temp}`
       let token = wx.getStorageSync('token');
       wx.request({
@@ -335,17 +329,17 @@ export default {
         header: {
           token: token
         }
-      });  
-      wx.showToast({  
-          title: this.collect == true ? "收藏成功":"收藏取消",  
-          duration: 1000,  
-          icon: "sucess",  
-          make: true  
-      })  
+      });
+      wx.showToast({
+          title: this.collect == true ? "收藏成功":"收藏取消",
+          duration: 1000,
+          icon: "sucess",
+          make: true
+      })
     },
-     
+
   },
-  
+
   mounted () {
   	  this.splitData()
   }
@@ -355,24 +349,12 @@ export default {
 
 
 <style>
-  html,body {
-    height: 100%;
-    width: 100%;
-  }
-  .scroll {
-  	position: absolute;
-  	top: 0;
-  	width: 100%;
-  	height: 100%;
-  }
   ec-canvas {
   	position: absolute;
     width: 100%;
     height: 300px;
   }
   .container {
-  	width: 100%;
-  	height: 100%;
     background: #E7E2E2;
   }
   .followers {
@@ -435,7 +417,7 @@ export default {
     margin-left: 1vw;
   }
   .hdsz {
-  	margin-top: 1vh; 
+  	margin-top: 1vh;
   }
   .data {
   	width: 100%;
@@ -461,7 +443,7 @@ export default {
   .dtdy {
   	width: 49%;
   	border-right: 1px solid #978282;
-  }	
+  }
   .dtmnt {
   	width: 50%;
   }

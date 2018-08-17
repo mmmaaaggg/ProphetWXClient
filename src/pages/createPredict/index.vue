@@ -552,8 +552,7 @@ export default {
   }
   .input>input {
       padding-left: 20rpx;
-      padding-top: 4rpx;
-      padding-bottom: 6rpx;
+      height: 6vh;
   }
   .scroll {
       position: absolute;
@@ -676,6 +675,7 @@ export default {
   }
   .date,.price {
       border: 1px solid #F2DEFC;
+      border-radius: 6px;
       margin-left: 4vw;
       text-align: center;
       height: 5vh;
@@ -716,8 +716,11 @@ export default {
   }
   .zh-input,.ratioInput {
       width: 100%;
-      height: 4vh;
+      height: 5vh;
       border: 1px solid #A68585;
+  }
+  .input-gp > input, .ratioInput > input {
+      height: 100%;
   }
   .search-content {
       background: #F9A9A9;
@@ -756,6 +759,7 @@ export default {
   }
   .input-gp,.ratioInput {
       text-align: center;
+      height: 5vh;
   }
   .combination,.btnContainer {
       width: 100%;
@@ -767,7 +771,7 @@ export default {
       border: 1px solid #A68585;
       width: 100%;
       display: flex;
-      height: 4vh;
+      height: 5vh;
       margin-top: 4vh;
       justify-content: center;
       align-items: center;

@@ -1,173 +1,176 @@
 <template>
     <div class="container">
-    	   <scroll-view scroll-y="true" class="scroll">
-             <div class="hd">
-                 <div class="hdfst">
-                     <span class="followers"> 
-                         <span class="follow-text">4</span>人关注
-                     </span>  
-                     <span class="founded">
-                         <span class="founded-text">创建于</span> 
-                         <span class="found-date">{{foundtime}}</span> 
-                     </span>
-                 </div>
-                 <div class="hdscnd">
-                     <span class="total-text">总收益</span>
-                     <span class="total-digital">{{rr_tot}}</span>%
-                 </div>
-                 <div class="hdtrd">
-                     <div class="hdwk">
-                         <div class="wk-text">日</div>
-                         <div class="hdsz">0.00%</div>
-                     </div>
-                     <div class="hdmnt">
-                         <div class="wk-text">月</div>
-                         <div class="hdsz">{{rr_month}}%</div> 
-                     </div>
-                     <div class="hdjz">
-                         <div class="wk-text">净值</div>
-                         <div class="hdsz">{{final_value}}</div>
-                   </div>
-                 </div> 
-                 <div class="button-collection" v-on:click="handleCollect(curId)">
-                     <wxc-icon v-if ="collect" size="60" type="star-active" class="collected" />
-                     <wxc-icon v-else  size="60" type="star" class="collected"></wxc-icon>
-                  </div> 
+         <div class="hd">
+             <div class="hdfst">
+                 <span class="followers">
+                     <span class="follow-text">4</span>人关注
+                 </span>
+                 <span class="founded">
+                     <span class="founded-text">创建于</span>
+                     <span class="found-date">{{foundtime}}</span>
+                 </span>
              </div>
-             <div class="data">
-                 <div class="dtshow">
-                     <div class="dtmnt">
-                         <div>月收益排名（沪深）</div>
-                         <div class="dtsz">跑赢<span>71%</span>组合</div>
+             <div class="hdscnd">
+                 <span class="total-text">总收益</span>
+                 <span class="total-digital">{{rr_tot}}</span>%
+             </div>
+             <div class="hdtrd">
+                 <div class="hdwk">
+                     <div class="wk-text">日</div>
+                     <div class="hdsz">0.00%</div>
+                 </div>
+                 <div class="hdmnt">
+                     <div class="wk-text">月</div>
+                     <div class="hdsz">{{rr_month}}%</div>
+                 </div>
+                 <div class="hdjz">
+                     <div class="wk-text">净值</div>
+                     <div class="hdsz">{{final_value}}</div>
+               </div>
+             </div>
+             <div class="button-collection" v-on:click="handleCollect(curId)">
+                 <wxc-icon v-if ="collect" size="60" type="star-active" class="collected" />
+                 <wxc-icon v-else  size="60" type="star" class="collected"></wxc-icon>
+              </div>
+         </div>
+         <div class="data">
+             <div class="dtshow">
+                 <div class="dtmnt">
+                     <div>月收益排名（沪深）</div>
+                     <div class="dtsz">跑赢<span>71%</span>组合</div>
+                 </div>
+                 <div class="dtsy">
+                     <div>是余额收益的</div>
+                     <div class="dtsz"><span>{{times_yeb}}%</span></div>
+                 </div>
+             </div>
+             <div class="dtjs">
+                 <div class="avar">
+                     <div class="avatar-img">
+                         <open-data class='icon' type="userAvatarUrl"></open-data>
                      </div>
-                     <div class="dtsy">
-                         <div>是余额收益的</div>
-                         <div class="dtsz"><span>{{times_yeb}}%</span></div>  
+                 </div>
+                 <div class="avar-comment">感谢提醒，如有哪里需要改进的多多指教</div>
+             </div>
+         </div>
+         <div class="gpdc">
+             <div class="gpbt">
+                 <span class="gpsubt">最新调仓
+                   <span class="gp-time">
+                     (<span class="time">{{time}}</span>)
+                   </span>
+                 </span>
+                 <span class="gpmore" @click="reset(curId)">
+                   更多调仓
+                   <span>></span>
+                 </span>
+             </div>
+             <div class="gpItemContainer">
+                 <div class="gpItem" v-for="(items,index) in list" :key="index" v-if="index < 2">
+                     <div class="gp-name">
+                         <div class="gpjtmz">{{items.asset_name}}</div>
+                         <div class="gp-code">{{items.asset_code}}</div>
                      </div>
-                 </div>
-                 <div class="dtjs">
-                     <div class="avar">
-                         <div class="avatar-img">
-                             <open-data class='icon' type="userAvatarUrl"></open-data>
-                         </div>
-                     </div> 
-                     <div class="avar-comment">感谢提醒，如有哪里需要改进的多多指教</div>
-                 </div>
-             </div> 
-             <div class="gpdc">
-                 <div class="gpbt">
-                     <span class="gpsubt">最新调仓
-                       <span class="gp-time">
-                         (<span class="time">{{time}}</span>)
-                       </span>
-                     </span>
-                     <span class="gpmore" @click="reset(curId)">
-                       更多调仓
-                       <span>></span>
-                     </span>
-                 </div>
-                 <div class="gpItemContainer">
-                     <div class="gpItem" v-for="(items,index) in list" :key="index" v-if="index < 2">
-                         <div class="gp-name">
-                             <div class="gpjtmz">{{items.asset_name}}</div>
-                             <div class="gp-code">{{items.asset_code}}</div>
-                         </div>
-                         <div class="gpxs">
-                             <span class="weight-before">{{weightbeforelist[index]}}%</span>
-                             <span class="weight-code">-></span>
-                             <span class="weight">{{weightlist[index]}}%</span>
-                         </div>
+                     <div class="gpxs">
+                         <span class="weight-before">{{weightbeforelist[index]}}%</span>
+                         <span class="weight-code">-></span>
+                         <span class="weight">{{weightlist[index]}}%</span>
                      </div>
                  </div>
              </div>
-             <div class="chart">
-                 <div class="chartTb">
-                     <span class="left-nav">资产配置</span>
-                     <span 
-                       class="right-nav"
-                       @click="reset(curId)"
-                     >
-                       详细仓位
-                       <span>></span>
-                     </span>
-                 </div>
-                 <div 
-                   class="echarts"
+         </div>
+         <div class="chart">
+             <div class="chartTb">
+                 <span class="left-nav">资产配置</span>
+                 <span
+                   class="right-nav"
                    @click="reset(curId)"
                  >
-                   <mpvue-echarts 
-                     :echarts="echarts"
-                     :onInit="onInit"
-                   />
-                 </div>
+                   详细仓位
+                   <span>></span>
+                 </span>
              </div>
-             <div class="chart">
-                 <div class="chartTb">
-                     <span class="left-nav">收益率走势</span>    
-                 </div>
-                 <div class="echarts">
-                   
-                 </div>
+             <div
+               class="echarts"
+               @click="reset(curId)"
+             >
+               <mpvue-echarts
+                 :echarts="echarts"
+                 :onInit="onInitAsset"
+                 canvasId="bar"
+               />
              </div>
-             <div class="yhcz">
-                 <div class="userItem">
-                     <div class="grxx">
-                         <div class="avatar">
-                             <open-data type="userAvatarUrl"></open-data>
-                         </div>
-                         <div class="nickname">
-                             <div class="wxname">
-                                 <open-data type="userNickName"></open-data>
-                             </div>
-                           <div class="wxtime">{{wxtime}}</div>
-                         </div>
-                      </div>
-                      <div class="userxw">我刚刚调整了雪球组合</div>
-                      <div class="gjl">
-                          <div class="forwarding">
-                              <text class="iconfont icon-zhuanfa"></text>
-                              <span>转发</span>
-                          </div>
-                          <div class="comment">
-                              <text class="iconfont icon-pinglun"></text>
-                              <span>评论</span>
-                          </div>
-                          <div class="reward">
-                              <text class="iconfont icon-dashang"></text>
-                              <span>打赏</span>
-                          </div>
-                      </div>
-                 </div>
-                 <div class="userItem">
-                     <div class="grxx">
-                         <div class="avatar">
-                             <open-data type="userAvatarUrl"></open-data>
-                         </div>
-                         <div class="nickname">
-                             <div class="wxname">
-                                 <open-data type="userNickName"></open-data>
-                             </div>
-                             <div class="wxtime">{{wxtime}}</div>
-                         </div>
+         </div>
+         <div class="chart">
+             <div class="chartTb">
+                 <span class="left-nav">收益率走势</span>
+             </div>
+             <div class="echarts">
+               <mpvue-echarts
+                 :echarts="echarts"
+                 :onInit="onInitRatio"
+                 canvasId="line"
+               />
+             </div>
+         </div>
+         <div class="yhcz">
+             <div class="userItem">
+                 <div class="grxx">
+                     <div class="avatar">
+                         <open-data type="userAvatarUrl"></open-data>
                      </div>
-                     <div class="userxw">我刚刚调整了雪球组合</div>
-                     <div class="gjl">
-                         <div class="forwarding">
-                             <text class="iconfont icon-zhuanfa"></text>
-                             <span>转发</span>
+                     <div class="nickname">
+                         <div class="wxname">
+                             <open-data type="userNickName"></open-data>
                          </div>
-                         <div class="comment">
-                             <text class="iconfont icon-pinglun"></text>
-                             <span>评论</span>
+                       <div class="wxtime">{{wxtime}}</div>
+                     </div>
+                  </div>
+                  <div class="userxw">我刚刚调整了雪球组合</div>
+                  <div class="gjl">
+                      <div class="forwarding">
+                          <text class="iconfont icon-zhuanfa"></text>
+                          <span>转发</span>
+                      </div>
+                      <div class="comment">
+                          <text class="iconfont icon-pinglun"></text>
+                          <span>评论</span>
+                      </div>
+                      <div class="reward">
+                          <text class="iconfont icon-dashang"></text>
+                          <span>打赏</span>
+                      </div>
+                  </div>
+             </div>
+             <div class="userItem">
+                 <div class="grxx">
+                     <div class="avatar">
+                         <open-data type="userAvatarUrl"></open-data>
+                     </div>
+                     <div class="nickname">
+                         <div class="wxname">
+                             <open-data type="userNickName"></open-data>
                          </div>
-                         <div class="reward">
-                             <text class="iconfont icon-dashang"></text>
-                             <span>打赏</span>
-                         </div>
+                         <div class="wxtime">{{wxtime}}</div>
                      </div>
                  </div>
+                 <div class="userxw">我刚刚调整了雪球组合</div>
+                 <div class="gjl">
+                     <div class="forwarding">
+                         <text class="iconfont icon-zhuanfa"></text>
+                         <span>转发</span>
+                     </div>
+                     <div class="comment">
+                         <text class="iconfont icon-pinglun"></text>
+                         <span>评论</span>
+                     </div>
+                     <div class="reward">
+                         <text class="iconfont icon-dashang"></text>
+                         <span>打赏</span>
+                     </div>
+                 </div>
              </div>
-        </scroll-view>
+         </div>
     </div>
 </template>
 
@@ -180,12 +183,13 @@ import mpvueEcharts from 'mpvue-echarts'
 import * as echarts from 'echarts'
 import * as apiLogin from '../../components/login'
 
-let chart = null
+var chart_asset = null
+var chart_ratio = null
 
 export default {
 
     components: {
-      mpvueEcharts
+        mpvueEcharts
     },
 
     data () {
@@ -203,19 +207,28 @@ export default {
             collect: false,
             weightlist: [],
             weightbeforelist: [],
-            onInit: this.initChart,
+            onInitAsset: this.initAssetChart,
+            onInitRatio: this.initRatioChart
         }
     },
 
     methods: {
 
-      initChart (canvas, width, height) {
-          chart = echarts.init(canvas, null, {
+      initAssetChart (canvas, width, height) {
+          chart_asset = echarts.init(canvas, null, {
             width: width,
             height: height
           })
-          canvas.setChart(chart)
-          return chart
+          canvas.setChart(chart_asset)
+          return chart_asset
+      },
+      initRatioChart (canvas, width, height) {
+          chart_ratio = echarts.init(canvas, null, {
+            width: width,
+            height: height
+          })
+          canvas.setChart(chart_ratio)
+          return chart_ratio
       },
 
       reset (id) {
@@ -226,7 +239,7 @@ export default {
 
       handleCollect(curId) {
           this.collect = ! this.collect
-          let temp = this.collect == true ? 1 : 0; 
+          let temp = this.collect == true ? 1 : 0;
           let url =  env.host + `/forecast/pl/favorite/${this.curId}/${temp}`
           let token = wx.getStorageSync('token');
           wx.request({
@@ -235,13 +248,13 @@ export default {
               header: {
                   token: token
               }
-          });  
-          wx.showToast({  
-              title: this.collect == true ? "收藏成功":"收藏取消",  
-              duration: 1000,  
-              icon: "sucess",  
-              make: true  
-          })  
+          });
+          wx.showToast({
+              title: this.collect == true ? "收藏成功":"收藏取消",
+              duration: 1000,
+              icon: "sucess",
+              make: true
+          })
       },
 
       splitData () {
@@ -264,7 +277,7 @@ export default {
           wx.request({
               url: env.host + `/forecast/pl/stats/${that.curId}`,
               header: {
-                  'content-type': 'json',  
+                  'content-type': 'json',
                   token: token
               },
               success (res) {
@@ -278,28 +291,30 @@ export default {
           })
       },
 
-      loadChart () {
+      loadChartAsset () {
           let that = this;
           let token = wx.getStorageSync('token');
           wx.request({
               url: env.host + `/forecast/pl/asset_dist/${that.curId}/latest`,
               header: {
                   'content-type': 'json',
-                  token: token  
+                  token: token
               },
               success (res) {
                   if (res.data.errcode == 41008) {
                      apiLogin.firstLogin();
-                     that.loadChart();
+                     that.loadChartAsset();
                   }
-                  let arr = [];
-                  if (res.data.data[0].name_list != null) {
+                  let arr = []
+                  let data = []
+                  if (res.data.count != 0) {
+                      data = res.data.data[0].data
                       for (let item of res.data.data[0].name_list) {
                         let obj = {};
                         obj.name = item
                         obj.icon = 'circle'
                         arr.push(obj)
-                      }    
+                      }
                   }
                   let options = {
                     legend: {
@@ -318,19 +333,65 @@ export default {
                                     show: false,
                                     position: 'center'
                                 },
-                                
+
                             },
                             labelLine: {
                                 normal: {
                                     show: false
                                 }
                             },
-                            data: res.data.data[0].data
+                            data: data
                         }
                     ]
                   };
-                  
-                  chart.setOption(options)
+
+                  chart_asset.setOption(options)
+              }
+          })
+      },
+      loadChartRatio () {
+          let that = this;
+          let token = wx.getStorageSync('token');
+          wx.request({
+              url: env.host + `/asset/candle/portfolio/${that.curId}/DOHLCVA`,
+              header: {
+                  'content-type': 'json',
+                  token: token
+              },
+              success (res) {
+                  let rawdata = res.data.data
+                  let y_data = []
+                  let x_data = []
+                  if (rawdata.count != 0) {
+                      for (let item of rawdata) {
+                          x_data.push(item[0])
+                          y_data.push(item[1])
+                      }
+                  }
+                  let options = {
+                        legend: {
+                            data:['净值'],
+                            top: 15
+                        },
+                        xAxis: {
+                            type: 'category',
+                            data: x_data
+                        },
+                        yAxis: {
+                            type: 'value',
+                            scale: true,
+                            boundaryGap: false
+                        },
+                        series: [
+                            {
+                                name:'净值',
+                                type:'line',
+                                color: '#4961C4',
+                                data: y_data
+                            }
+                        ]
+                    }
+                  chart_ratio.setOption(options)
               }
           })
       },
@@ -346,7 +407,7 @@ export default {
               success: (res) => {
                   if (res.data.errcode == 41008) {
                       apiLogin.firstLogin();
-                  } 
+                  }
                   else {
                       if (res.data.count) {
                           this.list = res.data.data[0].data;
@@ -360,14 +421,15 @@ export default {
               }
           })
       }
-     
-    
+
+
     },
-    
+
     mounted () {
         this.splitData()
         this.loadData()
-        this.loadChart()
+        this.loadChartAsset()
+        this.loadChartRatio()
         this.loadDataset()
     }
 }
@@ -375,10 +437,6 @@ export default {
 
 
 <style>
-  html,body {
-      height: 100%;
-      width: 100%;
-  }
   .iconfont {
       font-size: 20px;
       font-family: iconfont;
@@ -389,9 +447,7 @@ export default {
       width: 100%;
       height: 300px;
   }
-	.container {
-      width: 100%;
-      height: 100%;
+  .container {
       background: #F0E9F0;
   }
   .scroll {
@@ -492,7 +548,7 @@ export default {
   }
   .dtsy {
       width: 49%;
-  } 
+  }
   .dtmnt {
       width: 50%;
       border-right: 1px solid #978282;
@@ -586,7 +642,7 @@ export default {
       height: 70rpx;
       display: flex;
       align-items: center;
-      font-size: 0.8em; 
+      font-size: 0.8em;
       border-bottom: 1px solid #CBCBCB;
       justify-content: space-between;
   }

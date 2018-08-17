@@ -158,7 +158,7 @@ import * as env from '../../utils/index'
         background: #D4D4D4;
     }
     .input-box {
-        height: 6vh;
+        height: 8vh;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -170,10 +170,12 @@ import * as env from '../../utils/index'
         padding-bottom: 5rpx;
         border-radius: 6px;
         width: 75vw;
+        height: 5vh;
         background: #fff;
     }
     .submit {
-        border: 1px solid #7F7F50;
+        width: 10vw;
+        text-align: center;
         font-size: 0.8em;
         background: #fff;
     }
@@ -193,7 +195,7 @@ import * as env from '../../utils/index'
     }
     .add-txt, .submit{
         margin-right: 2vw;
-        padding: 5rpx;
+        padding: 8rpx;
         border: 1px solid #6384C0;
         border-radius: 6px;
     }

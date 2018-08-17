@@ -1,70 +1,69 @@
 <template>
-  <div class="container">
-      <scroll-view scroll-y="true" class="scroll" >
-        	<div class="jbxx">
-              <div class="left-tab">基本信息</div>
-              <div class="right-tab">
-                  <div
-                    class="select-item"
-                    :class="{active:selected == 'zq'}"
-                    @click="selectItem('zq')"
-                  >
-                    证券资产
-                  </div>
-                  <div
-                    class="select-item"
-                    :class="{active:selected == 'sz'}"
-                    @click="selectItem('sz')"
-                  >
-                    数字资产
-                  </div>
-                  <div
-                    class="select-item"
-                    :class="{active:selected == 'hh'}"
-                    @click="selectItem('hh')"
-                  >
-                    混合资产
-                  </div>
-              </div>
-          </div>
-          <div class="cjzh">
-              <div class="single-input">
-                  <div class="zh-name">组合名称</div>
-                  <div class="input">
+    <div class="container">
+        <div class="jbxx">
+            <div class="left-tab">基本信息</div>
+            <div class="right-tab">
+                <div
+                  class="select-item"
+                  :class="{active:selected == 'zq'}"
+                  @click="selectItem('zq')"
+                >
+                  证券资产
+                </div>
+                <div
+                  class="select-item"
+                  :class="{active:selected == 'sz'}"
+                  @click="selectItem('sz')"
+                >
+                  数字资产
+                </div>
+                <div
+                  class="select-item"
+                  :class="{active:selected == 'hh'}"
+                  @click="selectItem('hh')"
+                >
+                  混合资产
+                </div>
+            </div>
+        </div>
+        <div class="cjzh">
+            <div class="single-input">
+                <div class="zh-name">组合名称</div>
+                <div class="input input-height">
                     <input
                       type="text"
                       placeholder="name"
                       :value="inputName"
                       @change="bindInputName($event)"
                     />
-                  </div>
-              </div>
-              <div class="multiple-input">
-                  <span class="zh-mode">组合理念</span>
-                  <div class="input">
+                </div>
+            </div>
+            <div class="multiple-input">
+                <span class="zh-mode">组合理念</span>
+                <div class="input">
                     <textarea
                       auto-height
                       placeholder="description"
                       :value="inputDescription"
                       @change="bindInputDescription($event)"
                     />
-                  </div>
-              </div>
-              <div class="switch-input">
-                  <div class="secret">公开组合</div>
-                  <div>
+                </div>
+            </div>
+            <div class="switch-input">
+                <div class="secret">公开组合</div>
+                <div>
                     <switch
                       checked="switchChecked"
                       @change="switchChange($event)"
                     />
-                  </div>
-              </div>
-          </div>
-          <div class="manual">
-              <div class="basic-info">
-                  <div class="trans-date">
-                      <div class="trans-time">交易日期</div>
-                      <div class="date">
+                </div>
+            </div>
+        </div>
+        <div class="manual">
+            <div class="basic-info">
+                <div class="trans-date">
+                    <div class="trans-time">交易日期</div>
+                    <div class="date">
                         <picker
                           mode="date"
                           :value="date"
@@ -74,11 +73,11 @@
                         >
                           {{date}}
                         </picker>
-                      </div>
-                  </div>
-                  <div class="trans-m">
-                      <div class="trans-price">价格</div>
-                      <div class="price">
+                    </div>
+                </div>
+                <div class="trans-m">
+                    <div class="trans-price">价格</div>
+                    <div class="price">
                         <picker
                           mode="selector"
                           :value="index"
@@ -87,30 +86,30 @@
                         >
                           {{array[index]}}
                         </picker>
-                      </div>
+                    </div>
                 </div>
-              </div>
-              <div class="chart">
-                  <div class="tr">
-                      <div class="th asset-name">资产名称</div>
-                      <div class="th th-normal">多空</div>
-                      <div class="th asset-price">仓位</div>
-                      <div class="th th-normal delete">删除</div>
-                  </div>
-                  <div class="tr itemlist" v-for="(item,index) in buffer" :key="index">
-                      <div class="td asset-name item-name">
-                          <div class="cate-type">{{item.category}}</div>
-                          <div class="category">{{item.asset_name}}</div>
-                      </div>
-                      <div class='td th-normal'>
-                          <div
-                            class="toggle-item"
-                            @click="Toggle(item)"
-                          >
-                            {{item.toggleText}}
-                          </div>
-                      </div>
-                      <div class="asset-price slider">
+            </div>
+            <div class="chart">
+                <div class="tr">
+                    <div class="th asset-name">资产名称</div>
+                    <div class="th th-normal">多空</div>
+                    <div class="th asset-price">仓位</div>
+                    <div class="th th-normal delete">删除</div>
+                </div>
+                <div class="tr itemlist" v-for="(item,index) in buffer" :key="index">
+                    <div class="td asset-name item-name">
+                        <div class="cate-type">{{item.category}}</div>
+                        <div class="category">{{item.asset_name}}</div>
+                    </div>
+                    <div class='td th-normal'>
+                        <div
+                          class="toggle-item"
+                          @click="Toggle(item)"
+                        >
+                          {{item.toggleText}}
+                        </div>
+                    </div>
+                    <div class="asset-price slider">
                         <slider
                           @change="sliderchange($event,item,index)"
                           show-value = true
@@ -118,41 +117,40 @@
                           block-size ='12'
                           activeColor = "#07F228"
                         />
-                      </div>
-                      <div class="td th-normal delete">
-                          <div
-                            class="delete-item"
-                            @click="deleteItem(index)"
-                          >
-                            del
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div
-                  class="add-item"
-                  @click="addItem"
-              >
-               <!--  <div class="add-symbol">+</div> <!-->
-                  <div class="add-txt">添加股票</div>
-              </div>
-              <div class="button">
-                  <div
-                    class="btn submit"
-                    @click="submitItem"
-                  >
-                    提交
-                  </div>
-                  <div
-                    class="btn reset"
-                    @click="resetItem"
-                  >
-                    重置
-                  </div>
-              </div>
-          </div>
-      </scroll-view>
-  </div>
+                    </div>
+                    <div class="td th-normal delete">
+                        <div
+                          class="delete-item"
+                          @click="deleteItem(index)"
+                        >
+                          del
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+              class="add-item"
+              @click="addItem"
+            >
+            <!--  <div class="add-symbol">+</div> <!-->
+            <div class="add-txt">添加股票</div>
+            </div>
+            <div class="button">
+                <div
+                  class="btn submit"
+                  @click="submitItem"
+                >
+                  提交
+                </div>
+                <div
+                  class="btn reset"
+                  @click="resetItem"
+                >
+                  重置
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 
@@ -349,6 +347,9 @@ export default {
       padding-top: 4rpx;
       padding-bottom: 6rpx;
   }
+  .input>input {
+      height: 6vh;
+  }
   .scroll {
       position: absolute;
       top: 0;
@@ -434,8 +435,8 @@ export default {
   }
   textarea {
       padding-left: 19rpx;
-      padding-top: 3px;
       padding-bottom: 3px;
+      padding-top: 4rpx;
   }
   switch {
       margin-left: 4vw;
@@ -473,6 +474,7 @@ export default {
   }
   .date,.price {
       border: 1px solid #F2DEFC;
+      border-radius: 6px;
       margin-left: 4vw;
       text-align: center;
       height: 100%;

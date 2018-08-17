@@ -7,7 +7,7 @@ function ConfirmLogin () {
         },
         success (res) {
           if (res.data.message) {
-              return
+              wx.setStorageSync('login','success')
           }
           else {
                 console.log('login fail,Please login again')
